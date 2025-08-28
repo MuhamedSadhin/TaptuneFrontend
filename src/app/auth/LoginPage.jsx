@@ -14,7 +14,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (!loading && user) {
-      if (user.role === "admin") {
+      if (user.role === "admin" || user.role === "Admin") {
         navigate("/admin", { replace: true });
       } else {
         navigate("/user", { replace: true });

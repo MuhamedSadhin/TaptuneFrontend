@@ -38,6 +38,7 @@ import ProfilePreviewWrapper from "./components/userComponents/profileComp/Profi
 import HomePageContent from "./app/user/home/HomePageContent";
 import AdminHomepage from "./app/admin/home/AdminHomepage";
 import EnquiriesPage from "./app/admin/enquiry/enquiryList";
+import RedirectButton from "./app/auth/RedirectButton";
 
 // Auth Protection
 
@@ -48,6 +49,7 @@ function App() {
 
       <Routes>
         {/* Public */}
+        <Route path="/" element={<RedirectButton />} />
         <Route path="/auth" element={<LoginPage />} />
         <Route path="/profile" element={<ProfileWrapper />} />
         <Route
@@ -77,7 +79,7 @@ function App() {
         <Route
           path="/admin"
           element={
-            <Protect requiredRole={["admin","Admin"]}>
+            <Protect requiredRole={["admin", "Admin"]}>
               <PageForAdmin />
             </Protect>
           }
