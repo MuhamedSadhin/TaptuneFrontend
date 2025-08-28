@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import UserTable from "@/components/adminComponents/userListComp/userTable";
+import UserTable from "@/components/adminComponents/userListComp/UserTable";
 
 export default function UserList() {
   const data = {
