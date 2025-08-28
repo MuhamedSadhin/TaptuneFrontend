@@ -6,7 +6,8 @@ import { Users, Menu, Plus } from "lucide-react";
 import { useGetAllProfile } from "@/hooks/tanstackHooks/useProfile";
 import { ProfileCard } from "@/components/userComponents/profileComp/ProfileCard";
 import { useNavigate } from "react-router-dom";
-import Loader from "@/components/ui/Loader";
+
+import Loader from  "@/components/ui/Loader";
 
 export default function ProfilesPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
