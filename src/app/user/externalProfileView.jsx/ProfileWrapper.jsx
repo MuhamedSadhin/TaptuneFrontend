@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { useConnectProfile } from "@/hooks/tanstackHooks/useConnections";
 
 import ShareInfoModal from "./ShareInfoModal";
-import Loader from "@/components/ui/loader";
+import Loader from "@/components/ui/Loader";
 import ProfilePremium from "./ProfileCardView";
 import ProfileElite from "./ProfileElite";
 import ProfileDaylight from "./ProfileDaylight";
