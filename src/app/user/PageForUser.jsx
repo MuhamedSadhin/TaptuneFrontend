@@ -1,5 +1,5 @@
 
-import { AppSidebar } from "@/components/userComponents/sidebar/app-sidebar";
+import { AppSidebar } from "@/components/userComponents/sidebar/app-sidebar.jsx";
 import {
   Breadcrumb,
   BreadcrumbItem,
