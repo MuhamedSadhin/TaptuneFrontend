@@ -44,7 +44,7 @@ import RedirectButton from "./app/auth/RedirectButton";
 
 function App() {
   return (
-    <Router>
+    <>
       <Toaster position="bottom-right" richColors />
 
       <Routes>
@@ -92,7 +92,7 @@ function App() {
           <Route path="enquiry" element={<EnquiriesPage />} />
         </Route>
       </Routes>
-    </Router>
+    </>
   );
 }
 

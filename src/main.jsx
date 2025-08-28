@@ -5,6 +5,7 @@ import App from './App.jsx'
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { UserProvider } from './contexts/UserContext';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { HashRouter } from 'react-router-dom';
 const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 
@@ -14,7 +15,9 @@ createRoot(document.getElementById("root")).render(
   <QueryClientProvider client={queryClient}>
     <GoogleOAuthProvider clientId={clientId}>
       <UserProvider>
-        <App />
+        <HashRouter>
+          <App />
+        </HashRouter>
       </UserProvider>
     </GoogleOAuthProvider>
   </QueryClientProvider>
