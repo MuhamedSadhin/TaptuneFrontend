@@ -149,7 +149,7 @@ const getStatusBadgeVariant = (status) => {
           </div>
 
           {/* Status and Action Section */}
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 bg-gray-50 p-5 rounded-xl shadow-sm">
+          <div className="flex flex-row justify-between items-center gap-4 bg-gray-50 p-5 rounded-xl shadow-sm">
             <div className="flex items-center gap-3">
               <span className="text-sm font-medium text-gray-700">Status:</span>
               <span

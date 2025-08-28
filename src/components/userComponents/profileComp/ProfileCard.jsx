@@ -301,14 +301,13 @@ export const ProfileCard = ({ profile }) => {
                     .map((platform) => (
                       <button
                         key={platform.name}
-                        onClick={() => handlePlatformClick(platform)}
-                        className="relative flex flex-col items-center justify-center rounded-xl transition-all duration-200 hover:scale-105"
+                        className="relative flex flex-col items-center justify-center  transition-all duration-200 hover:scale-105"
                       >
-                        <div className="w-6 h-6 flex items-center justify-center">
+                        <div className="w-6 h-6 flex items-center  justify-center">
                           <img
                             src={platform.icon}
                             alt={platform.name}
-                            className="object-contain w-full h-full"
+                            className="object-contain rounded-sm w-full h-full"
                           />
                         </div>
                       </button>
@@ -327,12 +326,13 @@ export const ProfileCard = ({ profile }) => {
 
             {/* Action Buttons */}
             <div className="flex justify-center gap-3 mt-5">
-              <button
-                onClick={handleViewProfile}
+              <a
+                href={`#/profile?id=${viewId}`}
+                target="_blank"
                 className="bg-purple-600 text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-purple-700 transition duration-200"
               >
                 View Profile
-              </button>
+              </a>
               <button
                 onClick={handleEditProfile}
                 className="border border-gray-300 text-gray-700 text-sm font-medium py-2 px-4 rounded-lg hover:bg-gray-100 transition duration-200"

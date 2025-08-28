@@ -3,7 +3,7 @@
 
 import "./App.css";
 import { Toaster } from "sonner";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {  Routes, Route } from "react-router-dom";
 
 import LoginPage from "./app/auth/LoginPage";
 
@@ -52,6 +52,7 @@ function App() {
         <Route path="/" element={<RedirectButton />} />
         <Route path="/auth" element={<LoginPage />} />
         <Route path="/profile" element={<ProfileWrapper />} />
+        
         <Route
           path="profile/preview/:name"
           element={<ProfilePreviewWrapper />}

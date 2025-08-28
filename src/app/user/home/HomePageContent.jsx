@@ -640,13 +640,14 @@ export default function HomePage() {
                           </span>
                         </div>
                       </div>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleViewProfile(p.viewId)}
-                      >
-                        View
-                      </Button>
+                     
+                      <a href={`#/profile?id=${p.viewId}`} target="_blank">
+                         <Button variant={"outline"}>
+                          View
+                          </Button>
+                        </a>
+                      
+
                     </div>
                   ))}
                 </div>
