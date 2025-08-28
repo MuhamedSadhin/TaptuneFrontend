@@ -20,9 +20,10 @@ import {
 import { useCreateCardOrderAndProfile, useGetOneCard } from "@/hooks/tanstackHooks/useCard";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
-import Loader from "@/components/ui/loader";
+import Loader from "@/components/ui/Loader";
 import { uploadFileToFirebase } from "@/firebase/functions/uploadFileToFirebase";
 import PhoneInput from "react-phone-input-2";
+
 
 export default function CardBooking() {
   const { id } = useParams();

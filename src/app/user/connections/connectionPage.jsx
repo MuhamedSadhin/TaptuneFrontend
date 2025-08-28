@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import ConnectionCard from "@/components/userComponents/connectionComp/connectionCard";
 import { useGetAllConnections } from "@/hooks/tanstackHooks/useConnections";
-import Loader from "@/components/ui/loader";
+import Loader from "@/components/ui/Loader";
 
 export default function ConnectionsPage() {
   const [searchTerm, setSearchTerm] = useState("");

@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Wifi, TrendingUp, Heart, Star } from "lucide-react";
 import { useGetAllCards } from "@/hooks/tanstackHooks/useCard";
 import { useNavigate } from "react-router-dom";
-import Loader from "@/components/ui/loader";
+import Loader from "@/components/ui/Loader";
 
 export default function ShowCards() {
   const [favorites, setFavorites] = useState(new Set());
