@@ -46,7 +46,7 @@ export default function DashboardSection() {
   const latestUsers = data?.data?.lastUsers || [];
 
   return (
-    <div className="flex flex-col lg:flex-row mt-5 gap-6 w-full">
+    <div className="flex flex-col lg:flex-row mt-5 gap-6">
       <div className="flex flex-col gap-6 w-full">
         {/* Latest Orders */}
         <Card className="w-full">
@@ -70,31 +70,44 @@ export default function DashboardSection() {
                 <TableBody>
                   {latestOrders.map((order) => (
                     <TableRow key={order._id}>
-                      <TableCell className="flex items-center gap-3">
+                      <TableCell className="flex items-center gap-3 max-w-[220px]">
                         <Avatar className="h-10 w-10">
                           <AvatarFallback>
                             {order.userId?.name?.charAt(0) || "U"}
                           </AvatarFallback>
                         </Avatar>
-                        <span className="font-medium">
+                        <span
+                          className="font-medium truncate"
+                          title={order.userId?.email}
+                        >
                           {order.userId?.email}
                         </span>
                       </TableCell>
                       <TableCell className="text-center">
-                        <Badge
-                          variant={
-                            order.status === "Delivered"
-                              ? "secondary"
-                              : "destructive"
+                        {(() => {
+                          let badgeStyles = "";
+                          switch (order.status) {
+                            case "Pending":
+                              badgeStyles = "bg-red-200 text-red-800";
+                              break;
+                            case "Confirmed":
+                              badgeStyles = "bg-blue-100 text-blue-700";
+                              break;
+                            case "Design Completed":
+                              badgeStyles = "bg-yellow-100 text-yellow-700";
+                              break;
+                            case "Delivered":
+                              badgeStyles = "bg-green-100 text-green-700";
+                              break;
+                            default:
+                              badgeStyles = "bg-gray-100 text-gray-700";
                           }
-                          className={
-                            order.status === "Delivered"
-                              ? "bg-green-100 text-green-700"
-                              : ""
-                          }
-                        >
-                          {order.status}
-                        </Badge>
+                          return (
+                            <Badge className={badgeStyles}>
+                              {order.status}
+                            </Badge>
+                          );
+                        })()}
                       </TableCell>
                       <TableCell className="text-right text-muted-foreground text-sm">
                         {new Date(order.createdAt).toLocaleDateString("en-GB", {
@@ -137,13 +150,23 @@ export default function DashboardSection() {
                 <TableBody>
                   {latestUsers.map((user) => (
                     <TableRow key={user._id}>
-                      <TableCell className="flex items-center gap-3">
+                      <TableCell className="flex items-center gap-3 max-w-[180px]">
                         <Avatar className="h-10 w-10">
                           <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
                         </Avatar>
-                        <span className="font-medium">{user.name}</span>
+                        <span
+                          className="font-medium truncate"
+                          title={user.name}
+                        >
+                          {user.name}
+                        </span>
                       </TableCell>
-                      <TableCell className="truncate">{user.email}</TableCell>
+                      <TableCell
+                        className="truncate max-w-[200px]"
+                        title={user.email}
+                      >
+                        {user.email}
+                      </TableCell>
                       <TableCell className="text-right text-muted-foreground text-sm">
                         {formatDistanceToNow(new Date(user.createdAt), {
                           addSuffix: true,

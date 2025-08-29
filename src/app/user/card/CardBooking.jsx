@@ -27,6 +27,7 @@ import PhoneInput from "react-phone-input-2";
 
 export default function CardBooking() {
   const { id } = useParams();
+  const [loading ,setLoading] = useState(false)
   const [imageViewOnCard,setImageViewOnCard] = useState(null)
     const { data, isLoading } = useGetOneCard({ id });
     const {mutate , isPending} = useCreateCardOrderAndProfile()
@@ -111,45 +112,55 @@ useEffect(() => {
     }));
   };
 
-  const handlePlaceOrder = async () => {
-    const validationErrors = validate();
-    setErrors(validationErrors);
+const handlePlaceOrder = async () => {
+  setLoading(true);
+  const validationErrors = validate();
+  setErrors(validationErrors);
 
-    if (Object.keys(validationErrors).length === 0) {
-        
+  if (Object.keys(validationErrors).length === 0) {
+    try {
       let logoLink;
       if (cardData?.isLogo && uploadedLogo) {
         logoLink = await uploadFileToFirebase(uploadedLogo, "logo");
       }
-        mutate(
-          {
-            ...formData,
-            quantity,
-            totalAmount,
-            logoImage: logoLink,
-            cardId: id,
+
+      mutate(
+        {
+          ...formData,
+          quantity,
+          totalAmount,
+          logoImage: logoLink,
+          cardId: id,
+        },
+        {
+          onSuccess: (res) => {
+            if (res.success) {
+              console.log("Order placed successfully:", res.data);
+              toast.success("Order placed successfully!");
+              navigate(-1);
+            } else {
+              console.error("Order placement failed:", res.message);
+              toast.error("Failed to place order: " + res.message);
+            }
+            setLoading(false); // ✅ only stop loading after success/failure
           },
-          {
-            onSuccess: (res) => {
-              if (res.success) {
-                console.log("Order placed successfully:", res.data);
-                toast.success("Order placed successfully!");
-                navigate(-1);
-              } else {
-                console.error("Order placement failed:", res.message);
-                toast.error("Failed to place order: " + res.message);
-              }
-            },
-          }
-        );
-      console.log("Order placed:", {
-        ...formData,
-        quantity,
-        totalAmount,
-        logo: uploadedLogo,
-      });
+          onError: (error) => {
+            console.error("Mutation error:", error);
+            toast.error("Something went wrong!");
+            setLoading(false);
+          },
+        }
+      );
+    } catch (error) {
+      console.error("Unexpected error:", error);
+      toast.error("Unexpected error occurred!");
+      setLoading(false);
     }
-  };
+  } else {
+    setLoading(false); // ✅ stop loading only if validation fails
+  }
+};
+
 
 
 
@@ -447,11 +458,11 @@ useEffect(() => {
                   {/* Place Order */}
                   <Button
                     onClick={handlePlaceOrder}
-                    disabled={isPending}
+                    disabled={loading}
                     className="w-full bg-black hover:bg-gray-800 text-white py-3 text-lg font-medium disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     size="lg"
                   >
-                    {isPending ? (
+                    {loading ? (
                       <>
                         <Loader2 className="animate-spin h-5 w-5" />
                         Booking ...

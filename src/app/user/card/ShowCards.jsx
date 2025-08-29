@@ -51,7 +51,7 @@ export default function ShowCards() {
           </div>
 
           {isLoading ? (
-            <div className="min-h-[300px] flex justify-center items-center w-full">
+            <div className="flex items-center justify-center h-screen">
               <Loader />
             </div>
           ) : (

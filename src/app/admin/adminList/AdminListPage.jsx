@@ -38,7 +38,6 @@ export default function AdminListPage() {
   const [search, setSearch] = useState("");
   const [role, setRole] = useState("");
 
-  // ✅ Apply debounce only for search
   const debouncedSearch = useDebounce(search, 500);
 
   const { data } = useGetAllAdmins({
@@ -194,7 +193,7 @@ export default function AdminListPage() {
           </div>
 
           <div className="text-sm text-muted-foreground mt-4">
-            {admins.length} results found
+            {admins.length -1} results found
           </div>
         </CardContent>
       </Card>

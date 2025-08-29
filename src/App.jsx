@@ -4,13 +4,7 @@
 import "./App.css";
 import { Toaster } from "sonner";
 import {  Routes, Route } from "react-router-dom";
-
 import LoginPage from "./app/auth/LoginPage";
-
-// Shared Pages
-import ProfileCardView from "./app/user/externalProfileView.jsx/ProfileCardView";
-
-// User Pages
 import PageForUser from "./app/user/PageForUser";
 import ShowCards from "./app/user/card/ShowCards";
 import CardBooking from "./app/user/card/CardBooking";
@@ -18,29 +12,19 @@ import ProfilesPage from "./app/user/profile/ProfilePage";
 import ConnectionsPage from "./app/user/connections/connectionPage";
 import AccountSetupForm from "./app/user/settings/AccountSetting";
 import EditProfilePage from "./app/user/profile/EditProfileComp";
-
-// Admin Pages
 import PageForAdmin from "./app/admin/PageForAdmin";
 import CardOrder from "./app/admin/cardOrder/CardOrder";
-import UserList from "./app/admin/userList/UserList";
 import CardDesignTable from "./app/admin/cardList/CardDesignTable";
 import AdminListPage from "./app/admin/adminList/AdminListPage";
 import Protect from "./contexts/ProtectRoute";
-import CardOrdersPage from "./app/sampleJsx";
 import UserTable from "./components/adminComponents/userListComp/UserTable";
-import PremiumProfile from "./app/user/externalProfileView.jsx/profileBlackPremium";
-import ProfilePage from "./app/user/externalProfileView.jsx/profileBlackPremium";
-import ProfilePremiumBlack from "./app/user/externalProfileView.jsx/profileBlackPremium";
-import ProfileElite from "./app/user/externalProfileView.jsx/ProfileElite";
-import ProfilePremium from "./app/user/externalProfileView.jsx/ProfileCardView";
 import ProfileWrapper from "./app/user/externalProfileView.jsx/ProfileWrapper";
 import ProfilePreviewWrapper from "./components/userComponents/profileComp/ProfilePreviewWrapper";
 import HomePageContent from "./app/user/home/HomePageContent";
 import AdminHomepage from "./app/admin/home/AdminHomepage";
 import EnquiriesPage from "./app/admin/enquiry/enquiryList";
 import RedirectButton from "./app/auth/RedirectButton";
-
-// Auth Protection
+import HomePage from "./app/staticHome/HomePage";
 
 function App() {
   return (
@@ -49,10 +33,11 @@ function App() {
 
       <Routes>
         {/* Public */}
-        <Route path="/" element={<RedirectButton />} />
+        <Route path="/" element={<HomePage />} />
+
         <Route path="/auth" element={<LoginPage />} />
         <Route path="/profile" element={<ProfileWrapper />} />
-        
+
         <Route
           path="profile/preview/:name"
           element={<ProfilePreviewWrapper />}

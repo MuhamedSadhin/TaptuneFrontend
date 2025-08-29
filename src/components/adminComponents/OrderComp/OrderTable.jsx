@@ -149,18 +149,20 @@ const OrderTable = () => {
                     {order.designation || "-"}
                   </td>
                   <td className="px-4 py-3">
-                    <Badge
-                      variant="outline"
-                      className={`px-2 py-1  text-xs font-medium ${
-                        order.status === "pending"
-                          ? "border-yellow-400 text-yellow-600 bg-yellow-50"
-                          : order.status === "confirmed"
-                          ? "border-green-400 text-green-600 bg-green-50"
-                          : "border-blue-400 text-blue-600 bg-blue-50"
-                      }`}
-                    >
-                      {order.status}
-                    </Badge>
+                    <div className="flex justify-center items-center">
+                      <Badge
+                        variant="outline"
+                        className={`px-2 py-1  text-xs font-medium ${
+                          order.status === "pending"
+                            ? "border-yellow-400 text-yellow-600 bg-yellow-50"
+                            : order.status === "confirmed"
+                            ? "border-green-400 text-green-600 bg-green-50"
+                            : "border-blue-400 text-blue-600 bg-blue-50"
+                        }`}
+                      >
+                        {order.status}
+                      </Badge>
+                    </div>
                   </td>
                   <td className="px-4 py-3">
                     <Badge
