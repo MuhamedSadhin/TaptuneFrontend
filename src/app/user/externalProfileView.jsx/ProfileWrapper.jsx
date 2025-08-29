@@ -84,7 +84,11 @@ function ProfileWrapper() {
     );
   };
 
-  if (isLoading) return <Loader />;
+  if (isLoading) return (
+    <div className="flex items-center justify-center h-screen"> 
+      <Loader />
+    </div>
+  );
 
   if (data?.success === false && data?.status !== 403) {
     return (
