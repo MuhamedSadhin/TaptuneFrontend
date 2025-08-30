@@ -224,6 +224,8 @@ import { useSignup } from "@/hooks/tanstackHooks/useAuth";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import PhoneInput from "react-phone-input-2";
+import { Link } from "react-router-dom";
+import { HiChevronLeft } from "react-icons/hi2";
 
 export function SignupForm({ onSwitch }) {
   const [formData, setFormData] = useState({
@@ -299,7 +301,7 @@ export function SignupForm({ onSwitch }) {
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col ">
       <Card className="">
         <CardHeader className="text-center">
           <CardTitle className="text-xl font-semibold">
@@ -410,7 +412,11 @@ export function SignupForm({ onSwitch }) {
             </div>
 
             {/* Submit Button */}
-            <Button type="submit" className="w-full" disabled={isPending}>
+            <Button
+              type="submit"
+              className="w-full bg-purple-500 hover:bg-purple-700"
+              disabled={isPending}
+            >
               {isPending ? (
                 <div className="flex items-center justify-center">
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -433,13 +439,23 @@ export function SignupForm({ onSwitch }) {
             <button
               type="button"
               onClick={onSwitch}
-              className="underline underline-offset-4 text-primary"
+              className="underline underline-offset-4  text-purple-500 hover:text-purple-700 font-medium"
             >
               Login
             </button>
           </div>
         </CardContent>
       </Card>
+      <div className="flex justify-center mt-3">
+        <Link
+          to="/"
+          className="inline-flex items-center text-gray-400 hover:text-gray-200 
+                 transition-colors duration-200 text-sm font-medium"
+        >
+          <HiChevronLeft className="w-4 h-4  mr-1" />
+          <span>Back to home</span>
+        </Link>
+      </div>
     </div>
   );
 }

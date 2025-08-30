@@ -1,9 +1,9 @@
-import LandingNave from "@/Components/Landing/LandingNave";
+import LandingNave from "../staticHome/Landing/LandingNave";
 import React, { useState } from "react";
-import img from "../assets/Image/img.jpg";
-import signUp from "../assets/Image/signup.png";
+import img from "../../assets/Image/img.jpg";
+import signUp from "../../assets/Image/signup.png";
 import { Link } from "react-router-dom";
-import Footer from "@/Components/Landing/Footer";
+import Footer from "../staticHome/Landing/Footer";
 
 function DocPage() {
   const contants = [
@@ -45,9 +45,9 @@ function DocPage() {
   ];
   const [activeIndex, setActiveIndex] = useState(0);
   return (
-    <div className="w-full min-h-screen bg-raisin_black">
+    <div className="w-full min-h-screen bg-raisin-black">
       <LandingNave />
-      <div className="py-20 bg-raisin_black">
+      <div className="py-20 bg-raisin-black">
         <div className="w-full flex container mx-auto mt-10 md:mb-6 p-3">
           <h1 className="text-4xl font-semibold text-mindaro text-center ">
             Documentation
@@ -65,7 +65,7 @@ function DocPage() {
                   <h1
                     className={`${
                       index === activeIndex
-                        ? "bg-mindaro text-raisin_black"
+                        ? "bg-mindaro text-raisin-black"
                         : "text-white"
                     } py-1 px-4 rounded-full `}
                   >
@@ -85,20 +85,20 @@ function DocPage() {
             {contants[activeIndex].link && (
               <Link
                 to={contants[activeIndex].link}
-                className="bg-mindaro py-2 px-4 mt-3  text-raisin_black rounded-full"
+                className="bg-mindaro py-2 px-4 mt-3  text-raisin-black rounded-full"
               >
                 Go to page
               </Link>
             )}
             <img
               src={contants[activeIndex].image}
-              className="w-full max-w-4xl mt-5 rounded-lg shadow-lg border-2 border-raisin_black-700 bg-raisin_black-100"
+              className="w-full max-w-4xl mt-5 rounded-lg shadow-lg border-2 border-raisin-black-700 bg-raisin-black-100"
               alt=""
             />
           </div>
         </div>
       </div>
-      <div className="w-full min-h-screen bg-raisin_black-400 z-[10000] relative flex flex-col items-center justify-center">
+      <div className="w-full min-h-screen bg-raisin-black-400 z-[10000] relative flex flex-col items-center justify-center">
         <Footer />
       </div>
     </div>

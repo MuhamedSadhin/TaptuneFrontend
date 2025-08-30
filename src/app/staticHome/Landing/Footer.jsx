@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 function Footer() {
   return (
     <div className='w-full h-full'>
-<footer className="h-full bg-raisin_black-400 w-full grid grid-rows-2">
+<footer className="h-full bg-raisin-black-400 w-full grid grid-rows-2">
     <div className='w-full h-full flex items-center justify-center text-2xl font-bold text-seasalt'>Thank you</div>
   <div className=" w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 lg:pt-20 mx-auto">
     <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
@@ -48,7 +48,7 @@ function Footer() {
               <label htmlFor="hero-input" className="sr-only">Subscribe</label>
               <input type="text" id="hero-input" name="hero-input" className="py-3 px-4 block w-full border-transparent rounded-lg text-sm focus:border-mindaro-500 focus:ring-mindaro-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Enter your email"/>
             </div>
-            <button className="w-full sm:w-auto whitespace-nowrap p-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-mindaro-600  hover:bg-mindaro-700 focus:outline-none focus:bg-mindaro-700 disabled:opacity-50 disabled:pointer-events-none text-raisin_black">
+            <button className="w-full sm:w-auto whitespace-nowrap p-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-mindaro-600  hover:bg-mindaro-700 focus:outline-none focus:bg-mindaro-700 disabled:opacity-50 disabled:pointer-events-none text-raisin-black">
               Subscribe
             </button>
           </div>

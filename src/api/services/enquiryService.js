@@ -15,4 +15,12 @@ export const enquiryService = {
 
     return data;
   },
+  createEnquiry: async (enquiryData) => {
+    const { data } = await axiosInstance.post(
+      API_ENDPOINTS.ENQUIRY.CREATEENQUIRY,
+      enquiryData
+    );
+
+    return data;
+  }
 };

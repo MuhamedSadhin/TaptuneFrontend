@@ -5,9 +5,9 @@ import React from "react";
 
 function PrivacyPage() {
   return (
-    <div className="w-full min-h-screen bg-raisin_black">
+    <div className="w-full min-h-screen bg-raisin-black">
       <LandingNave />
-      <div className="py-20 bg-raisin_black">
+      <div className="py-20 bg-raisin-black">
         <div className="max-w-6xl mx-auto w-full flex flex-col items-start gap-2 p-4 h-full ">
           <h1 className="text-4xl font-semibold text-mindaro text-center ">
             Privacy policy
@@ -156,7 +156,7 @@ function PrivacyPage() {
           </div>
         </div>
       </div>
-      <div className="w-full min-h-screen bg-raisin_black-400 z-[10000] relative flex flex-col items-center justify-center">
+      <div className="w-full min-h-screen bg-raisin-black-400 z-[10000] relative flex flex-col items-center justify-center">
         <Footer />
       </div>
     </div>

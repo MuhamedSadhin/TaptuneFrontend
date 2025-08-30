@@ -3,6 +3,66 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+/* Raisin Black */
+  --color-raisin-black: #1F1E30;
+  --color-raisin-black-100: #060609;
+  --color-raisin-black-200: #0c0c13;
+  --color-raisin-black-300: #12121c;
+  --color-raisin-black-400: #181826;
+  --color-raisin-black-500: #1f1e30;
+  --color-raisin-black-600: #413f64;
+  --color-raisin-black-700: #63609a;
+  --color-raisin-black-800: #9694bc;
+  --color-raisin-black-900: #cbcade;
+
+  /* Mindaro */
+  --color-mindaro: #D8F275;
+  --color-mindaro-100: #354106;
+  --color-mindaro-200: #6b830c;
+  --color-mindaro-300: #a0c412;
+  --color-mindaro-400: #c7ec32;
+  --color-mindaro-500: #d8f275;
+  --color-mindaro-600: #e0f58f;
+  --color-mindaro-700: #e8f7ab;
+  --color-mindaro-800: #f0fac7;
+  --color-mindaro-900: #f7fce3;
+
+  /* Seasalt */
+  --color-seasalt: #F7F7F5;
+  --color-seasalt-100: #36362c;
+  --color-seasalt-200: #6d6d57;
+  --color-seasalt-300: #9f9f87;
+  --color-seasalt-400: #cacabd;
+  --color-seasalt-500: #f7f7f5;
+  --color-seasalt-600: #f8f8f6;
+  --color-seasalt-700: #fafaf8;
+  --color-seasalt-800: #fbfbfa;
+  --color-seasalt-900: #fdfdfd;
+
+  --color-white: #FEFEFE;
+  --color-white-100: #333333;
+  --color-white-200: #666666;
+  --color-white-300: #999999;
+  --color-white-400: #cccccc;
+  --color-white-500: #fefefe;
+  --color-white-600: #ffffff;
+  --color-white-700: #ffffff;
+  --color-white-800: #ffffff;
+  --color-white-900: #ffffff;
+
+  --color-space-cadet: #2F2D43;
+  --color-space-cadet-100: #09090d;
+  --color-space-cadet-200: #13121b;
+  --color-space-cadet-300: #1c1b28;
+  --color-space-cadet-400: #252436;
+  --color-space-cadet-500: #2f2d43;
+  --color-space-cadet-600: #504d73;
+  --color-space-cadet-700: #7470a0;
+  --color-space-cadet-800: #a2a0bf;
+  --color-space-cadet-900: #d1cfdf;
+
+}
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -41,6 +101,7 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 }
+
 
 :root {
   --radius: 0.625rem;
@@ -118,15 +179,12 @@
   body {
     @apply bg-background text-foreground;
   }
-  html {
-    scroll-behavior: smooth;
-  }
 }
 
 
 .active {
-  background-color: var(--color-purple-600); /* main active purple */
-  color: white; /* text stays visible */
+  background-color: var(--color-purple-600); 
+  color: white; 
 }
 
 .active:hover {

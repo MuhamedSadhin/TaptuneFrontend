@@ -39,11 +39,11 @@ function HomePage() {
       <LandingNave />
 
       <LandingHome />
-      <div id="botton" className="bg-raisin_black-500 py-16">
+      <div id="botton" className="bg-raisin-black-500  py-16">
         <IconSection />
       </div>
       <SecondPage />
-      <div className="w-full min-h-screen flex items-center justify-start p-2 bg-raisin_black ">
+      <div className="w-full min-h-screen flex items-center justify-start p-2 bg-raisin-black ">
         <div className="w-full container mx-auto">
           <div className="mb-20 flex justify-between items-start">
             <div>
@@ -69,7 +69,7 @@ function HomePage() {
         </div> */}
         </div>
       </div>
-      <div className="w-full min-h-screen bg-raisin_black-400 z-[10000] relative flex flex-col items-center justify-center">
+      <div className="w-full min-h-screen bg-raisin-black-400 z-[10000] relative flex flex-col items-center justify-center">
         <Footer />
       </div>
     </div>

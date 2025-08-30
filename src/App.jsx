@@ -1,9 +1,8 @@
 
 
 
-import "./App.css";
 import { Toaster } from "sonner";
-import {  Routes, Route } from "react-router-dom";
+import {  Routes, Route, Outlet, useLocation } from "react-router-dom";
 import LoginPage from "./app/auth/LoginPage";
 import PageForUser from "./app/user/PageForUser";
 import ShowCards from "./app/user/card/ShowCards";
@@ -25,30 +24,57 @@ import AdminHomepage from "./app/admin/home/AdminHomepage";
 import EnquiriesPage from "./app/admin/enquiry/enquiryList";
 import RedirectButton from "./app/auth/RedirectButton";
 import HomePage from "./app/staticHome/HomePage";
+import AboutPage from "./app/staticHome/AboutPage";
+import ContactPage from "./app/staticHome/ContactPage";
+import DocPage from "./app/staticHome/DocPage";
+import useSmoothScroll from "./hooks/tanstackHooks/useSmoothScroll";
+import useScrollAnimations from "./hooks/tanstackHooks/useScrollAnimations";
+import useSmoothScrollGsap from "./hooks/tanstackHooks/useSmoothScrollGsap";
+
 
 function App() {
+  const location = useLocation();
+
+  const enableSmoothScroll = ["/", "/about-us", "/contact", "/docs"].includes(
+    location.pathname
+  );
+
+  useSmoothScroll(enableSmoothScroll);
+  // useScrollAnimations();
+  // useSmoothScrollGsap();
+
   return (
     <>
       <Toaster position="bottom-right" richColors />
 
       <Routes>
-        {/* Public */}
-        <Route path="/" element={<HomePage />} />
-
-        <Route path="/auth" element={<LoginPage />} />
-        <Route path="/profile" element={<ProfileWrapper />} />
-
         <Route
-          path="profile/preview/:name"
-          element={<ProfilePreviewWrapper />}
-        />
+          element={
+            <div id="smooth-wrapper">
+              <div id="smooth-content">
+                <Outlet />
+              </div>
+            </div>
+          }
+        >
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about-us" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/docs" element={<DocPage />} />
+          <Route path="/auth" element={<LoginPage />} />
+          <Route path="/profile" element={<ProfileWrapper />} />
+          <Route
+            path="profile/preview/:name"
+            element={<ProfilePreviewWrapper />}
+          />
+        </Route>
 
         {/* Protected User Routes */}
         <Route
           path="/user"
           element={
             <Protect requiredRole={["user", "admin"]}>
-              <PageForUser />
+                <PageForUser />
             </Protect>
           }
         >

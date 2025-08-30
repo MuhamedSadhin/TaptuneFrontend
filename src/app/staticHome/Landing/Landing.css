@@ -266,3 +266,26 @@
   .swiper-pagination-bullet-active {
     background-color: #d8f275 !important; /* Active pagination bullet color */
   }
+
+/* 
+.swiper {
+  padding-bottom: 3rem; 
+}
+
+.swiper-pagination {
+  position: absolute !important;
+  bottom: -4px !important; 
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.swiper-pagination-bullet {
+  background: #413f64; 
+  opacity: 0.6;
+}
+
+.swiper-pagination-bullet-active {
+  background: #d8f275; 
+  opacity: 1;
+} */

@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { UserProvider } from './contexts/UserContext';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { HashRouter } from 'react-router-dom';
+
 const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 

@@ -51,7 +51,9 @@ export default function PageForUser() {
             </Breadcrumb>
           </div>
         </header>
-        <div className="max-w-[95rem] mx-auto  px-4 md:px-8 py-6 w-full h-full ">
+        <div
+          className="max-w-[95rem] mx-auto  px-4 md:px-8 py-6 w-full h-full "
+        >
           <Outlet />
         </div>
       </SidebarInset>

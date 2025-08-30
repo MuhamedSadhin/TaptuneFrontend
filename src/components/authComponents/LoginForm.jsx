@@ -12,9 +12,10 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { useLogin } from "@/hooks/tanstackHooks/useAuth";
 import { Loader2 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuthUser } from "@/hooks/tanstackHooks/useUserContext";
 import GoogleLoginButton from "./GoogleLoginButton";
+import { HiChevronLeft } from "react-icons/hi2";
 
 export function LoginForm({ onSwitch }) {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -76,8 +77,8 @@ export function LoginForm({ onSwitch }) {
   };
 
   return (
-    <div className="flex flex-col gap-6">
-      <Card>
+    <div className="flex flex-col gap-3">
+      <Card className={"bg-white"}>
         <CardHeader className="text-center">
           <CardTitle className="text-xl">Welcome back</CardTitle>
           <CardDescription>Login with your email and password</CardDescription>
@@ -103,7 +104,7 @@ export function LoginForm({ onSwitch }) {
                 <Label htmlFor="password">Password</Label>
                 <button
                   type="button"
-                  className="text-sm text-primary underline-offset-4 hover:underline"
+                  className="font-medium text-sm text-purple-500 hover:text-purple-700 underline-offset-4 hover:underline"
                 >
                   Forgot password?
                 </button>
@@ -119,7 +120,11 @@ export function LoginForm({ onSwitch }) {
               )}
             </div>
 
-            <Button type="submit" className="w-full" disabled={isPending}>
+            <Button
+              type="submit"
+              className="w-full bg-purple-500 hover:bg-purple-700"
+              disabled={isPending}
+            >
               {isPending ? (
                 <Loader2 className="h-4 w-4 animate-spin mx-auto" />
               ) : (
@@ -136,19 +141,30 @@ export function LoginForm({ onSwitch }) {
             <button
               type="button"
               onClick={onSwitch}
-              className="text-primary underline underline-offset-4"
+              className=" underline underline-offset-4 text-purple-500 hover:text-purple-700 font-medium"
             >
               Sign up
             </button>
           </div>
         </CardContent>
       </Card>
-
-      <div className="text-muted-foreground text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
-        By clicking continue, you agree to our{" "}
+      <div className="">
+      <div className=" text-gray-400 text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
+        By clicking continue , you agree to our{" "}
         <a href="/terms">Terms of Service</a> and{" "}
         <a href="/privacy">Privacy Policy</a>.
       </div>
+      <div className="flex justify-center mt-3">
+        <Link
+          to="/"
+          className="inline-flex items-center text-gray-400 hover:text-gray-200 
+                 transition-colors duration-200 text-sm font-medium"
+        >
+          <HiChevronLeft className="w-4 h-4  mr-1" />
+          <span>Back to home</span>
+        </Link>
+        </div>
+        </div>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 // src/tanstackHooks/auth.js
 import { enquiryService } from "@/api/services/enquiryService";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useGetAllEnquiries = (filters) => {
   return useQuery({
@@ -10,3 +10,15 @@ export const useGetAllEnquiries = (filters) => {
   });
 };
 
+
+
+export const useCreateEnquiry = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (enquiry) => enquiryService.createEnquiry(enquiry),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["enquiries"]);
+    },
+  });
+
+}
