@@ -14,7 +14,8 @@ const PER_PAGE = 10;
 const OrderTable = () => {
   const [tab, setTab] = useState("all");
   const [search, setSearch] = useState("");
-    const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [updatingId, setUpdatingId] = useState(null);
   const [page, setPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [viewProfile, setViewProfile] = useState();
@@ -54,6 +55,7 @@ const OrderTable = () => {
 
 
   const changeStatusOfActiveAndDeActive = (id, status) => {
+    setUpdatingId(id);
     mutate(
       { id, isActive: status },
       {
@@ -185,12 +187,12 @@ const OrderTable = () => {
                   </td>
                   <td className="px-4 py-3 flex justify-center items-center">
                     <Button
-                      className={`text-sm font-medium px-3 py-1 rounded-md transition-colors w-25 ${
+                      className={`text-sm font-medium px-3 py-1 rounded-md transition-colors w-25 flex items-center gap-2 ${
                         order.isActive
                           ? "bg-red-600 text-white hover:bg-red-700 focus:ring-2 focus:ring-red-400"
                           : "bg-green-700 text-white hover:bg-green-900"
                       }`}
-                      disabled={isPending}
+                      disabled={(updatingId === order.profileId) && isPending} // only disable current one
                       onClick={() =>
                         changeStatusOfActiveAndDeActive(
                           order.profileId,
@@ -198,7 +200,15 @@ const OrderTable = () => {
                         )
                       }
                     >
-                      {order.isActive ? "Deactivate" : "Activate"}
+                      {updatingId === order.profileId && isPending ? (
+                        <>
+                          <Loader2 className="animate-spin h-4 w-4" />
+                        </>
+                      ) : order.isActive ? (
+                        "Deactivate"
+                      ) : (
+                        "Activate"
+                      )}
                     </Button>
                   </td>
 

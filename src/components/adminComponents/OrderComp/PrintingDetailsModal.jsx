@@ -26,12 +26,14 @@ export default function PrintingDetailsModal({ isOpen, onClose, profile }) {
     if (profile) setLocalProfile(profile);
   }, [profile]);
 
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText(
-      `https://taptune.in/#/profile?id=${localProfile?.viewId}`
-    );
-    toast.success("Profile link copied!");
-  };
+const handleCopyLink = () => {
+  const baseUrl = window.location.origin; 
+  const profileUrl = `${baseUrl}/#/profile?id=${localProfile?.viewId}`;
+
+  navigator.clipboard.writeText(profileUrl);
+  toast.success("Profile link copied!");
+};
+
 
   const handleDownloadQR = () => {
     const canvas = qrRef.current.querySelector("canvas");
@@ -251,9 +253,12 @@ const getStatusBadgeVariant = (status) => {
                   ].map((item, idx) => (
                     <div
                       key={idx}
-                      className="grid grid-cols-1 sm:grid-cols-3 gap-4"
+                      className="flex sm:grid sm:grid-cols-3 sm:gap-4"
                     >
-                      <p className="text-sm text-gray-500">{item.label}</p>
+                      {/* Label column → fixed width on mobile, normal grid on desktop */}
+                      <p className="text-sm text-gray-500 sm:col-span-1 min-w-[120px]">
+                        {item.label}:
+                      </p>
                       <p className="sm:col-span-2 text-sm font-medium text-gray-800 break-words">
                         {item.value || "-"}
                       </p>
@@ -261,8 +266,10 @@ const getStatusBadgeVariant = (status) => {
                   ))}
 
                   {/* Profile Link */}
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-center">
-                    <p className="text-sm text-gray-500">Profile Link</p>
+                  <div className="flex sm:grid sm:grid-cols-3 sm:gap-4">
+                    <p className="text-sm text-gray-500 sm:col-span-1 min-w-[120px]">
+                      Profile Link:
+                    </p>
                     <div className="sm:col-span-2 flex items-center gap-2">
                       <Button
                         variant="outline"
@@ -277,8 +284,10 @@ const getStatusBadgeVariant = (status) => {
                   </div>
 
                   {/* Profile Status */}
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <p className="text-sm text-gray-500">Profile Status</p>
+                  <div className="flex sm:grid sm:grid-cols-3 sm:gap-4">
+                    <p className="text-sm text-gray-500 sm:col-span-1 min-w-[120px]">
+                      Profile Status:
+                    </p>
                     <div className="sm:col-span-2">
                       <span
                         className={`px-3 py-1 rounded-md text-sm font-medium ${
