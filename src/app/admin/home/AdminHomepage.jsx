@@ -1,4 +1,3 @@
-import { ChartAreaGradient } from '@/components/adminComponents/homeComp/ChartComp';
 import StatsCards from '@/components/adminComponents/homeComp/DashboardCards';
 import DashboardSection from '@/components/adminComponents/homeComp/tables';
 import React from 'react'

@@ -1,6 +1,3 @@
-
-
-
 import { Toaster } from "sonner";
 import {  Routes, Route, Outlet, useLocation } from "react-router-dom";
 import LoginPage from "./app/auth/LoginPage";
@@ -22,14 +19,11 @@ import ProfilePreviewWrapper from "./components/userComponents/profileComp/Profi
 import HomePageContent from "./app/user/home/HomePageContent";
 import AdminHomepage from "./app/admin/home/AdminHomepage";
 import EnquiriesPage from "./app/admin/enquiry/enquiryList";
-import RedirectButton from "./app/auth/RedirectButton";
 import HomePage from "./app/staticHome/HomePage";
 import AboutPage from "./app/staticHome/AboutPage";
 import ContactPage from "./app/staticHome/ContactPage";
 import DocPage from "./app/staticHome/DocPage";
 import useSmoothScroll from "./hooks/tanstackHooks/useSmoothScroll";
-import useScrollAnimations from "./hooks/tanstackHooks/useScrollAnimations";
-import useSmoothScrollGsap from "./hooks/tanstackHooks/useSmoothScrollGsap";
 
 
 function App() {
@@ -51,7 +45,7 @@ function App() {
         <Route
           element={
             <div id="smooth-wrapper">
-              <div id="smooth-content">
+              <div className="homepage fontSelectorClass">
                 <Outlet />
               </div>
             </div>
@@ -61,20 +55,20 @@ function App() {
           <Route path="/about-us" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/docs" element={<DocPage />} />
-          <Route path="/auth" element={<LoginPage />} />
-          <Route path="/profile" element={<ProfileWrapper />} />
-          <Route
-            path="profile/preview/:name"
-            element={<ProfilePreviewWrapper />}
-          />
         </Route>
+        <Route path="/auth" element={<LoginPage />} />
+        <Route path="/profile" element={<ProfileWrapper />} />
+        <Route
+          path="profile/preview/:name"
+          element={<ProfilePreviewWrapper />}
+        />
 
         {/* Protected User Routes */}
         <Route
           path="/user"
           element={
             <Protect requiredRole={["user", "admin"]}>
-                <PageForUser />
+              <PageForUser />
             </Protect>
           }
         >

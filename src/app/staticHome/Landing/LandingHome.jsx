@@ -1,6 +1,5 @@
 import React from "react";
 import "./Landing.css";
-import '../../../index.css'
 import { HiOutlineArrowSmallDown, HiOutlineWifi } from "react-icons/hi2";
 import logo from "../../../assets/Image/logo.svg";
 import { Link, useNavigate } from "react-router-dom";

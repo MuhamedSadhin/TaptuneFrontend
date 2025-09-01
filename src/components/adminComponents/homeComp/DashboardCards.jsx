@@ -73,7 +73,7 @@ export default function StatsCards() {
               <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">
                 {item.title}
               </p>
-              <h2 className="text-2xl font-bold text-gray-900">{item.value}</h2>
+              <h2 className="text-2xl font-bold text-gray-900">{item.value} </h2>
             </div>
             <div className="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center">
               {item.icon}

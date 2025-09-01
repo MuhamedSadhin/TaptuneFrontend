@@ -1,3 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+.homepage.fontSelectorClass {
+  font-family: "Work Sans", sans-serif;
+}
+
+.homepage.fontSelectorClass h1,
+.homepage.fontSelectorClass h2,
+.homepage.fontSelectorClass h3 {
+  font-family: "Space Grotesk", sans-serif;
+}
+
+
 
 :root{
 
