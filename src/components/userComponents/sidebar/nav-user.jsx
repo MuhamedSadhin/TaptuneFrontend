@@ -35,13 +35,13 @@ import { useNavigate } from "react-router-dom";
 export function NavUser() {
   const navigate = useNavigate();
   const { isMobile } = useSidebar();
-  const { user , setUser } = useAuthUser(); 
-  const { mutate:logout } = useLogout();
+  const { user, setUser } = useAuthUser();
+  const { mutate: logout } = useLogout();
 
   const handleLogout = () => {
-            logout();
-            setUser(null);
-            navigate("/auth");
+    logout();
+    setUser(null);
+    navigate("/auth");
   };
 
   function getInitials(name) {
@@ -51,18 +51,18 @@ export function NavUser() {
     return (words[0][0] + words[1][0]).toUpperCase();
   }
 
-
   return (
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <SidebarMenuButton
-              size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+            <button
+              type="button"
+              className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm
+               data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user?.avatar } alt={user?.name} />
+                <AvatarImage src={user?.avatar} alt={user?.name} />
                 <AvatarFallback className="rounded-lg">
                   {getInitials(user?.name)}
                 </AvatarFallback>
@@ -72,9 +72,11 @@ export function NavUser() {
                 <span className="truncate font-medium">{user.name}</span>
                 <span className="truncate text-xs">{user.email}</span>
               </div>
+
               <ChevronsUpDown className="ml-auto size-4" />
-            </SidebarMenuButton>
+            </button>
           </DropdownMenuTrigger>
+
           <DropdownMenuContent
             className="min-w-56 rounded-lg"
             side={isMobile ? "bottom" : "right"}
@@ -107,3 +109,8 @@ export function NavUser() {
     </SidebarMenu>
   );
 }
+
+
+
+
+
