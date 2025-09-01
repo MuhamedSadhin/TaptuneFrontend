@@ -136,8 +136,25 @@ function ProfileWrapper() {
           <div className="w-full bg-gradient-to-r from-amber-500 to-orange-500 shadow-lg">
             <div className="max-w-4xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="flex-shrink-0">
+                {/* Left section */}
+                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-2 sm:gap-3 text-center sm:text-left">
+                  {/* Icon (hidden on small, shown beside heading) */}
+                  <div className="hidden sm:flex w-8 h-8 bg-white rounded-full items-center justify-center">
+                    <svg
+                      className="w-5 h-5 text-amber-600"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+
+                  {/* Heading + Icon for small screens */}
+                  <div className="flex items-center justify-center gap-2 sm:hidden">
                     <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
                       <svg
                         className="w-5 h-5 text-amber-600"
@@ -151,8 +168,13 @@ function ProfileWrapper() {
                         />
                       </svg>
                     </div>
+                    <h3 className="text-white font-semibold text-lg">
+                      Profile Not Activated
+                    </h3>
                   </div>
-                  <div className="text-center sm:text-left">
+
+                  {/* Text (normal for sm+) */}
+                  <div className="hidden sm:block">
                     <h3 className="text-white font-semibold text-lg">
                       Profile Not Activated
                     </h3>
@@ -161,6 +183,8 @@ function ProfileWrapper() {
                     </p>
                   </div>
                 </div>
+
+                {/* Right Status */}
                 <div className="flex-shrink-0">
                   <div className="hidden md:block bg-white/20 backdrop-blur-sm rounded-lg px-4 py-2">
                     <span className="text-white text-sm font-medium">

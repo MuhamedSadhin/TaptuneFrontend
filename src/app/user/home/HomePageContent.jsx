@@ -512,16 +512,18 @@ const StatCard = memo(({ title, value, icon, link, linkText }) => (
 
 const ConnectionItem = memo(({ connection }) => (
   <div className="flex items-center justify-between p-4 rounded-xl border hover:shadow transition">
-    <div className="flex items-center gap-3">
-      <Avatar className="w-14 h-14">
+    <div className="flex items-center gap-3 min-w-0">
+      <Avatar className="w-14 h-14 flex-shrink-0">
         <AvatarFallback>
           {connection.name?.charAt(0)?.toUpperCase() || "U"}
         </AvatarFallback>
       </Avatar>
-      <div className="flex flex-col">
-        <p className="font-medium">{connection.name}</p>
-        <p className="text-sm text-gray-600">{connection.designation}</p>
-        <p className="text-xs text-gray-500">{connection.email}</p>
+      <div className="flex flex-col min-w-0">
+        <p className="font-medium truncate">{connection.name}</p>
+        <p className="text-sm text-gray-600 truncate">
+          {connection.designation}
+        </p>
+        <p className="text-xs text-gray-500 truncate">{connection.email}</p>
       </div>
     </div>
     <Button
@@ -537,10 +539,10 @@ const ConnectionItem = memo(({ connection }) => (
 
 const ProfileItem = memo(({ profile }) => (
   <div className="flex items-center gap-4 p-4 rounded-xl shadow-sm border">
-    <Avatar className="w-16 h-16">
+    <Avatar className="w-16 h-16 flex-shrink-0">
       <AvatarImage
         src={profile.profilePic || "/placeholder.svg"}
-        loading="lazy" // Lazy load images
+        loading="lazy"
       />
       <AvatarFallback>
         {profile.fullName
@@ -555,11 +557,13 @@ const ProfileItem = memo(({ profile }) => (
         {profile.userName || profile.fullName?.toLowerCase().replace(/\s/g, "")}
       </p>
       <div className="flex flex-wrap gap-3 text-sm mt-1 text-gray-600">
-        <span className="flex items-center gap-1 truncate">
-          <Phone className="w-4 h-4" /> {profile.phoneNumber || "N/A"}
+        <span className="flex items-center gap-1 min-w-0 truncate">
+          <Phone className="w-4 h-4 flex-shrink-0" />
+          <span className="truncate">{profile.phoneNumber || "N/A"}</span>
         </span>
-        <span className="flex items-center gap-1 truncate">
-          <Mail className="w-4 h-4" /> {profile.email || "N/A"}
+        <span className="flex items-center gap-1 min-w-0 truncate">
+          <Mail className="w-4 h-4 flex-shrink-0" />
+          <span className="truncate">{profile.email || "N/A"}</span>
         </span>
       </div>
     </div>
@@ -572,6 +576,7 @@ const ProfileItem = memo(({ profile }) => (
     </a>
   </div>
 ));
+
 
 const EmptyState = memo(({ icon, title, desc }) => (
   <div className="flex flex-col items-center justify-center h-48 w-full text-center border border-dashed rounded-xl bg-gray-50">
