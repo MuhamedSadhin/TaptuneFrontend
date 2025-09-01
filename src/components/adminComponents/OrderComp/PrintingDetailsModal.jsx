@@ -139,15 +139,18 @@ const getStatusBadgeVariant = (status) => {
               </AvatarFallback>
             </Avatar>
             <h2 className="text-2xl font-bold text-gray-800">
+              <span className="text-lg text-gray-600">Name: </span>{" "}
               {localProfile?.fullName || "-"}
             </h2>
             <p className="text-lg text-gray-600">
               {localProfile?.designation || "-"}
             </p>
-            <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-500">
+            <div className="text-lg text-gray-500">
               <p>Email: {localProfile?.email || "-"}</p>
-              <p>Contact: {localProfile?.phoneNumber || "-"}</p>
             </div>
+            <p className="text-lg text-gray-500">
+                 Phone:  {localProfile?.phoneNumber || "-"}
+            </p>
           </div>
 
           {/* Status and Action Section */}
