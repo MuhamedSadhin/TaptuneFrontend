@@ -9,9 +9,8 @@ import { useConnectProfile } from "@/hooks/tanstackHooks/useConnections";
 import ShareInfoModal from "./ShareInfoModal";
 import Loader from "@/components/ui/Loader";
 import ProfilePremium from "./ProfileCardView";
-import ProfileElite from "./ProfileElite";
-import ProfileDaylight from "./ProfileDaylight";
 import ProfilePremiumBlack from "./profileBlackPremium";
+import ProfileElite from "./ProfileElite";
 
 function ProfileWrapper() {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
@@ -124,7 +123,6 @@ function ProfileWrapper() {
     premium: ProfilePremium,
     elite: ProfileElite,
     black: ProfilePremiumBlack,
-    day: ProfileDaylight,
   };
   const SelectedProfile = profileComponents[designType] || ProfilePremium;
 
@@ -137,7 +135,7 @@ function ProfileWrapper() {
             <div className="max-w-4xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
                 {/* Left Section */}
-                <div className="flex items-start gap-3">
+                <div className="flex items-center gap-3">
                   {/* Icon */}
                   <div className="flex-shrink-0 w-10 h-10 bg-white rounded-full flex items-center justify-center">
                     <svg
@@ -165,7 +163,7 @@ function ProfileWrapper() {
                 </div>
 
                 {/* Right Section - Status */}
-                <div className= " block max-sm:hidden bg-white/20 backdrop-blur-sm rounded-lg px-4 py-2">
+                <div className=" block max-sm:hidden bg-white/20 backdrop-blur-sm rounded-lg px-4 py-2">
                   <span className="text-white text-sm font-medium">
                     Status: Inactive
                   </span>

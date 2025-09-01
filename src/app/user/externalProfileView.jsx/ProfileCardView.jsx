@@ -2,26 +2,20 @@
 
 import { useState } from "react";
 import {
-  HiMiniEnvelopeOpen,
-  HiPhone,
   HiMiniMapPin,
   HiMiniStar,
   HiMiniArrowTopRightOnSquare,
-  HiMiniCalendarDays,
+  HiMiniUserPlus,
 } from "react-icons/hi2";
-import { RiContactsFill, RiWhatsappFill } from "react-icons/ri";
-
 import { iconObj } from "@/assets/Icons/icons.jsx";
+import gmailIcon from "@/assets/Icons/gmail-icon.svg";
+import WhatsAppIcon from "@/assets/Icons/whatsapp-icon.svg";
+import { IoCallOutline } from "react-icons/io5";
+import { FaRegAddressBook } from "react-icons/fa6";
 
 function ProfilePremium({ profile, onOpenShareModal }) {
   const [activeTab, setActiveTab] = useState("overview");
 
-  const joinDate = new Date().toLocaleDateString("en-US", {
-    month: "short",
-    year: "numeric",
-  });
-
-  // ✅ Add to contact function
   const handleAddToContacts = () => {
     const vcard = `
 BEGIN:VCARD
@@ -147,47 +141,62 @@ END:VCARD
               <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
                 {[
                   {
-                    icon: HiPhone,
+                    icon: IoCallOutline,
                     label: "Phone",
                     value: profile.phoneNumber,
                     href: `tel:${profile.phoneNumber}`,
-                    color: "from-green-500 to-emerald-500",
+                    color: "text-blue-500",
+                    isImg: false,
                   },
                   {
-                    icon: HiMiniEnvelopeOpen,
+                    icon: gmailIcon,
                     label: "Email",
                     value: profile.email,
-                    href: `mailto:${profile.email}`,
+                    href: `https://mail.google.com/mail/?view=cm&fs=1&to=${profile?.email}`,
                     color: "from-blue-500 to-cyan-500",
+                    isImg: true,
                   },
                   {
-                    icon: RiWhatsappFill,
+                    icon: WhatsAppIcon,
                     label: "WhatsApp",
                     value: "Chat instantly",
                     href: `https://wa.me/${profile.watsappNumber}`,
                     color: "from-green-500 to-green-600",
+                    isImg: true,
                   },
                   {
-                    icon: RiContactsFill,
+                    icon: HiMiniUserPlus,
                     label: `Connect ${profile.fullName}`,
                     value: "Connect with",
                     onClick: onOpenShareModal,
-                    color: "from-green-500 to-green-600",
+                    color: "text-gray-400",
+                    isImg: false,
                   },
                   {
-                    icon: RiContactsFill,
+                    icon: FaRegAddressBook,
                     label: "Add to Contacts",
                     value: "Save this profile",
-                    onClick: handleAddToContacts, // ✅ new feature
-                    color: "from-purple-500 to-pink-500",
+                    onClick: handleAddToContacts,
+                    color: "text-gray-300",
+                    isImg: false,
                   },
                 ].map((contact, idx) => {
                   const content = (
                     <div className="flex items-center gap-4">
                       <div
-                        className={`w-14 h-14 bg-gradient-to-r ${contact.color} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}
+                        className={`w-14 h-14 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}
                       >
-                        <contact.icon className="w-6 h-6 text-white" />
+                        {contact.isImg ? (
+                          <img
+                            src={contact.icon}
+                            alt={contact.label}
+                            className="w-14 h-14"
+                          />
+                        ) : (
+                          <contact.icon
+                            className={`w-12 h-12 ${contact.color} `}
+                          />
+                        )}
                       </div>
                       <div>
                         <div className="font-bold text-white text-base">
@@ -240,7 +249,7 @@ END:VCARD
                   return (
                     <div key={index} className="group">
                       <a
-                        href={social.link}
+                        href={`#${social.link}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex flex-col items-center"
@@ -260,21 +269,12 @@ END:VCARD
           </div>
 
           {/* Footer */}
-          <div className="text-center pb-10 border-t border-slate-700/50 pt-6">
-            <div className="flex items-center justify-center gap-3 text-slate-400 text-sm mb-3">
-              <div className="flex items-center gap-1.5">
-                <HiMiniCalendarDays className="w-4 h-4" />
-                <span>Member since {joinDate}</span>
-              </div>
-              <span>•</span>
-              <div className="flex items-center gap-1.5">
-                <span>Premium</span>
-                <HiMiniStar className="w-4 h-4 text-yellow-400" />
-              </div>
+          <div className="text-center text-gray-400 text-sm border-t border-gray-700/50 pt-6 pb-10">
+            <div className="flex justify-center gap-6 mb-2">
+              <div className="flex items-center gap-2"></div>
             </div>
-            <p className="text-slate-500 text-xs">
-              © 2025 {profile.fullName}. All rights reserved.
-            </p>
+            <p>© 2025 NeptuneMark . All rights reserved.</p>
+            <p className="mt-2 text-blue-400">Powered by NeptuneMark</p>
           </div>
         </div>
       </div>

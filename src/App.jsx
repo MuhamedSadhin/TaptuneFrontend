@@ -35,7 +35,7 @@ import useSmoothScrollGsap from "./hooks/tanstackHooks/useSmoothScrollGsap";
 function App() {
   const location = useLocation();
 
-  const enableSmoothScroll = ["/", "/about-us", "/contact", "/docs"].includes(
+  const enableSmoothScroll = ["/", "/profile","/about-us", "/contact", "/docs","/profile/preview"].includes(
     location.pathname
   );
 

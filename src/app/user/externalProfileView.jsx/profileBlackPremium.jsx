@@ -2,20 +2,18 @@
 
 import { useState } from "react";
 import {
-  HiMiniEnvelopeOpen,
-  HiPhone,
   HiMiniMapPin,
   HiMiniStar,
-  HiMiniCalendarDays,
 } from "react-icons/hi2";
-import { RiWhatsappFill } from "react-icons/ri";
 import { toast } from "sonner";
-
 import { iconObj } from "@/assets/Icons/icons.jsx";
 import ShareInfoModal from "./ShareInfoModal";
 import { useConnectProfile } from "@/hooks/tanstackHooks/useConnections";
+import gmailIcon from "@/assets/Icons/gmail-icon.svg";
+import WhatsAppIcon from "@/assets/Icons/whatsapp-icon.svg";
+import { IoCallOutline } from "react-icons/io5";
 
-function ProfilePremiumBlack({ profile, onOpenShareModal }) {
+function ProfilePremiumBlack({ profile }) {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
@@ -156,29 +154,33 @@ END:VCARD`;
         </div>
 
         {/* Contact Info */}
+        {/* Contact Info */}
         <div className="mb-12">
           <h2 className="text-2xl font-semibold text-center mb-6">
-            Contact Info 
+            Contact Info
           </h2>
           <div className="flex flex-wrap justify-center gap-4 max-w-2xl mx-auto">
             {[
               {
-                icon: HiPhone,
+                icon: IoCallOutline,
                 label: "Contact",
                 href: `tel:${profile?.phoneNumber}`,
                 color: "bg-blue-600",
+                isImg: false,
               },
               {
-                icon: HiMiniEnvelopeOpen,
+                icon: gmailIcon,
                 label: "Email",
-                href: `mailto:${profile?.email}`,
+                href: `https://mail.google.com/mail/?view=cm&fs=1&to=${profile?.email}`,
                 color: "bg-indigo-600",
+                isImg: true,
               },
               {
-                icon: RiWhatsappFill,
+                icon: WhatsAppIcon,
                 label: "WhatsApp",
                 href: `https://wa.me/${profile?.watsappNumber}`,
                 color: "bg-green-600",
+                isImg: true,
               },
             ].map((item, idx) => (
               <a
@@ -186,7 +188,11 @@ END:VCARD`;
                 href={item.href}
                 className={`flex items-center gap-3 px-6 py-3 ${item.color} rounded-full hover:opacity-90 transition-opacity shadow-md text-sm sm:text-base`}
               >
-                <item.icon className="w-5 h-5" />
+                {item.isImg ? (
+                  <img src={item.icon} alt={item.label} className="w-6 h-6" />
+                ) : (
+                  <item.icon className="w-5 h-5" />
+                )}
                 {item.label}
               </a>
             ))}
@@ -210,7 +216,7 @@ END:VCARD`;
                 return (
                   <div key={index} className="group">
                     <a
-                      href={social.link}
+                      href={`#${social.link}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex flex-col items-center"
@@ -230,18 +236,12 @@ END:VCARD`;
         </div>
 
         {/* Footer */}
-        <div className="text-center text-gray-500 text-sm border-t border-gray-700 pt-6">
-          <div className="flex justify-center gap-4 mb-2">
-            <div className="flex items-center gap-2">
-              <HiMiniCalendarDays className="w-4 h-4" />
-              Member since {joinDate}
-            </div>
-            <div className="flex items-center gap-2">
-              Premium <HiMiniStar className="w-4 h-4 text-yellow-500" />
-            </div>
+        <div className="text-center text-gray-400 text-sm border-t border-gray-700/50 pt-6 pb-10">
+          <div className="flex justify-center gap-6 mb-2">
+            <div className="flex items-center gap-2"></div>
           </div>
-          <p>© 2025 {profile?.fullName}. All rights reserved.</p>
-          <p className="mt-2">Powered by NeptuneMark</p>
+          <p>© 2025 NeptuneMark . All rights reserved.</p>
+          <p className="mt-2 text-blue-400">Powered by NeptuneMark</p>
         </div>
       </div>
 
