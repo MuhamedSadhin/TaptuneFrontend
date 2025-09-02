@@ -12,6 +12,8 @@ import { useAuthUser } from "@/hooks/tanstackHooks/useUserContext";
 export default function GoogleLoginButton() {
   const navigate = useNavigate();
   const { setUser } = useAuthUser();
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  // console.log("Base url :", BASE_URL);
 
   const login = useGoogleLogin({
     onSuccess: async (codeResponse) => {
@@ -20,7 +22,7 @@ export default function GoogleLoginButton() {
       console.log("Received Authorization Code:", code);
 
       try {
-        const res = await fetch("http://localhost:5000/api/auth/google", {
+        const res = await fetch(`${BASE_URL}api/auth/google`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ credential: code }),
