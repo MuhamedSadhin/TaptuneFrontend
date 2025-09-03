@@ -3,7 +3,8 @@
 import { FaUser } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { iconObj } from "@/assets/Icons/icons.jsx";
-
+import { HiMiniPhone, HiMiniEye } from "react-icons/hi2"; 
+import { HiMiniUser, HiMiniPencilSquare } from "react-icons/hi2"; // Heroicons 2
 
 export const ProfileCard = ({ profile }) => {
   const navigate = useNavigate();
@@ -61,12 +62,25 @@ export const ProfileCard = ({ profile }) => {
             <h2 className="text-xl sm:text-2xl font-bold text-gray-800 truncate">
               {fullName || "Unknown"}
             </h2>
+
             <p className="text-sm sm:text-md text-gray-500 truncate">
               {designation || "Professional"}
             </p>
-            <p className="text-sm sm:text-md text-gray-500 truncate mt-1">
+
+            {/* Phone Number */}
+            <p className="flex items-center justify-center gap-2 text-sm sm:text-md text-gray-500 truncate mt-1">
+              <HiMiniPhone className="w-4 h-4 text-blue-900" />
               {phoneNumber || "Not Provided"}
             </p>
+
+            {/* Profile Views */}
+            <div className="mt-2 flex items-center justify-center gap-2 text-gray-600">
+              <HiMiniEye className="w-5 h-5 text-purple-600" />
+              <span className="text-sm sm:text-md font-medium">
+                {profile?.profileViews || 0}{" "}
+                <span className="text-gray-500">views</span>
+              </span>
+            </div>
 
             {/* Social Media Icons */}
             <div className="flex justify-center mt-2">
@@ -111,18 +125,23 @@ export const ProfileCard = ({ profile }) => {
             </div>
 
             {/* Action Buttons */}
-            <div className="flex justify-center gap-3 mt-5">
+            <div className="flex justify-center gap-3 mt-3">
+              {/* View Profile */}
               <a
                 href={`#/profile?id=${viewId}`}
                 target="_blank"
-                className="bg-purple-600 text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-purple-700 transition duration-200"
+                className="flex items-center gap-2 bg-purple-600 text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-purple-700 transition duration-200"
               >
+                <HiMiniUser className="w-4 h-4" />
                 View Profile
               </a>
+
+              {/* Edit Profile */}
               <button
                 onClick={handleEditProfile}
-                className="border border-gray-300 text-gray-700 text-sm font-medium py-2 px-4 rounded-lg hover:bg-gray-100 transition duration-200"
+                className="flex items-center gap-2 border border-gray-300 text-gray-700 text-sm font-medium py-2 px-4 rounded-lg hover:bg-gray-100 transition duration-200"
               >
+                <HiMiniPencilSquare className="w-4 h-4" />
                 Edit Profile
               </button>
             </div>

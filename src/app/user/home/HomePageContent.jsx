@@ -332,6 +332,7 @@ const HomePage = () => {
   const {
     totalProfiles = 0,
     totalConnections = 0,
+    totalProfileViews=0,
     lastProfiles = [],
     lastConnections = [],
   } = data?.data || {};
@@ -381,7 +382,11 @@ const HomePage = () => {
                   link="/user/connections"
                   linkText="View Connects"
                 />
-                <StatCard title="Profile Views" value={10} icon={<Eye />} />
+                <StatCard
+                  title="Profile Views"
+                  value={totalProfileViews}
+                  icon={<Eye />}
+                />
               </div>
             </div>
           </div>

@@ -25,6 +25,7 @@ export const API_ENDPOINTS = {
     VIEWPROFILEBYTAP: "/api/profile/viewProfileByTap",
     EDITPROFILE: "/api/profile/editProfile",
     UPDATESTATUSOFPROFILE: "/api/profile/updateStatusOfProfile",
+    INCREMENTPROFILEVIEWS: "/api/profile/incrementProfileView",
   },
   CONNECTION: {
     VIEWALLCONNECTIONS: "/api/connection/viewAllConnections",

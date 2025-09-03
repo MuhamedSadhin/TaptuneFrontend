@@ -29,5 +29,13 @@ export const profileServices = {
     );
     return data;
   },
+  incrementProfileViews: async (id) => {
+    const { data } = await axiosInstance.post(
+      API_ENDPOINTS.PROFILE.INCREMENTPROFILEVIEWS,
+      {},
+      { params: { id } }
+    );
+    return data;
+  },
 };
 

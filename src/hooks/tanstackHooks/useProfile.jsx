@@ -35,3 +35,15 @@ export const useUpdateProfileStatus = () => {
     },
   });
 };
+
+export const useIncrementProfileViews = () => {
+    const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id) => profileServices.incrementProfileViews(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["allProfiles"]);
+    }
+  });
+  
+}

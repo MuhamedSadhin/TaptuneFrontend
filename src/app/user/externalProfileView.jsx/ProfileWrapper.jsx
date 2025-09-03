@@ -1,6 +1,6 @@
 "use client";
 
-import { useViewProfileByTap } from "@/hooks/tanstackHooks/useProfile";
+import { useIncrementProfileViews, useViewProfileByTap } from "@/hooks/tanstackHooks/useProfile";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { toast } from "sonner";
@@ -34,11 +34,23 @@ function ProfileWrapper() {
   } = useViewProfileByTap(viewId || "");
 
   const { mutate, isPending } = useConnectProfile();
+  const { mutate: incrementView } = useIncrementProfileViews(); // ✅ use increment hook
 
+  
   const profile = data?.data || null;
   console.log("Fetched profile data:", profile);
 
-  // ✅ Handle API error states only once
+useEffect(() => {
+  if (profile?._id) {
+    const timer = setTimeout(() => {
+      incrementView(profile._id);
+    }, 5000); 
+
+    return () => clearTimeout(timer);
+  }
+}, [profile?._id, incrementView]);
+
+  
   useEffect(() => {
     if (data?.success === false) {
       const status = data?.status;
@@ -83,11 +95,12 @@ function ProfileWrapper() {
     );
   };
 
-  if (isLoading) return (
-    <div className="flex items-center justify-center h-screen"> 
-      <Loader />
-    </div>
-  );
+  if (isLoading)
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Loader />
+      </div>
+    );
 
   if (data?.success === false && data?.status !== 403) {
     return (

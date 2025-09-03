@@ -102,6 +102,9 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+body{
+  scroll-behavior: smooth;
+}
 
 :root {
   --radius: 0.625rem;

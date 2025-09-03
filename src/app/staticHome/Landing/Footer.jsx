@@ -46,7 +46,11 @@ function Footer() {
           <div className="mt-4 flex flex-col items-center gap-2 sm:flex-row sm:gap-3">
             <div className="w-full">
               <label htmlFor="hero-input" className="sr-only">Subscribe</label>
-              <input type="text" id="hero-input" name="hero-input" className="py-3 px-4 block w-full border-transparent rounded-lg text-sm focus:border-mindaro-500 focus:ring-mindaro-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Enter your email"/>
+                    <input type="text" id="hero-input" name="hero-input" className=" w-full
+                        mt-1 p-3 px-4 rounded-md border-2 border-neutral-300 
+                        focus:outline-none focus:ring-2 focus:ring-raisin-black-700 focus:border-transparent
+                        hover:border-neutral-400 text-sm bg-transparent text-white"
+                    />
             </div>
             <button className="w-full sm:w-auto whitespace-nowrap p-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-mindaro-600  hover:bg-mindaro-700 focus:outline-none focus:bg-mindaro-700 disabled:opacity-50 disabled:pointer-events-none text-raisin-black">
               Subscribe
