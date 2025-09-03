@@ -494,22 +494,31 @@ const HomePage = () => {
 
 // Memoized Components
 const StatCard = memo(({ title, value, icon, link, linkText }) => (
-  <div className="flex flex-col bg-white/90 border rounded-xl shadow-lg backdrop-blur p-5">
+  <div className="flex flex-col bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 p-5 sm:p-6">
+    {/* Header */}
     <div className="flex justify-between items-center">
       <div>
-        <p className="text-xs uppercase tracking-wide text-gray-600">{title}</p>
-        <h3 className="text-2xl font-semibold text-gray-900">{value}</h3>
+        <p className="text-xs sm:text-sm uppercase tracking-wide text-gray-500">
+          {title}
+        </p>
+        <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mt-1">
+          {value}
+        </h3>
       </div>
-      <div className="flex justify-center items-center w-12 h-12 bg-violet-600 text-white rounded-full">
+
+      {/* Icon Wrapper */}
+      <div className="flex justify-center items-center w-12 h-12 sm:w-14 sm:h-14 bg-violet-600 text-white rounded-full shadow-md">
         {icon}
       </div>
     </div>
+
+    {/* Link */}
     {link && (
       <Link
         to={link}
-        className="mt-3 inline-flex justify-between items-center text-sm text-gray-900 hover:underline"
+        className="mt-4 inline-flex items-center gap-1 text-sm sm:text-base font-medium text-violet-600 hover:text-violet-700 transition-colors"
       >
-        {linkText} <HiChevronRight />
+        {linkText} <HiChevronRight className="w-4 h-4" />
       </Link>
     )}
   </div>
@@ -577,7 +586,12 @@ const ProfileItem = memo(({ profile }) => (
       target="_blank"
       rel="noopener noreferrer"
     >
-      <Button variant="outline">View</Button>
+      <Button
+        variant="outline"
+        className={"hover:bg-purple-600 hover:text-white"}
+      >
+        View
+      </Button>
     </a>
   </div>
 ));
