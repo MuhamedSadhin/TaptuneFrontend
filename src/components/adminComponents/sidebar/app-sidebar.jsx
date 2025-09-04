@@ -1,18 +1,15 @@
 import * as React from "react"
 import {
   GalleryVerticalEnd,
-  AudioWaveform,
   Command,
   SquareTerminal,
   Frame,
   Bot,
   Settings2,
   Map,
-  PieChart,
 } from "lucide-react";
 
 import { NavMain } from "@/components/adminComponents/sidebar/nav-main"
-import { NavProjects } from "@/components/adminComponents/sidebar/nav-projects";
 import { NavUser } from "@/components/adminComponents/sidebar/nav-user";
 import { TeamSwitcher } from "@/components/adminComponents/sidebar/team-switcher";
 import {
@@ -22,6 +19,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
+import {  Notification03Icon } from "hugeicons-react";
 
 // This is sample data.
 const data = {
@@ -67,6 +65,11 @@ const data = {
       title: "Enquiries",
       url: "/admin/enquiry",
       icon: Map,
+    },
+    {
+      title: "Notification",
+      url: "/admin/notification",
+      icon: Notification03Icon,
     },
     // {
     //   title: "Settings",

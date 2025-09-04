@@ -12,11 +12,12 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { ChevronLeft, ChevronRight, Copy, Loader2 } from "lucide-react";
+import { CheckCircle, ChevronLeft, ChevronRight, Copy, Loader2, XCircle } from "lucide-react";
 import { IoCheckboxOutline } from "react-icons/io5";
 import { RxCross1 } from "react-icons/rx";
 import { useGetAllUsers } from "@/hooks/tanstackHooks/useUser";
 import { useSendMessage } from "@/hooks/tanstackHooks/useWabtune";
+import Loader from "@/components/ui/Loader";
 
 const UserTable = () => {
   const [search, setSearch] = useState("");
@@ -95,50 +96,71 @@ const UserTable = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {/* Loading / No Results / Rows... */}
-          {users.map((user, index) => (
-            <TableRow key={user._id} className="border-t">
-              <TableCell>{index + 1 + (currentPage - 1) * limit}</TableCell>
-              <TableCell className="space-y-1">
-                <div className="font-medium">{user.name}</div>
-                <div className="text-xs text-gray-500">{user.email}</div>
+          {isLoading ? (
+            <TableRow>
+              <TableCell colSpan={7}>
+                <div className="flex flex-col items-center justify-center gap-3 mt-40">
+                  <Loader className="animate-spin h-6 w-6 text-gray-500" />
+                  {/* <span className="text-sm text-gray-500">Loading...</span> */}
+                </div>
               </TableCell>
-              <TableCell>{user.phoneNumber || "-"}</TableCell>
-              <TableCell>{user.email}</TableCell>
-              <TableCell className="text-center">
-                {user.isOrdered ? (
-                  <IoCheckboxOutline className="text-green-900 w-5 h-5 mx-auto" />
-                ) : (
-                  <RxCross1 className="text-red-900 w-5 h-5 mx-auto" />
-                )}
+            </TableRow>
+          ) : users.length === 0 ? (
+            <TableRow>
+              <TableCell colSpan={7}>
+                <div className="text-center text-gray-500 py-6">
+                  No users found
+                </div>
               </TableCell>
-              <TableCell className="text-center">
-                {user.isOrdered ? (
-                  <Button variant={"outline"}>Profile Ordered</Button>
-                ) : (
-                  <Button
-                    variant="primary"
-                    className="bg-green-700 text-white hover:bg-green-900"
-                    onClick={() => handleSendMessageClick(user)}
-                    disabled={
-                      sendingUserId === user._id &&
-                      sendMessageMutation.isPending
-                    }
-                  >
-                    {sendingUserId === user._id && sendMessageMutation.isPending
-                        ? <div  className="flex items-center gap-2">
+            </TableRow>
+          ) : (
+            users.map((user, index) => (
+              <TableRow key={user._id} className="border-t">
+                <TableCell>{index + 1 + (currentPage - 1) * limit}</TableCell>
+                <TableCell className="space-y-1">
+                  <div className="font-medium">{user.name}</div>
+                  <div className="text-xs text-gray-500">{user.email}</div>
+                </TableCell>
+                <TableCell>{user.phoneNumber || "-"}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell className="text-center">
+                  {user.isOrdered ? (
+                    <CheckCircle className="text-green-600 w-5 h-5 mx-auto" />
+                  ) : (
+                    <XCircle className="text-red-600 w-5 h-5 mx-auto" />
+                  )}
+                </TableCell>
+                <TableCell className="text-center">
+                  {user.isOrdered ? (
+                    <Button variant={"outline"}>Profile Ordered</Button>
+                  ) : (
+                    <Button
+                      variant="primary"
+                      className="bg-green-700 text-white hover:bg-green-900"
+                      onClick={() => handleSendMessageClick(user)}
+                      disabled={
+                        sendingUserId === user._id &&
+                        sendMessageMutation.isPending
+                      }
+                    >
+                      {sendingUserId === user._id &&
+                      sendMessageMutation.isPending ? (
+                        <div className="flex items-center gap-2">
                           <Loader2 className="animate-spin h-4 w-4 mx-auto" />
                           Sending...
                         </div>
-                      : "Send Message"}
-                  </Button>
-                )}
-              </TableCell>
-              <TableCell>
-                {new Date(user.createdAt).toLocaleDateString()}
-              </TableCell>
-            </TableRow>
-          ))}
+                      ) : (
+                        "Send Message"
+                      )}
+                    </Button>
+                  )}
+                </TableCell>
+                <TableCell>
+                  {new Date(user.createdAt).toLocaleDateString()}
+                </TableCell>
+              </TableRow>
+            ))
+          )}
         </TableBody>
       </Table>
 

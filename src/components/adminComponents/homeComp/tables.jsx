@@ -22,14 +22,15 @@ import { ChartAreaGradient } from "./ChartComp";
 import { useGetOrderAndUserForAdminHomePage } from "@/hooks/tanstackHooks/useOrder";
 import { useNavigate } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
+import Loader from "@/components/ui/Loader";
 
 export default function DashboardSection() {
   const { data, isLoading, isError } = useGetOrderAndUserForAdminHomePage();
   const navigate = useNavigate();
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center w-full h-64">
-        <p className="text-muted-foreground">Loading dashboard data...</p>
+      <div className="flex justify-center items-center h-screen">
+        <Loader className="animate-spin h-8 w-8" />
       </div>
     );
   }

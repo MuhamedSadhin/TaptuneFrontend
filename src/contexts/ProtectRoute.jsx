@@ -1,8 +1,8 @@
 
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Loader } from "lucide-react";
 import { useAuthUser } from "@/hooks/tanstackHooks/useUserContext";
+import Loader from "@/components/ui/Loader";
 
 function Protect({ children, requiredRole }) {
   const navigate = useNavigate();

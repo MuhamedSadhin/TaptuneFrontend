@@ -40,7 +40,7 @@ export default function CardOrder() {
   return (
     <div className="space-y-6">
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-1 rounded-2xl overflow-hidden">
         {isLoading
           ? Array.from({ length: 4 }).map((_, i) => (
               <Card key={i} className="shadow-sm">
@@ -54,18 +54,23 @@ export default function CardOrder() {
               </Card>
             ))
           : stats.map((stat, i) => (
-              <Card key={i} className="shadow-sm">
-                <CardHeader className="pb-2 flex flex-row items-center justify-between space-y-0">
-                  <CardTitle className="text-sm font-medium text-muted-foreground">
-                    {stat.label}
-                  </CardTitle>
-                  {stat.icon}
-                </CardHeader>
-                <CardContent className="flex items-center justify-between">
-                  <div className="text-2xl font-bold text-primary">
-                    {stat.value}
+              <Card
+                key={i}
+                className="rounded-none border-1"
+              >
+                <CardContent className="flex justify-between items-start">
+                  <div className="flex flex-col gap-1">
+                    <p className="text-sm font-semibold text-gray-600 tracking-wide">
+                      {stat.label}
+                    </p>
+                    <h3 className="text-3xl font-bold text-purple-600">
+                      {stat.value}
+                    </h3>
+                    <p className="text-sm text-gray-500">All student count</p>
                   </div>
-                  <Badge variant="outline">+88%</Badge>
+
+                  {/* Right side icon */}
+                  {stat.icon}
                 </CardContent>
               </Card>
             ))}

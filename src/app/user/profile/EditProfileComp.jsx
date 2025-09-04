@@ -18,6 +18,7 @@ import { uploadFileToFirebase } from "@/firebase/functions/uploadFileToFirebase"
 import { deleteFileFromFirebase } from "@/firebase/functions/deleteFileFromFirebase";
 import PhoneInput from "react-phone-input-2";
 import { LinkInputDialog } from "@/components/userComponents/profileComp/InputLinkDialog";
+import { FaUser } from "react-icons/fa6";
 
 const EditProfilePage = () => {
   const navigate = useNavigate();
@@ -258,7 +259,7 @@ const EditProfilePage = () => {
                 uploadedBanner
                   ? URL.createObjectURL(uploadedBanner)
                   : formData.banner ||
-                    "https://imgs.search.brave.com/frAubFGQzRQqLSUhbacPfS7Z3za8Fqzdf72doBo_tM0/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wMjcv/ODUxLzA4My9zbWFs/bC9ncmF5LWdyYWRp/ZW50LWJhY2tncm91/bmQtZGVzaWduLWZv/ci1mbHllci1iYW5u/ZXItZmx5ZXItZ3Jl/ZXRpbmctY2FyZC13/YWxscGFwZXItZnJl/ZS1waG90by5qcGc"
+                    "https://images.unsplash.com/photo-1557683316-973673baf926?auto=format&fit=crop&w=500&q=60"
               }
               alt="Banner"
             />
@@ -283,16 +284,19 @@ const EditProfilePage = () => {
             <div className="relative">
               <label htmlFor="profilePic">
                 <Avatar className="h-24 w-24 md:h-32 md:w-32 border-4 border-white shadow-xl rounded-full">
+
                   <AvatarImage
                     className="bg-white"
                     src={
                       uploadedProfilePic
                         ? URL.createObjectURL(uploadedProfilePic)
-                        : formData.profilePic ||
-                          "https://imgs.search.brave.com/4OxuyB1uojAnfYwCAh7G29FqAnVEYTpXjk6kBrGKuF8/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wMjAv/OTExLzczMi9zbWFs/bC9wcm9maWxlLWlj/b24tYXZhdGFyLWlj/b24tdXNlci1pY29u/LXBlcnNvbi1pY29u/LWZyZWUtcG5nLnBu/Zw"
+                        : formData.profilePic || ""
                     }
+                    alt="Profile Picture"
                   />
-                  <AvatarFallback className="text-3xl">MS</AvatarFallback>
+                  <AvatarFallback className={"bg-gray-900"}>
+                    <FaUser className="w-16 h-16 text-gray-400" />
+                  </AvatarFallback>
                 </Avatar>
                 <Button
                   size="icon"

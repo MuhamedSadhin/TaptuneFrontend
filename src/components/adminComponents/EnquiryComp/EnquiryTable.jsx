@@ -1,4 +1,5 @@
 "use client";
+import Loader from "@/components/ui/Loader";
 import {
   Table,
   TableBody,
@@ -42,9 +43,12 @@ export default function EnquiriesTable({
               <TableRow>
                 <TableCell
                   colSpan={6}
-                  className="text-center py-8 text-gray-500"
+                  className="text-center py-16 text-gray-500"
                 >
-                  Loading...
+                  <div className="flex flex-col items-center justify-center gap-3 mt-40">
+                    <Loader className="animate-spin h-6 w-6 text-gray-500" />
+                    <span className="text-sm text-gray-500">Loading...</span>
+                  </div>
                 </TableCell>
               </TableRow>
             ) : data.length > 0 ? (

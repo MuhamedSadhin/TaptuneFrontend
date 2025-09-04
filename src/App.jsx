@@ -24,6 +24,7 @@ import AboutPage from "./app/staticHome/AboutPage";
 import ContactPage from "./app/staticHome/ContactPage";
 import DocPage from "./app/staticHome/DocPage";
 import useSmoothScroll from "./hooks/tanstackHooks/useSmoothScroll";
+import NotificationsPage from "./app/admin/notification/NotificationsPage";
 
 
 function App() {
@@ -96,6 +97,7 @@ function App() {
           <Route path="card-list" element={<CardDesignTable />} />
           <Route path="admin-list" element={<AdminListPage />} />
           <Route path="enquiry" element={<EnquiriesPage />} />
+          <Route path="notification" element={<NotificationsPage />} />
         </Route>
       </Routes>
     </>

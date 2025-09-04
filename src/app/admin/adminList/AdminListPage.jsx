@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import AddAdminModal from "@/components/adminComponents/addAdmin/AddAdminModal";
 import { toast } from "sonner";
 import ChangeRoleModal from "./ChangeRoleModal";
+import Loader from "@/components/ui/Loader";
 
 // ✅ Simple debounce hook (inside the same page)
 function useDebounce(value, delay) {
@@ -40,7 +41,7 @@ export default function AdminListPage() {
 
   const debouncedSearch = useDebounce(search, 500);
 
-  const { data } = useGetAllAdmins({
+  const { data , isLoading } = useGetAllAdmins({
     search: debouncedSearch,
     role,
   });
@@ -111,7 +112,9 @@ export default function AdminListPage() {
                 </SelectContent>
               </Select>
             </div>
-            <Button className={"bg-purple-600"} onClick={handleAddAdminModal}>Create Admin</Button>
+            <Button className={"bg-purple-600"} onClick={handleAddAdminModal}>
+              Create Admin
+            </Button>
           </div>
 
           {/* 📋 Table */}
@@ -129,71 +132,84 @@ export default function AdminListPage() {
                 </tr>
               </thead>
               <tbody className="text-sm">
-                {admins
-                  .filter(
-                    (admin) => admin.email !== "neptunemarkindia@gmail.com"
-                  )
-                  .map((admin, idx) => (
-                    <tr key={idx} className="border-b hover:bg-muted/30">
-                      <td className="py-4 px-4 flex items-center gap-3">
-                        <div className="">
-                          <div className="font-medium">{admin.name}</div>
-                          <div className="text-xs text-muted-foreground">
-                            {admin.email}
+                {isLoading ? (
+                  <tr>
+                    <td colSpan={7} className="py-10">
+                      <div className="flex flex-col items-center justify-center gap-3 mt-5">
+                        <Loader className="animate-spin h-6 w-6 text-gray-500" />
+                        <span className="text-sm text-gray-500">
+                          Loading...
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                ) : (
+                  admins
+                    .filter(
+                      (admin) => admin.email !== "neptunemarkindia@gmail.com"
+                    )
+                    .map((admin, idx) => (
+                      <tr key={idx} className="border-b hover:bg-muted/30">
+                        <td className="py-4 px-4 flex items-center gap-3">
+                          <div>
+                            <div className="font-medium">{admin.name}</div>
+                            <div className="text-xs text-muted-foreground">
+                              {admin.email}
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                      <td className="py-4 px-4">{admin.role}</td>
-                      <td className="py-4 px-4">********</td>
-                      <td className="py-4 px-4">
-                        <Badge
-                          variant="outline"
-                          className={
-                            admin.isActive
-                              ? "bg-green-100 text-green-800 border-none w-16"
-                              : "bg-red-100 text-red-800 border-none w-16"
-                          }
-                        >
-                          {admin.isActive ? "Active" : "Inactive"}
-                        </Badge>
-                      </td>
-                      <td className="py-4 px-4">
-                        {admin.createdAt.slice(0, 10)}
-                      </td>
-                      <td className="py-4 px-4">
-                        <button
-                          className="text-violet-600 font-medium mr-4 hover:underline"
-                          onClick={() => {
-                            setIsChangeRoleModalOpen(true);
-                            setAdminToChangeRole(admin);
-                          }}
-                        >
-                          ChangeRole
-                        </button>
-                      </td>
-                      <td className="py-4 px-4 text-right">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          disabled={isPending}
-                          onClick={() => handleToggleStatus(admin)}
-                          className={
-                            admin.isActive
-                              ? "border-red-500 text-red-600 hover:bg-red-50"
-                              : "border-green-500 text-green-600 hover:bg-green-50"
-                          }
-                        >
-                          {admin.isActive ? "Deactivate" : "Activate"}
-                        </Button>
-                      </td>
-                    </tr>
-                  ))}
+                        </td>
+                        <td className="py-4 px-4">{admin.role}</td>
+                        <td className="py-4 px-4">********</td>
+                        <td className="py-4 px-4">
+                          <Badge
+                            variant="outline"
+                            className={
+                              admin.isActive
+                                ? "bg-green-100 text-green-800 border-none w-16"
+                                : "bg-red-100 text-red-800 border-none w-16"
+                            }
+                          >
+                            {admin.isActive ? "Active" : "Inactive"}
+                          </Badge>
+                        </td>
+                        <td className="py-4 px-4">
+                          {admin.createdAt.slice(0, 10)}
+                        </td>
+                        <td className="py-4 px-4">
+                          <button
+                            className="text-violet-600 font-medium mr-4 hover:underline"
+                            onClick={() => {
+                              setIsChangeRoleModalOpen(true);
+                              setAdminToChangeRole(admin);
+                            }}
+                          >
+                            ChangeRole
+                          </button>
+                        </td>
+                        <td className="py-4 px-4 text-right">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            disabled={isPending}
+                            onClick={() => handleToggleStatus(admin)}
+                            className={
+                              admin.isActive
+                                ? "border-red-500 text-red-600 hover:bg-red-50"
+                                : "border-green-500 text-green-600 hover:bg-green-50"
+                            }
+                          >
+                            {admin.isActive ? "Deactivate" : "Activate"}
+                          </Button>
+                        </td>
+                      </tr>
+                    ))
+                )}
               </tbody>
             </table>
           </div>
 
           <div className="text-sm text-muted-foreground mt-4">
-            {admins.length -1} results found
+            {admins.length - 1} results found
           </div>
         </CardContent>
       </Card>

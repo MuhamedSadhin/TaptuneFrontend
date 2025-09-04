@@ -48,4 +48,7 @@ export const API_ENDPOINTS = {
   WABTUNE: {
     SENDMESSAGE: "/api/wabtune/sendWabtuneMessage",
   },
+  NOTIFICATION: {
+    GETALLNOTIFICATIONS: "/api/notification/getAllNotifications",
+  },
 };

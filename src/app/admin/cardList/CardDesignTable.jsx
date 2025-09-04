@@ -26,9 +26,10 @@ import { deleteFileFromFirebase } from "@/firebase/functions/deleteFileFromFireb
 import { uploadFileToFirebase } from "@/firebase/functions/uploadFileToFirebase";
 import { formatDistanceToNow } from "date-fns";
 import { Badge } from "@/components/ui/badge";
+import Loader from "@/components/ui/Loader";
 
 export default function CardDesignTable() {
-  const { data } = useGetAllCards();
+  const { data , isPending} = useGetAllCards();
   const cardData = useMemo(() => data?.data || [], [data]);
 
   const [searchText, setSearchText] = useState("");
@@ -222,63 +223,85 @@ const handleSubmit = async (cardData) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredCards.map((card, index) => (
-              <TableRow key={index} className="hover:bg-accent/40">
-                <TableCell className="px-4 py-2">
-                  <img
-                    src={card.frontImage}
-                    alt="card design"
-                    className="h-13 w-21 rounded-md object-cover"
-                  />
-                </TableCell>
-                <TableCell className="px-4 py-2 font-semibold">
-                  {card.cardName}
-                </TableCell>
-                <TableCell className="px-4 py-2">{card.category}</TableCell>
-                <TableCell className="px-4 py-2">₹ {card.price}</TableCell>
-                <TableCell className="px-4 py-2">
-                  {card.createdAt
-                    ? formatDistanceToNow(new Date(card.createdAt), {
-                        addSuffix: true,
-                      })
-                    : "-"}
-                </TableCell>
-
-                <TableCell className="px-4 py-2">
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    onClick={() => handleOpenEdit(card)}
-                  >
-                    Edit
-                  </Button>
-                </TableCell>
-                <TableCell className="px-4 py-2">
-                  <Badge className={card.isActive ? "bg-green-800 border-none w-16"
-                    : "bg-red-600  border-none w-16"}>
-                    
-                    {card.isActive ? "Active" : "Inactive"}
-                    </Badge>
-                </TableCell>
-                <TableCell className="px-4 py-2 text-right">
-                  <Button
-                    variant={"default"}
-                    className={card.isActive ?
-                      "w-25 bg-red-600 text-white hover:bg-red-700 focus:ring-2 focus:ring-red-400"
-                      : "w-25 bg-green-700 text-white hover:bg-green-900"}
-                    size="sm"
-                    onClick={() => handleToggleStatus(card)}
-                    disabled={statusUpdating}
-                  >
-                    {statusUpdating
-                      ? "Updating..."
-                      : card.isActive
-                      ? "Deactivate"
-                      : "Activate"}
-                  </Button>
+            {isPending ? (
+              <TableRow>
+                <TableCell colSpan={8} className="py-10">
+                  <div className="flex flex-col items-center justify-center gap-3 mt-20">
+                    <Loader className="animate-spin h-6 w-6 text-gray-500" />
+                  </div>
                 </TableCell>
               </TableRow>
-            ))}
+            ) : filteredCards.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={8} className="text-center py-6 text-sm">
+                  No card designs found.
+                </TableCell>
+              </TableRow>
+            ) : (
+              filteredCards.map((card, index) => (
+                <TableRow key={index} className="hover:bg-accent/40">
+                  <TableCell className="px-4 py-2">
+                    <img
+                      src={card.frontImage}
+                      alt="card design"
+                      className="h-13 w-21 rounded-md object-cover"
+                    />
+                  </TableCell>
+                  <TableCell className="px-4 py-2 font-semibold">
+                    {card.cardName}
+                  </TableCell>
+                  <TableCell className="px-4 py-2">{card.category}</TableCell>
+                  <TableCell className="px-4 py-2">₹ {card.price}</TableCell>
+                  <TableCell className="px-4 py-2">
+                    {card.createdAt
+                      ? formatDistanceToNow(new Date(card.createdAt), {
+                          addSuffix: true,
+                        })
+                      : "-"}
+                  </TableCell>
+
+                  <TableCell className="px-4 py-2">
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      onClick={() => handleOpenEdit(card)}
+                    >
+                      Edit
+                    </Button>
+                  </TableCell>
+                  <TableCell className="px-4 py-2">
+                    <Badge
+                      className={
+                        card.isActive
+                          ? "bg-green-800 border-none w-16"
+                          : "bg-red-600  border-none w-16"
+                      }
+                    >
+                      {card.isActive ? "Active" : "Inactive"}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="px-4 py-2 text-right">
+                    <Button
+                      variant={"default"}
+                      className={
+                        card.isActive
+                          ? "w-25 bg-red-600 text-white hover:bg-red-700 focus:ring-2 focus:ring-red-400"
+                          : "w-25 bg-green-700 text-white hover:bg-green-900"
+                      }
+                      size="sm"
+                      onClick={() => handleToggleStatus(card)}
+                      disabled={statusUpdating}
+                    >
+                      {statusUpdating
+                        ? "Updating..."
+                        : card.isActive
+                        ? "Deactivate"
+                        : "Activate"}
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
             {filteredCards.length === 0 && (
               <TableRow>
                 <TableCell colSpan={7} className="text-center py-6 text-sm">

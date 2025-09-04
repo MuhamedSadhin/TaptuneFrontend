@@ -8,6 +8,7 @@ import { Loader2 } from "lucide-react";
 import PrintingDetailsModal from "./PrintingDetailsModal";
 import { useUpdateProfileStatus } from "@/hooks/tanstackHooks/useProfile";
 import { toast } from "sonner";
+import Loader from "@/components/ui/Loader";
 
 const PER_PAGE = 10;
 
@@ -95,10 +96,10 @@ const OrderTable = () => {
       </div>
 
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-center gap-3">
-        <div>
-          <h2 className="text-xl font-semibold text-gray-800">Orders</h2>
-          <p className="text-sm text-gray-500">Manage and review all orders</p>
+      <div className="flex flex-col justify-start items-start md:flex-row md:justify-between md:items-center gap-3">
+        <div className="mb-4 sm:mb-0">
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">Orders</h1>
+          <p className="text-gray-600">Manage and review all orders</p>
         </div>
         <Input
           placeholder="Search name, email, or designation..."
@@ -126,8 +127,10 @@ const OrderTable = () => {
           <tbody className="text-gray-700">
             {isLoading ? (
               <tr>
-                <td colSpan={8} className="text-center p-6">
-                  <Loader2 className="animate-spin inline-block text-gray-500" />
+                <td colSpan={8} className="p-6">
+                  <div className="flex flex-col items-center justify-center gap-3 mt-40">
+                    <Loader className="animate-spin h-6 w-6 text-gray-500" />
+                  </div>
                 </td>
               </tr>
             ) : orders.length > 0 ? (
@@ -192,7 +195,7 @@ const OrderTable = () => {
                           ? "bg-red-600 text-white hover:bg-red-700 focus:ring-2 focus:ring-red-400"
                           : "bg-green-700 text-white hover:bg-green-900"
                       }`}
-                      disabled={(updatingId === order.profileId) && isPending} // only disable current one
+                      disabled={updatingId === order.profileId && isPending} // only disable current one
                       onClick={() =>
                         changeStatusOfActiveAndDeActive(
                           order.profileId,
