@@ -1,207 +1,3 @@
-// "use client";
-
-// import { useState } from "react";
-// import { Button } from "@/components/ui/button";
-// import "react-phone-input-2/lib/style.css";
-// import {
-//   Card,
-//   CardContent,
-//   CardDescription,
-//   CardHeader,
-//   CardTitle,
-// } from "@/components/ui/card";
-// import { Input } from "@/components/ui/input";
-// import { Label } from "@/components/ui/label";
-// import GoogleLoginButton from "./GoogleLoginButton";
-// import { useSignup } from "@/hooks/tanstackHooks/useAuth"; // your mutation hook
-// import { toast } from "sonner";
-// import { Loader2 } from "lucide-react";
-// import PhoneInput from "react-phone-input-2";
-
-// export function SignupForm({ onSwitch }) {
-//   const [formData, setFormData] = useState({
-//     name: "",
-//     email: "",
-//     phoneNumber: "",
-//     password: "",
-//     confirmPassword: "",
-//     terms: false,
-//   });
-
-//   const {mutate:signupMutation, isPending} = useSignup();
-
-//   const handleChange = (e) => {
-//     const { id, value, type, checked } = e.target;
-//     setFormData((prev) => ({
-//       ...prev,
-//       [id]: type === "checkbox" ? checked : value,
-//     }));
-//   };
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-
-//     if (formData.password !== formData.confirmPassword) {
-//       toast.error("Passwords do not match");
-//       return;
-//     }
-
-//     if (!formData.terms) {
-//       toast.error("You must agree to Terms & Privacy Policy");
-//       return;
-//     }
-
-//     signupMutation(
-//       {
-//         name: formData.name,
-//         email: formData.email,
-//         phoneNumber: formData.phoneNumber,
-//         password: formData.password,
-//       },
-//       {
-//         onSuccess: (res) => {
-//           if (res.success) {
-//             toast.success("Account created successfully!");
-//             onSwitch?.();
-//           } else {
-//             toast.error(res.message || "Something went wrong");
-//           }
-//         },
-//         onError: (error) => {
-//           toast.error(error?.response?.data?.message || "Signup failed");
-//         },
-//       }
-//     );
-//   };
-
-//   return (
-//     <div className="flex flex-col gap-6">
-//       <Card>
-//         <CardHeader className="text-center">
-//           <CardTitle className="text-xl">Create account</CardTitle>
-//           <CardDescription>Join TapTune and start networking</CardDescription>
-//         </CardHeader>
-//         <CardContent>
-//           <form onSubmit={handleSubmit}>
-//             <div className="grid gap-6">
-//               <div className="grid gap-4">
-//                 <div className="grid gap-2">
-//                   <Label htmlFor="name">Full name</Label>
-//                   <Input
-//                     id="name"
-//                     type="text"
-//                     placeholder="John Doe"
-//                     required
-//                     value={formData.name}
-//                     onChange={handleChange}
-//                   />
-//                 </div>
-//                 <div className="grid gap-2">
-//                   <Label htmlFor="email">Email address</Label>
-//                   <Input
-//                     id="email"
-//                     type="email"
-//                     placeholder="john@example.com"
-//                     required
-//                     value={formData.email}
-//                     onChange={handleChange}
-//                   />
-//                 </div>
-//                 <div className="grid gap-2">
-//                   <Label htmlFor="phoneNumber">Phone number</Label>
-//                   <Input
-//                     id="phoneNumber"
-//                     type="tel"
-//                     placeholder="+1 (555) 123-4567"
-//                     required
-//                     value={formData.phoneNumber}
-//                     onChange={handleChange}
-//                   />
-//                 </div>
-//                 <div className="grid gap-2 md:grid-cols-2 md:gap-6">
-//                   <div className="grid gap-2">
-//                     <Label htmlFor="password">Password</Label>
-//                     <Input
-//                       id="password"
-//                       type="password"
-//                       placeholder="Password"
-//                       required
-//                       value={formData.password}
-//                       onChange={handleChange}
-//                     />
-//                   </div>
-//                   <div className="grid gap-2">
-//                     <Label htmlFor="confirmPassword">Confirm password</Label>
-//                     <Input
-//                       id="confirmPassword"
-//                       type="password"
-//                       placeholder="Confirm"
-//                       required
-//                       value={formData.confirmPassword}
-//                       onChange={handleChange}
-//                     />
-//                   </div>
-//                 </div>
-
-//                 <div className="flex items-start space-x-2 text-sm text-muted-foreground">
-//                   <input
-//                     type="checkbox"
-//                     id="terms"
-//                     checked={formData.terms}
-//                     onChange={handleChange}
-//                     className="mt-1"
-//                   />
-//                   <label htmlFor="terms" className="text-left">
-//                     I agree to the{" "}
-//                     <a
-//                       href="#"
-//                       className="underline underline-offset-4 hover:text-primary"
-//                     >
-//                       Terms
-//                     </a>{" "}
-//                     and{" "}
-//                     <a
-//                       href="#"
-//                       className="underline underline-offset-4 hover:text-primary"
-//                     >
-//                       Privacy Policy
-//                     </a>
-//                     .
-//                   </label>
-//                 </div>
-
-//                 <Button type="submit" className="w-full" disabled={isPending}>
-//                   {isPending ? (
-//                     <div className="flex items-center justify-center">
-//                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-//                       Signing up...
-//                     </div>
-//                   ) : (
-//                     "Sign up"
-//                   )}
-//                 </Button>
-//               </div>
-//             </div>
-//           </form>
-
-//           <div className="flex justify-center mt-3 mb-5">
-//             <GoogleLoginButton />
-//           </div>
-//           <div className="text-center text-sm">
-//             Already have an account?{" "}
-//             <button
-//               type="button"
-//               onClick={onSwitch}
-//               className="underline underline-offset-4 text-primary"
-//             >
-//               Login
-//             </button>
-//           </div>
-//         </CardContent>
-//       </Card>
-//     </div>
-//   );
-// }
 
 
 
@@ -234,6 +30,7 @@ export function SignupForm({ onSwitch }) {
     phoneNumber: "",
     password: "",
     confirmPassword: "",
+    accountType: "personal", 
     terms: false,
   });
 
@@ -283,6 +80,7 @@ export function SignupForm({ onSwitch }) {
         email: formData.email,
         phoneNumber: formData.phoneNumber,
         password: formData.password,
+        accountType: formData.accountType,
       },
       {
         onSuccess: (res) => {
@@ -355,6 +153,72 @@ export function SignupForm({ onSwitch }) {
                 buttonClass="!border !border-input !rounded-l-md"
                 dropdownClass="max-h-60 overflow-y-auto"
               />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="accountType">Account Type</Label>
+              <div className="flex space-x-4 border border-gray-300 rounded-lg p-2 bg-gray-50">
+                {/* Personal Use Radio */}
+                <div
+                  className={`flex items-center p-3 rounded-lg flex-1 cursor-pointer transition-all ${
+                    formData.accountType === "personal"
+                      ? "bg-purple-100 ring-2 ring-purple-500"
+                      : "hover:bg-gray-100"
+                  }`}
+                  onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      accountType: "personal",
+                    }))
+                  }
+                >
+                  <input
+                    type="radio"
+                    id="personal"
+                    name="accountType"
+                    value="personal"
+                    checked={formData.accountType === "personal"}
+                    onChange={handleChange}
+                    className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 cursor-pointer"
+                  />
+                  <Label
+                    htmlFor="personal"
+                    className="ml-3 mb-0 font-semibold text-gray-700 cursor-pointer"
+                  >
+                      Personal  Use
+                  </Label>
+                </div>
+
+                {/* Business Use Radio */}
+                <div
+                  className={`flex items-center p-3 rounded-lg flex-1 cursor-pointer transition-all ${
+                    formData.accountType === "business"
+                      ? "bg-purple-100 ring-2 ring-purple-500"
+                      : "hover:bg-gray-100"
+                  }`}
+                  onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      accountType: "business",
+                    }))
+                  }
+                >
+                  <input
+                    type="radio"
+                    id="business"
+                    name="accountType"
+                    value="business"
+                    checked={formData.accountType === "business"}
+                    onChange={handleChange}
+                    className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 cursor-pointer"
+                  />
+                  <Label
+                    htmlFor="business"
+                    className="ml-3 mb-0 font-semibold text-gray-700 cursor-pointer"
+                  >
+                     For  Business 
+                  </Label>
+                </div>
+              </div>
             </div>
 
             {/* Password + Confirm */}

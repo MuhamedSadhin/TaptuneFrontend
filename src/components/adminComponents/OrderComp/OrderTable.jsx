@@ -52,7 +52,7 @@ const OrderTable = () => {
     setPage(1);
   };
 
-  const tabs = ["all", "Pending", "Confirmed", "Design Completed", "Delivered"];
+  const tabs = ["all","Pending","Confirmed","Design Completed","Delivered"];
 
 
   const changeStatusOfActiveAndDeActive = (id, status) => {
@@ -62,9 +62,7 @@ const OrderTable = () => {
       {
         onSuccess: (res) => {
           if (res.success) {
-            toast.success(
-              `Profile ${status ? "Activated" : "Deactivated"} successfully`
-            );
+            toast.success(`Profile ${status ? "Activated" : "Deactivated"} successfully`);
           } else {
             toast.error(res.message);
           }
@@ -119,8 +117,8 @@ const OrderTable = () => {
               <th className="px-4 py-3 text-left">Position</th>
               <th className="px-4 py-3 text-left">Order Status</th>
               <th className="px-4 py-3 text-left">Profile</th>
-              <th className="px-4 py-3 text-left">Created</th>
               <th className="px-4 py-3 text-left">Active</th>
+              <th className="px-4 py-3 text-left">Created</th>
               <th className="px-4 py-3 text-left">View</th>
             </tr>
           </thead>
@@ -181,13 +179,6 @@ const OrderTable = () => {
                       {order.isActive ? "Active" : "Inactive"}
                     </Badge>
                   </td>
-                  <td className="px-4 py-3 text-gray-600 w-30">
-                    {new Date(order.createdAt).toLocaleDateString("en-IN", {
-                      day: "numeric",
-                      month: "short",
-                      year: "numeric",
-                    })}
-                  </td>
                   <td className="px-4 py-3 flex justify-center items-center">
                     <Button
                       className={`text-sm font-medium px-3 py-1 rounded-md transition-colors w-25 flex items-center gap-2 ${
@@ -213,6 +204,13 @@ const OrderTable = () => {
                         "Activate"
                       )}
                     </Button>
+                  </td>
+                  <td className="px-4 py-3 text-gray-600 w-30">
+                    {new Date(order.createdAt).toLocaleDateString("en-IN", {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
+                    })}
                   </td>
 
                   <td className="px-4 py-3">

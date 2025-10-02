@@ -30,6 +30,7 @@ export const API_ENDPOINTS = {
   CONNECTION: {
     VIEWALLCONNECTIONS: "/api/connection/viewAllConnections",
     MAKECONNECTION: "/api/connection/makeConnection",
+    UPDATECONNECTIONLEADLABEL: "/api/connection/updateConnectionLeadLabel",
   },
   ORDER: {
     GETALLORDERS: "/api/order/getAllOrders",

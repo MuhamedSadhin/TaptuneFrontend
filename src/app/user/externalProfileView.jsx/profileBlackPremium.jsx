@@ -13,45 +13,8 @@ import gmailIcon from "@/assets/Icons/gmail-icon.svg";
 import WhatsAppIcon from "@/assets/Icons/whatsapp-icon.svg";
 import { IoCallOutline } from "react-icons/io5";
 
-function ProfilePremiumBlack({ profile }) {
-  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
-  const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    designation: "",
-  });
+function ProfilePremiumBlack({ profile, onOpenShareModal }) {
 
-  const { mutate, isPending } = useConnectProfile();
-
-  const handleConnectSubmit = () => {
-    const { fullName, email, phone, designation } = formData;
-
-    if (!fullName || !email || !phone || !designation) {
-      toast.error("Please fill in all the fields");
-      return;
-    }
-
-    mutate(
-      {
-        viewId: profile?.viewId,
-        name: fullName,
-        email,
-        phoneNumber: phone,
-        designation,
-      },
-      {
-        onSuccess: () => {
-          toast.success("Connection successful");
-          setIsShareModalOpen(false);
-          setFormData({});
-        },
-        onError: (err) => {
-          toast.error(err?.response?.data?.message || "Failed to connect");
-        },
-      }
-    );
-  };
 
   const handleAddToContact = () => {
     if (!profile) return;
@@ -73,11 +36,6 @@ END:VCARD`;
     URL.revokeObjectURL(url);
     toast.success("Contact added successfully");
   };
-
-  const joinDate = new Date().toLocaleDateString("en-US", {
-    month: "short",
-    year: "numeric",
-  });
 
   return (
     <div className="w-full min-h-screen bg-gray-900">
@@ -146,14 +104,13 @@ END:VCARD`;
             Add to Contact
           </button>
           <button
-            onClick={() => setIsShareModalOpen(true)}
+            onClick={onOpenShareModal}
             className="px-6 py-3 bg-purple-600 rounded-full hover:bg-purple-700 transition-colors shadow-md text-sm sm:text-base"
           >
             Connect with me
           </button>
         </div>
 
-        {/* Contact Info */}
         {/* Contact Info */}
         <div className="mb-12">
           <h2 className="text-2xl font-semibold text-center mb-6">
@@ -244,20 +201,6 @@ END:VCARD`;
           <p className="mt-2 text-blue-400">Powered by NeptuneMark</p>
         </div>
       </div>
-
-      {isShareModalOpen && (
-        <ShareInfoModal
-          open={isShareModalOpen}
-          onClose={() => {
-            setIsShareModalOpen(false);
-            setFormData({});
-          }}
-          formData={formData}
-          setFormData={setFormData}
-          onSubmit={handleConnectSubmit}
-          loading={isPending}
-        />
-      )}
     </div>
   );
 }

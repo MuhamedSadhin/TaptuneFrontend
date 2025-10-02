@@ -17,5 +17,13 @@ export const connectionServices = {
     );
     return data;
   },
+  updateConnectionLabel: async ({ connectionId, leadLabel }) => {
+    const { data } = await axiosInstance.post(
+      API_ENDPOINTS.CONNECTION.UPDATECONNECTIONLEADLABEL,
+      { label: leadLabel },
+      { params: { connectionId } }
+    );
+    return data;
+  }
 };
 

@@ -30,7 +30,7 @@ import NotificationsPage from "./app/admin/notification/NotificationsPage";
 function App() {
   const location = useLocation();
 
-  const enableSmoothScroll = ["/", "/profile","/about-us", "/contact", "/docs","/profile/preview"].includes(
+  const enableSmoothScroll = ["/","/about-us", "/contact", "/docs","/profile/preview"].includes(
     location.pathname
   );
 

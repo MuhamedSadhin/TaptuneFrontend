@@ -9,6 +9,15 @@ import { formatDistanceToNow } from "date-fns";
 import { Link } from "react-router-dom";
 import { downloadVCard } from "@/utils/contactSave";
 
+// CRM-focused color mapping (Teal for New, Green for Hot, Red for Cold)
+const statusColors = {
+  New: "bg-teal-100 text-teal-800 border-teal-200",
+  Hot: "bg-green-100 text-green-800 border-green-200",
+  Warm: "bg-yellow-100 text-yellow-800 border-yellow-200",
+  Cold: "bg-red-100 text-red-800 border-red-200",
+  "Follow-up": "bg-purple-100 text-purple-800 border-purple-200",
+};
+
 const ConnectionCard = ({ connection }) => {
   const {
     id,
@@ -22,18 +31,22 @@ const ConnectionCard = ({ connection }) => {
     isSaved,
     connectedAt,
     location,
+    leadLabel,
   } = connection;
 
-  console.log("ConnectionCard:", connection);
-  
+  const currentLeadLabel = leadLabel || "New";
+  const statusClass = statusColors[currentLeadLabel] || statusColors.New;
 
   return (
     <Card className="w-full max-w-sm mx-auto bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-gray-100">
-      <CardContent className="">
-        {/* Header with Avatar and Online Status */}
+      <CardContent className="p-5">
+        {/* TOP HEADER ROW: AVATAR/NAME on left, STATUS BADGE on right */}
         <div className="flex items-start justify-between mb-4">
-          <div className="flex items-center space-x-3">
-            <div className="relative">
+          {/* LEFT: Avatar and Name/Email */}
+          <div className="flex items-start space-x-3 flex-grow min-w-0">
+            {" "}
+            {/* Use flex-grow and min-w-0 */}
+            <div className="relative flex-shrink-0">
               <Avatar className="w-12 h-12 border-2 border-gray-100">
                 <AvatarImage
                   src={avatar || "/placeholder.svg"}
@@ -52,63 +65,72 @@ const ConnectionCard = ({ connection }) => {
               )}
             </div>
             <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-gray-900 text-lg truncate">
+              {" "}
+              {/* flex-1 to allow text to grow, min-w-0 for truncation */}
+              <h3 className="font-bold text-gray-900 text-lg truncate">
                 {name}
               </h3>
               <p className="text-sm text-gray-500 truncate">{email}</p>
             </div>
           </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="h-8 w-8 p-0 text-gray-400 hover:text-gray-600"
-          >
-            <MoreVertical className="w-4 h-4" />
-          </Button>
+
+          {/* RIGHT: LEAD STATUS BADGE - Pushed to right with ml-auto */}
+          <div className="flex-shrink-0 pt-1 ml-auto">
+            {" "}
+            {/* ml-auto pushes it right, pt-1 for vertical alignment */}
+            <Badge
+              variant="secondary"
+              className={`font-bold uppercase text-xs tracking-wider border ${statusClass}`}
+            >
+              {currentLeadLabel}
+            </Badge>
+          </div>
         </div>
 
-        {/* Designation and Company */}
-        <div className="mb-4">
+        {/* Designation and Connected Time */}
+        <div className="mb-4 pt-2 border-t border-gray-100">
           <Badge
             variant="secondary"
-            className="bg-blue-50 text-blue-700 hover:bg-blue-100 mb-2"
+            className="bg-gray-100 text-gray-700 hover:bg-gray-200 mb-2"
           >
-            {designation}
+            {designation || "No Designation"}
           </Badge>
-          <p className="text-sm text-gray-600">
-            • {formatDistanceToNow(new Date(connectedAt), { addSuffix: true })}
+          <p className="text-sm text-gray-500 mt-1">
+            • Connected{" "}
+            {formatDistanceToNow(new Date(connectedAt), { addSuffix: true })}
           </p>
         </div>
 
         {/* Contact Information */}
-        <div className="space-y-2 mb-4">
-          <div className="flex items-center space-x-2 text-sm text-gray-600">
-            <Phone className="w-4 h-4 text-gray-400" />
-            <span>{phoneNumber}</span>
+        <div className="space-y-3 mb-5 border-t pt-4 border-gray-100">
+          <div className="flex items-center space-x-3 text-sm text-gray-700">
+            <Phone className="w-4 h-4 text-gray-500" />
+            <span className="font-medium">{phoneNumber || "N/A"}</span>
           </div>
-          <div className="flex items-center space-x-2 text-sm text-gray-600">
-            <Mail className="w-4 h-4 text-gray-400" />
-            <span className="truncate">{email}</span>
+          <div className="flex items-center space-x-3 text-sm text-gray-700">
+            <Mail className="w-4 h-4 text-gray-500" />
+            <span className="truncate font-medium">{email}</span>
           </div>
-          <div className="flex items-center space-x-2 text-sm text-gray-600">
-            <Calendar className="w-4 h-4 text-gray-400" />
+          <div className="flex items-center space-x-3 text-sm text-gray-600">
+            <Calendar className="w-4 h-4 text-gray-500" />
             <div className="text-sm text-muted-foreground">
-              Connected on{" "}
+              Viewed Profile:{" "}
               <Link
                 to={`/profile?id=${viewId}`}
                 target="_blank"
-                className="text-primary hover:underline font-medium"
+                className="text-purple-600 hover:text-purple-700 hover:underline font-semibold"
               >
-                this profile
+                Go to Profile
               </Link>
             </div>
           </div>
         </div>
 
+        {/* Action Button */}
         <div className="flex space-x-2">
           <Button
             onClick={() => downloadVCard(connection)}
-            className={`flex-1 ${
+            className={`flex-1 font-semibold ${
               isSaved
                 ? "bg-green-600 hover:bg-green-700 text-white"
                 : "bg-purple-600 hover:bg-purple-700 text-white"
@@ -117,7 +139,7 @@ const ConnectionCard = ({ connection }) => {
             <Bookmark
               className={`w-4 h-4 mr-2 ${isSaved ? "fill-current" : ""}`}
             />
-            {isSaved ? "Saved" : "Save Contact"}
+            {isSaved ? "Contact Saved" : "Save Contact"}
           </Button>
         </div>
       </CardContent>

@@ -533,7 +533,7 @@ const ConnectionItem = memo(({ connection }) => (
         </AvatarFallback>
       </Avatar>
       <div className="flex flex-col min-w-0">
-        <p className="font-medium truncate">{connection.name}</p>
+        <p className="font-medium truncate">{connection.fullName}</p>
         <p className="text-sm text-gray-600 truncate">
           {connection.designation}
         </p>
