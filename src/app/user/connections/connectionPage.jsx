@@ -139,16 +139,6 @@ export default function ConnectionsPage() {
               )}
 
               {/* Search Input */}
-              <div className="relative w-full sm:w-64">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                <Input
-                  type="text"
-                  placeholder="Search connections..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 w-full bg-white"
-                />
-              </div>
 
               {/* Download Button */}
               <DownloadConnectionsDialog
@@ -161,34 +151,46 @@ export default function ConnectionsPage() {
             </div>
 
             {/* Row 2: View Mode Switch */}
-            <div className="inline-flex self-end md:self-end rounded-md border gap-2 bg-white p-1">
-              <Button
-                size="sm"
-                variant={"ghost"}
-                className={`transition-colors ${
-                  viewMode === "table"
-                    ? "bg-purple-600 text-white hover:bg-purple-700 hover:text-white"
-                    : " hover:bg-gray-100"
-                }`}
-                onClick={() => setViewMode("table")}
-              >
-                <TableIcon className="h-4 w-4 sm:mr-2" />
-                <span className="hidden sm:inline">Table</span>
-              </Button>
+            <div className="flex justify-between w-full">
+              <div className="relative w-full sm:w-64">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Input
+                  type="text"
+                  placeholder="Search connections..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 w-full bg-white"
+                />
+              </div>
+              <div className="inline-flex self-end md:self-end rounded-md border gap-2 bg-white p-1">
+                <Button
+                  size="sm"
+                  variant={"ghost"}
+                  className={`transition-colors ${
+                    viewMode === "table"
+                      ? "bg-purple-600 text-white hover:bg-purple-700 hover:text-white"
+                      : " hover:bg-gray-100"
+                  }`}
+                  onClick={() => setViewMode("table")}
+                >
+                  <TableIcon className="h-4 w-4 sm:mr-2" />
+                  <span className="hidden sm:inline">Table</span>
+                </Button>
 
-              <Button
-                size="sm"
-                variant={"ghost"}
-                className={`transition-colors ${
-                  viewMode === "card"
-                    ? "bg-purple-600 text-white hover:bg-purple-700 hover:text-white"
-                    : " hover:bg-gray-100"
-                }`}
-                onClick={() => setViewMode("card")}
-              >
-                <LayoutGrid className="h-4 w-4 sm:mr-2" />
-                <span className="hidden sm:inline">Cards</span>
-              </Button>
+                <Button
+                  size="sm"
+                  variant={"ghost"}
+                  className={`transition-colors ${
+                    viewMode === "card"
+                      ? "bg-purple-600 text-white hover:bg-purple-700 hover:text-white"
+                      : " hover:bg-gray-100"
+                  }`}
+                  onClick={() => setViewMode("card")}
+                >
+                  <LayoutGrid className="h-4 w-4 sm:mr-2" />
+                  <span className="hidden sm:inline">Cards</span>
+                </Button>
+              </div>
             </div>
           </div>
         </div>

@@ -86,14 +86,16 @@ END:VCARD`;
         </div>
 
         {/* Bio Section */}
-        <div className="mb-12 mx-4">
-          <h2 className="text-2xl font-semibold text-center mb-4 ">Bio</h2>
-          <div className="bg-gray-800/50 p-6 rounded-2xl shadow-md text-center max-w-2xl mx-auto">
-            <p className="text-gray-300">
-              {profile?.bio?.trim() || "No bio provided yet."}
-            </p>
+        {profile?.bio && profile.bio.trim() !== "" && (
+          <div className="mb-12 mx-4">
+            <h2 className="text-2xl font-semibold text-center mb-4 ">Bio</h2>
+            <div className="bg-gray-800/50 p-6 rounded-2xl shadow-md text-center max-w-2xl mx-auto">
+              <p className="text-gray-300">
+                {profile?.bio?.trim() || "No bio provided yet."}
+              </p>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Action Buttons */}
         <div className="flex justify-center gap-4 mb-12">
