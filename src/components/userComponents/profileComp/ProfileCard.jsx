@@ -17,16 +17,65 @@ export const ProfileCard = ({ profile }) => {
     banner,
     phoneNumber,
     socialMedia,
+    cardOrderId,
+    isActive,
   } = profile;
   const handleEditProfile = () => {
     navigate(`/user/profile/edit/${_id}`, { state: { profile } });
   };
+
+   let statusText = "";
+   let styles = "";
+   let dotStyles = "";
+
+   // Main Logic: Check for 'Delivered' status first.
+   if (cardOrderId?.status.toLowerCase() === "delivered") {
+     if (isActive) {
+       statusText = "Active";
+       styles = "bg-green-100 text-green-800 shadow-lg shadow-green-500/40";
+       dotStyles = "bg-green-500";
+     } else {
+       statusText = "Inactive";
+       styles = "bg-gray-200 text-gray-800";
+       dotStyles = "bg-gray-500";
+     }
+   } else {
+     // Handle all other order statuses.
+     switch (cardOrderId?.status.toLowerCase()) {
+       case "pending":
+         statusText = "Pending";
+         styles = "bg-yellow-100 text-yellow-800";
+         dotStyles = "bg-yellow-500";
+         break;
+       case "confirmed":
+         statusText = "Confirmed";
+         styles = "bg-blue-100 text-blue-800";
+         dotStyles = "bg-blue-500";
+         break;
+       case "design completed":
+         statusText = "Design Completed";
+         styles = "bg-indigo-100 text-indigo-800";
+         dotStyles = "bg-indigo-500";
+         break;
+       default:
+         // If status is null or unrecognized, don't render anything.
+         return null;
+     }
+   }
 
   return (
     <>
       <div className="w-full max-w-md mx-auto bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl md:max-w-lg">
         {/* Banner Image */}
         <div className="relative h-40 sm:h-48">
+          {/* --- Active Status Badge --- */}
+          <div
+            className={`absolute top-3 right-3 z-10 flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase ${styles}`}
+          >
+            <span className={`w-2 h-2 rounded-full ${dotStyles}`}></span>
+            <span>{statusText}</span>
+          </div>
+
           <img
             className="w-full h-full object-cover"
             src={
@@ -124,10 +173,8 @@ export const ProfileCard = ({ profile }) => {
               )}
             </div>
 
-            {/* Action Buttons */}
             <div className="flex justify-center gap-3 mt-3">
-              {/* View Profile */}
-              <a
+               <a
                 href={`#/profile?id=${viewId}`}
                 target="_blank"
                 className="flex items-center gap-2 bg-purple-600 text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-purple-700 transition duration-200"

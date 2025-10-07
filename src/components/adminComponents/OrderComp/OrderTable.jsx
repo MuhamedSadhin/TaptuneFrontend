@@ -4,17 +4,25 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useGetAllOrders } from "@/hooks/tanstackHooks/useOrder";
-import { Loader2 } from "lucide-react";
+import { Loader2, Send } from "lucide-react";
 import PrintingDetailsModal from "./PrintingDetailsModal";
 import { useUpdateProfileStatus } from "@/hooks/tanstackHooks/useProfile";
 import { toast } from "sonner";
 import Loader from "@/components/ui/Loader";
+import { ViewUserModal } from "./ViewUserModal";
+import TransferProfileDialog from "../ProfileTransfer/TransferProfileDialog";
 
 const PER_PAGE = 10;
 
 const OrderTable = () => {
   const [tab, setTab] = useState("all");
   const [search, setSearch] = useState("");
+  const [isTransferModalOpen, setIsTransferModalOpen] = useState(false);
+  const [profileToTransfer, setProfileToTransfer] = useState(null);
+
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [updatingId, setUpdatingId] = useState(null);
   const [page, setPage] = useState(1);
@@ -26,6 +34,7 @@ const OrderTable = () => {
     page,
     search:debouncedSearch,
   });
+
   const { mutate, isPending } = useUpdateProfileStatus();
 
   
@@ -116,10 +125,11 @@ const OrderTable = () => {
               <th className="px-4 py-3 text-left">Name</th>
               <th className="px-4 py-3 text-left">Position</th>
               <th className="px-4 py-3 text-left">Order Status</th>
-              <th className="px-4 py-3 text-left">Profile</th>
+              <th className="px-4 py-3 text-left">Profile Status</th>
               <th className="px-4 py-3 text-left">Active</th>
-              <th className="px-4 py-3 text-left">Created</th>
               <th className="px-4 py-3 text-left">View</th>
+              <th className="px-4 py-3 text-left">User</th>
+              <th className="px-4 py-3 text-left">Transfer</th>
             </tr>
           </thead>
           <tbody className="text-gray-700">
@@ -156,11 +166,16 @@ const OrderTable = () => {
                       <Badge
                         variant="outline"
                         className={`px-2 py-1  text-xs font-medium ${
-                          order.status === "pending"
+                          order.status === "Pending"
                             ? "border-yellow-400 text-yellow-600 bg-yellow-50"
-                            : order.status === "confirmed"
-                            ? "border-green-400 text-green-600 bg-green-50"
-                            : "border-blue-400 text-blue-600 bg-blue-50"
+                            : order.status === "Confirmed"
+                            ? "border-purple-400 text-purple-600 bg-purple-50"
+                            : order.status === "Design Completed"
+                            ? "border-indigo-400 text-indigo-600 bg-indigo-50"
+                            : order.status === "Delivered"
+                            ? "border-emerald-400 text-emerald-600 bg-emerald-50"
+                            :
+                            "border-blue-400 text-blue-600 bg-blue-50"
                         }`}
                       >
                         {order.status}
@@ -173,11 +188,36 @@ const OrderTable = () => {
                       className={`px-2 py-1  text-xs w-15 font-medium ${
                         order.isActive
                           ? "border-emerald-500 text-emerald-600 bg-emerald-50"
-                          : "border-gray-400 text-gray-600 bg-gray-50"
+                          : "border-red-400 text-red-600 bg-gray-50"
                       }`}
                     >
                       {order.isActive ? "Active" : "Inactive"}
                     </Badge>
+                  </td>
+
+                  <td className="px-4 py-3">
+                    <Button
+                      onClick={() => {
+                        setIsModalOpen(true);
+                        setViewProfile(order);
+                      }}
+                      variant="link"
+                      className="p-0 text-purple-600 hover:text-purple-700"
+                    >
+                      View Details
+                    </Button>
+                  </td>
+                  <td className="px-4 py-3">
+                    <Button
+                      onClick={() => {
+                        setSelectedUser(order);
+                        setIsUserModalOpen(true);
+                      }}
+                      variant="outline"
+                      size="sm"
+                    >
+                      View User
+                    </Button>
                   </td>
                   <td className="px-4 py-3 flex justify-center items-center">
                     <Button
@@ -205,24 +245,20 @@ const OrderTable = () => {
                       )}
                     </Button>
                   </td>
-                  <td className="px-4 py-3 text-gray-600 w-30">
-                    {new Date(order.createdAt).toLocaleDateString("en-IN", {
-                      day: "numeric",
-                      month: "short",
-                      year: "numeric",
-                    })}
-                  </td>
-
-                  <td className="px-4 py-3">
+                  <td className="px-4 py-3 text-white">
                     <Button
+                      variant="outline"
+                      className={
+                        "bg-gradient-to-r from-purple-600 to-blue-600 hover:opacity-90 hover:text-white"
+                      }
+                      size="sm"
                       onClick={() => {
-                        setIsModalOpen(true);
-                        setViewProfile(order);
+                        setProfileToTransfer(order); // pass profile/order to modal
+                        setIsTransferModalOpen(true);
                       }}
-                      variant="link"
-                      className="p-0 text-purple-600 hover:text-purple-700"
                     >
-                      View Details
+                      <Send className="w-4 h-4 mr-2" />
+                      Transfer
                     </Button>
                   </td>
                 </tr>
@@ -272,6 +308,31 @@ const OrderTable = () => {
           onClose={() => {
             setIsModalOpen(false);
             setViewProfile(null);
+          }}
+        />
+      )}
+
+      {isUserModalOpen && selectedUser && (
+        <ViewUserModal
+          isOpen={isUserModalOpen}
+          onClose={() => setIsUserModalOpen(false)}
+          user={selectedUser}
+        />
+      )}
+
+      {isTransferModalOpen && profileToTransfer && (
+        <TransferProfileDialog
+          open={isTransferModalOpen}
+          onOpenChange={(open) => {
+            setIsTransferModalOpen(open);
+            if (!open) setProfileToTransfer(null);
+          }}
+          profile={{
+            _id: profileToTransfer.profileId,
+            fullName: profileToTransfer.fullName,
+            designation: profileToTransfer.designation,
+            email: profileToTransfer.email,
+            phoneNumber: profileToTransfer.phoneNumber,
           }}
         />
       )}

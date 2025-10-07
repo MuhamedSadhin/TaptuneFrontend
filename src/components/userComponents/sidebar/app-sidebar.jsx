@@ -23,6 +23,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
+import { Notification03Icon } from "hugeicons-react"
 
 // This is sample data.
 const data = {
@@ -63,6 +64,11 @@ const data = {
       title: "Settings",
       url: "/user/settings",
       icon: Settings2,
+    },
+    {
+      title: "Notification",
+      url: "/user/notification",
+      icon: Notification03Icon,
     },
     {
       title: "Sign Out",

@@ -19,6 +19,7 @@ export const API_ENDPOINTS = {
     EDITCARD: "/api/card/updateCard",
     UPDATEORDERSTATUS: "/api/card/updateOrderStatus",
     EDITISACTIVESTATUS: "/api/card/updateCardStatusIsActive",
+    CREATEPROFILEBYADMIN: "/api/card/createProfileByAdmin",
   },
   PROFILE: {
     VIEWALLPROFILES: "/api/profile/viewProfilesOfAUser",
@@ -26,6 +27,9 @@ export const API_ENDPOINTS = {
     EDITPROFILE: "/api/profile/editProfile",
     UPDATESTATUSOFPROFILE: "/api/profile/updateStatusOfProfile",
     INCREMENTPROFILEVIEWS: "/api/profile/incrementProfileView",
+    GETPROFILESCREATEDBYADMIN: "/api/profile/getProfilesCreatedByAdmin",
+    GETUSERFORTRANSFER: "/api/profile/getUserForTransfer",
+    TRANSFERPROFILE: "/api/profile/transferProfile",
   },
   CONNECTION: {
     VIEWALLCONNECTIONS: "/api/connection/viewAllConnections",

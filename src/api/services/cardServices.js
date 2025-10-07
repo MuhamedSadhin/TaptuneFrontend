@@ -48,6 +48,13 @@ export const cardService = {
   });
     return res.data;
   },
+  createProfileByAdmin: async (profileData) => {
+    const { data } = await axiosInstance.post(
+      API_ENDPOINTS.CARD.CREATEPROFILEBYADMIN,
+      profileData
+    );
+    return data;
+  }
   
 
   

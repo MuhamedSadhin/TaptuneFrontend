@@ -72,3 +72,14 @@ export const useToggleCardStatus = () => {
     },
   });
 };
+
+export const useCreateProfileByAdmin = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: cardService.createProfileByAdmin,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["profiles"]);
+    }
+  })
+};

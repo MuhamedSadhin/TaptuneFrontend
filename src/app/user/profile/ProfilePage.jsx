@@ -15,7 +15,8 @@ export default function ProfilesPage() {
     const navigate = useNavigate();
 
   const { data, isLoading, isError } = useGetAllProfile();
-    const profiles = data?.profile || [];
+  const profiles = data?.profile || [];
+  console.log("Fetched profiles:", profiles);
 
   const toggleFavorite = (profileId) => {
     const newFavorites = new Set(favorites);

@@ -37,5 +37,26 @@ export const profileServices = {
     );
     return data;
   },
+  getProfilesCreatedByAdmin: async () => {
+    const { data } = await axiosInstance.get(
+      API_ENDPOINTS.PROFILE.GETPROFILESCREATEDBYADMIN
+    );
+    return data;
+  },
+getUserForTransfer: async (email) => {
+  const { data } = await axiosInstance.post(
+    API_ENDPOINTS.PROFILE.GETUSERFORTRANSFER,
+    {},
+    { params:  {email} }  
+  );
+  return data;
+  },
+  transferProfileToUser: async ({ profileId, userId }) => {
+    const { data } = await axiosInstance.post(
+      API_ENDPOINTS.PROFILE.TRANSFERPROFILE,
+      { profileId, userId }
+    );
+    return data;
+  }
 };
 

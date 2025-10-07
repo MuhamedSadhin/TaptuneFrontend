@@ -25,6 +25,8 @@ import ContactPage from "./app/staticHome/ContactPage";
 import DocPage from "./app/staticHome/DocPage";
 import useSmoothScroll from "./hooks/tanstackHooks/useSmoothScroll";
 import NotificationsPage from "./app/admin/notification/NotificationsPage";
+import CreateProfileForm from "./components/adminComponents/ProfileTransfer/CreateProfileForm";
+import AdminProfilesPage from "./components/adminComponents/ProfileTransfer/AdminCreatedProfilesView";
 
 
 function App() {
@@ -68,7 +70,7 @@ function App() {
         <Route
           path="/user"
           element={
-            <Protect requiredRole={["user", "admin"]}>
+            <Protect requiredRole={["user", "admin", "Admin"]}>
               <PageForUser />
             </Protect>
           }
@@ -79,6 +81,7 @@ function App() {
           <Route path="profiles" element={<ProfilesPage />} />
           <Route path="connections" element={<ConnectionsPage />} />
           <Route path="settings" element={<AccountSetupForm />} />
+          <Route path="notification" element={<NotificationsPage />} />
           <Route path="profile/edit/:id" element={<EditProfilePage />} />
         </Route>
 
@@ -97,6 +100,8 @@ function App() {
           <Route path="card-list" element={<CardDesignTable />} />
           <Route path="admin-list" element={<AdminListPage />} />
           <Route path="enquiry" element={<EnquiriesPage />} />
+          <Route path="createprofile" element={<CreateProfileForm />} />
+          <Route path="profiles" element={<AdminProfilesPage />} />
           <Route path="notification" element={<NotificationsPage />} />
         </Route>
       </Routes>

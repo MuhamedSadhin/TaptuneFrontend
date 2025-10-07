@@ -67,6 +67,11 @@ const data = {
       icon: Map,
     },
     {
+      title: "Profiles Created",
+      url: "/admin/profiles",
+      icon: GalleryVerticalEnd,
+    },
+    {
       title: "Notification",
       url: "/admin/notification",
       icon: Notification03Icon,
