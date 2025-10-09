@@ -154,7 +154,7 @@ END:VCARD`;
                 return (
                   <a
                     key={index}
-                    href={`#${social.link}`}
+                    href={`${social.link}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="transition-transform duration-300 hover:scale-110"

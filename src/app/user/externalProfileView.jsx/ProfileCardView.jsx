@@ -249,7 +249,7 @@ END:VCARD
                   return (
                     <div key={index} className="group">
                       <a
-                        href={`#${social.link}`}
+                        href={`${social.link}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex flex-col items-center"
