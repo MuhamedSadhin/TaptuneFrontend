@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { Loader2, User, Eye, Phone, Send } from "lucide-react";
 import TransferProfileDialog from "./TransferProfileDialog";
 import { useNavigate } from "react-router-dom";
+import Loader from "@/components/ui/Loader";
 
 export default function AdminCreatedProfiles() {
   const { data, isLoading, isError, error } = useGetProfilesCreatedByAdmin();
@@ -52,7 +53,7 @@ export default function AdminCreatedProfiles() {
       {/* --- Loading State --- */}
       {isLoading ? (
         <div className="flex items-center justify-center h-[70vh]">
-          <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
+          <Loader className="w-8 h-8 animate-spin text-gray-400" />
         </div>
       ) : !profiles.length ? (
         // --- No Profiles Found ---
