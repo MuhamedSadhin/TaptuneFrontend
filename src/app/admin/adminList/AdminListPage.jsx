@@ -137,9 +137,7 @@ export default function AdminListPage() {
                     <td colSpan={7} className="py-10">
                       <div className="flex flex-col items-center justify-center gap-3 mt-5">
                         <Loader className="animate-spin h-6 w-6 text-gray-500" />
-                        <span className="text-sm text-gray-500">
-                          Loading...
-                        </span>
+
                       </div>
                     </td>
                   </tr>
