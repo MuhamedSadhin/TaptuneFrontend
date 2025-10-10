@@ -6,6 +6,7 @@ import { GalleryVerticalEnd } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import taptuneLogo from "../../assets/logo/smalltaptuneicon.jpg";
+import Loader from "@/components/ui/Loader";
 
 export default function LoginPage() {
   const [isLogin, setIsLogin] = useState(true);
@@ -25,7 +26,7 @@ export default function LoginPage() {
   if (loading) {
     return (
       <div className="flex h-screen items-center justify-center text-gray-600">
-        Checking session...
+       <Loader/>
       </div>
     );
   }
