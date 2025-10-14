@@ -29,14 +29,20 @@ import CreateProfileForm from "./components/adminComponents/ProfileTransfer/Crea
 import AdminProfilesPage from "./components/adminComponents/ProfileTransfer/AdminCreatedProfilesView";
 import BoardingParentComp from "./components/userComponents/OnBoarding/BoardingParentComp";
 import ForgotPassword from "./app/auth/ForgotPassWord";
+import PrivacyPage from "./app/staticHome/PrivacyPolicy";
 
 
 function App() {
   const location = useLocation();
 
-  const enableSmoothScroll = ["/","/about-us", "/contact", "/docs","/profile/preview"].includes(
-    location.pathname
-  );
+  const enableSmoothScroll = [
+    "/",
+    "/about-us",
+    "/contact",
+    "/docs",
+    "/profile/preview",
+    "/privacy-policy",
+  ].includes(location.pathname);
 
   useSmoothScroll(enableSmoothScroll);
   // useScrollAnimations();
@@ -60,6 +66,7 @@ function App() {
           <Route path="/about-us" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/docs" element={<DocPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPage />} />
         </Route>
         <Route path="/auth" element={<LoginPage />} />
         <Route path="/resetOtp" element={<ForgotPassword />} />
