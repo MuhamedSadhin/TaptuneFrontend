@@ -93,7 +93,7 @@ export default function LoginPage() {
       }
 
       if (user.accountType === "business" && !user.isOnboardingCompleted) {
-        navigate("/boarding", { replace: true });
+        navigate("/user", { replace: true });
         return;
       }
 

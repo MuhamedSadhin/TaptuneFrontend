@@ -155,10 +155,9 @@ export function SignupForm({ onSwitch }) {
                 dropdownClass="max-h-60 overflow-y-auto"
               />
             </div>
-            <div className="space-y-2">
+            {/* <div className="space-y-2">
               <Label htmlFor="accountType">Account Type</Label>
               <div className="flex space-x-4 border border-gray-300 rounded-lg p-2 bg-gray-50">
-                {/* Personal Use Radio */}
                 <div
                   className={`flex items-center p-3 rounded-lg flex-1 cursor-pointer transition-all ${
                     formData.accountType === "personal"
@@ -189,7 +188,6 @@ export function SignupForm({ onSwitch }) {
                   </Label>
                 </div>
 
-                {/* Business Use Radio */}
                 <div
                   className={`flex items-center p-3 rounded-lg flex-1 cursor-pointer transition-all ${
                     formData.accountType === "business"
@@ -220,7 +218,7 @@ export function SignupForm({ onSwitch }) {
                   </Label>
                 </div>
               </div>
-            </div>
+            </div> */}
 
             {/* Password + Confirm */}
             <div className="grid gap-4 md:grid-cols-2">

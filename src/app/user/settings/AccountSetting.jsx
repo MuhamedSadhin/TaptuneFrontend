@@ -165,7 +165,7 @@ export default function AccountSetupForm() {
               <Separator />
 
               {/* === ACCOUNT TYPE SECTION === */}
-              <section className="space-y-4">
+              {/* <section className="space-y-4">
                 <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
                   Account Type
                 </h2>
@@ -227,7 +227,7 @@ export default function AccountSetupForm() {
                 </RadioGroup>
               </section>
 
-              <Separator />
+              <Separator /> */}
 
               {/* === PASSWORD SECTION === */}
               <section className="space-y-4">
