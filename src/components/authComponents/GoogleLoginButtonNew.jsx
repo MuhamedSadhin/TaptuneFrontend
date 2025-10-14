@@ -5,6 +5,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import { useAuthUser } from "@/hooks/tanstackHooks/useUserContext";
 import { Button } from "@/components/ui/button"; // ✅ Ensure Button is imported
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const GoolgeLogin = () => {
   const { setUser } = useAuthUser();
@@ -20,7 +21,7 @@ export const GoolgeLogin = () => {
     try {
       setLoading(true);
       const res = await axios.post(
-        "http://localhost:5000/api/auth/google",
+        `${BASE_URL}api/auth/google`,
         { code: authResult.code },
         { withCredentials: true } // ✅ must be included for cookies
       );

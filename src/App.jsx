@@ -29,7 +29,7 @@ import CreateProfileForm from "./components/adminComponents/ProfileTransfer/Crea
 import AdminProfilesPage from "./components/adminComponents/ProfileTransfer/AdminCreatedProfilesView";
 import BoardingParentComp from "./components/userComponents/OnBoarding/BoardingParentComp";
 import ForgotPassword from "./app/auth/ForgotPassWord";
-import PrivacyPage from "./app/staticHome/PrivacyPolicy";
+import PrivacyPage from "./app/staticHome/PrivacyPage2";
 
 
 function App() {
