@@ -27,6 +27,8 @@ import useSmoothScroll from "./hooks/tanstackHooks/useSmoothScroll";
 import NotificationsPage from "./app/admin/notification/NotificationsPage";
 import CreateProfileForm from "./components/adminComponents/ProfileTransfer/CreateProfileForm";
 import AdminProfilesPage from "./components/adminComponents/ProfileTransfer/AdminCreatedProfilesView";
+import BoardingParentComp from "./components/userComponents/OnBoarding/BoardingParentComp";
+import ForgotPassword from "./app/auth/ForgotPassWord";
 
 
 function App() {
@@ -60,11 +62,13 @@ function App() {
           <Route path="/docs" element={<DocPage />} />
         </Route>
         <Route path="/auth" element={<LoginPage />} />
+        <Route path="/resetOtp" element={<ForgotPassword />} />
         <Route path="/profile" element={<ProfileWrapper />} />
         <Route
           path="profile/preview/:name"
           element={<ProfilePreviewWrapper />}
         />
+        <Route path="boarding" element={<BoardingParentComp />} />
 
         {/* Protected User Routes */}
         <Route
@@ -83,6 +87,7 @@ function App() {
           <Route path="settings" element={<AccountSetupForm />} />
           <Route path="notification" element={<NotificationsPage />} />
           <Route path="profile/edit/:id" element={<EditProfilePage />} />
+          <Route path="boarding" element={<BoardingParentComp />} />
         </Route>
 
         {/* Protected Admin Routes */}

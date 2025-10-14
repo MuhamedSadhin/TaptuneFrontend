@@ -32,5 +32,27 @@ export const authService = {
   logoutUser: async () => {
     const { data } = await axiosInstance.post(API_ENDPOINTS.AUTH.LOGOUT);
     return data;
-  }
+  },
+
+  forgotPassword: async (email) => {
+    const response = await axiosInstance.post(
+      API_ENDPOINTS.AUTH.FORGOT_PASSWORD,
+      email
+    );
+    return response.data;
+  },
+  verifyOTP: async ({ email, otp }) => {
+    const response = await axiosInstance.post(API_ENDPOINTS.AUTH.VERIFY_OTP, {
+      email,
+      otp,
+    });
+    return response.data;
+  },
+  resetPassword: async ({ email, password }) => {
+    const response = await axiosInstance.post(
+      API_ENDPOINTS.AUTH.RESET_PASSWORD,
+      { email, password }
+    );
+    return response.data;
+  },
 };

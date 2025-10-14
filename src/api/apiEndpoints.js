@@ -6,6 +6,9 @@ export const API_ENDPOINTS = {
     ISAUTH: "/api/auth/isAuth",
     UPDATESETTINGS: "/api/auth/updateUserSettings",
     LOGOUT: "/api/auth/logout",
+    FORGOT_PASSWORD: "/api/auth/forgotPassword",
+    VERIFY_OTP: "/api/auth/verifyOtp",
+    RESET_PASSWORD: "/api/auth/resetPassword",
   },
   ENQUIRY: {
     GETALLENQUIRY: "/api/enquiry/getAllEnquiry",
@@ -49,11 +52,15 @@ export const API_ENDPOINTS = {
     CREATEADMIN: "/api/user/createAdmin",
     UPDATEADMIN: "/api/user/updateAdmin",
     GETHOMEPAGEDATA: "/api/user/homePageData",
+    UPDATEPHONENUMBER: "/api/user/updatePhoneNumber",
   },
   WABTUNE: {
     SENDMESSAGE: "/api/wabtune/sendWabtuneMessage",
   },
   NOTIFICATION: {
     GETALLNOTIFICATIONS: "/api/notification/getAllNotifications",
+  },
+  ONBOARDING: {
+    ONBOARDINGANSWERS: "/api/onboarding/onboardingAnswers",
   },
 };

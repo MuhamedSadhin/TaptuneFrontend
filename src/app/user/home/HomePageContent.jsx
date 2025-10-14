@@ -1,7 +1,6 @@
-
 "use client";
 
-import { useState, useEffect, memo } from "react";
+import { memo, useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -22,45 +21,67 @@ import {
   Phone,
   Mail,
   Eye,
+  ArrowRight,
 } from "lucide-react";
-import { ArrowRight } from "lucide-react";
 import { useHomepageData } from "@/hooks/tanstackHooks/useUser";
 import { downloadVCard } from "@/utils/contactSave";
 import Loader from "@/components/ui/Loader";
-
+import PhoneNumberModal from "@/components/authComponents/PhoneNumberModal";
+import { useAuthUser } from "@/hooks/tanstackHooks/useUserContext";
 
 const img =
-    "https://img.freepik.com/free-photo/3d-render-cyber-technology-with-flowing-particles_1048-12732.jpg?q=80&semt=ais_hybrid&w=740";
+  "https://img.freepik.com/free-photo/3d-render-cyber-technology-with-flowing-particles_1048-12732.jpg?q=80&semt=ais_hybrid&w=740";
 
 const HomePage = () => {
   const { data, isLoading } = useHomepageData();
   const navigate = useNavigate();
+  const [showPhoneModal, setShowPhoneModal] = useState(false);
+  const { user } = useAuthUser()
+  console.log("Authenticated User:", user);
 
+  useEffect(() => {
+    if (user) {
+ 
+      const { accountType, phoneNumber } = user || {};
 
-  if (isLoading) return (
-    <div className="flex items-center justify-center h-screen">
-      <Loader />
-    </div>
-  );
+      if (accountType === "personal" && !phoneNumber) {
+        const today = new Date().toLocaleDateString();
+        const lastShown = localStorage.getItem("phoneModalLastShown");
+
+        if (!lastShown || lastShown !== today) {
+          setShowPhoneModal(true);
+          localStorage.setItem("phoneModalLastShown", today);
+        }
+      }
+    }
+  }, [user]);
+
+  if (isLoading)
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Loader />
+      </div>
+    );
 
   const {
     totalProfiles = 0,
     totalConnections = 0,
-    totalProfileViews=0,
+    totalProfileViews = 0,
     lastProfiles = [],
     lastConnections = [],
   } = data?.data || {};
 
   return (
     <div className="min-h-screen bg-background">
-      <main className="max-w-7xl mx-auto  space-y-6">
+
+      <main className="max-w-7xl mx-auto space-y-6">
         {/* Welcome Section */}
         <section className="space-y-2">
           <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
             Welcome Back! 👋
           </h1>
           <p className="text-muted-foreground text-sm sm:text-base">
-            Here's what's happening with your professional network today .
+            Here's what's happening with your professional network today.
           </p>
         </section>
 
@@ -69,7 +90,7 @@ const HomePage = () => {
           {/* Insights */}
           <div className="flex-1 lg:flex-[3]">
             <div
-              className="bg-violet-100 rounded-2xl p-4 sm:p-6 lg:p-8 bg-cover bg-center shadow-md will-change-transform"
+              className="bg-violet-100 rounded-2xl p-4 sm:p-6 lg:p-8 bg-cover bg-center shadow-md"
               style={{ backgroundImage: `url(${img})` }}
             >
               <div className="mb-6">
@@ -183,13 +204,9 @@ const HomePage = () => {
             <CardContent>
               {lastProfiles.length > 0 ? (
                 <div className="flex flex-col gap-4">
-                  {lastProfiles.slice(0, 5).map(
-                    (
-                      p // Limit to 5 items
-                    ) => (
-                      <ProfileItem key={p._id} profile={p} />
-                    )
-                  )}
+                  {lastProfiles.slice(0, 5).map((p) => (
+                    <ProfileItem key={p._id} profile={p} />
+                  ))}
                 </div>
               ) : (
                 <EmptyState
@@ -202,14 +219,19 @@ const HomePage = () => {
           </Card>
         </section>
       </main>
+
+      {/* ✅ Phone Number Modal */}
+      <PhoneNumberModal
+        open={showPhoneModal}
+        onClose={() => setShowPhoneModal(false)}
+      />
     </div>
   );
 };
 
-// Memoized Components
+/* --------------------------- Helper Components --------------------------- */
 const StatCard = memo(({ title, value, icon, link, linkText }) => (
   <div className="flex flex-col bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 p-5 sm:p-6">
-    {/* Header */}
     <div className="flex justify-between items-center">
       <div>
         <p className="text-xs sm:text-sm uppercase tracking-wide text-gray-500">
@@ -219,14 +241,10 @@ const StatCard = memo(({ title, value, icon, link, linkText }) => (
           {value}
         </h3>
       </div>
-
-      {/* Icon Wrapper */}
       <div className="flex justify-center items-center w-12 h-12 sm:w-14 sm:h-14 bg-violet-600 text-white rounded-full shadow-md">
         {icon}
       </div>
     </div>
-
-    {/* Link */}
     {link && (
       <Link
         to={link}
@@ -266,15 +284,11 @@ const ConnectionItem = memo(({ connection }) => (
 ));
 
 const ProfileItem = memo(({ profile }) => {
-  console.log("ProfileItem render:", profile);
   let isActive = profile?.isActive;
-  console.log("isActive:", isActive);
   let cardOrderId = profile?.cardOrderId;
-  console.log("cardOrderId:", cardOrderId);
   let statusText = "";
   let badgeClasses = "";
 
-  // Handle Delivered + Active/Inactive separately
   if (cardOrderId?.status?.toLowerCase() === "delivered") {
     if (isActive) {
       statusText = "Active";
@@ -284,7 +298,6 @@ const ProfileItem = memo(({ profile }) => {
       badgeClasses = "bg-gray-100 text-gray-700 border border-gray-300";
     }
   } else {
-    // Handle all other statuses
     switch (cardOrderId?.status?.toLowerCase()) {
       case "pending":
         statusText = "Pending";
@@ -306,7 +319,6 @@ const ProfileItem = memo(({ profile }) => {
 
   return (
     <div className="flex items-center gap-4 p-4 rounded-xl shadow-sm border">
-      {/* Avatar */}
       <Avatar className="w-16 h-16 flex-shrink-0">
         <AvatarImage
           src={profile.profilePic || "/placeholder.svg"}
@@ -320,31 +332,27 @@ const ProfileItem = memo(({ profile }) => {
         </AvatarFallback>
       </Avatar>
 
-      {/* Info */}
       <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2 ">
+        <div className="flex items-center gap-2">
           <p className="font-semibold truncate">{profile.fullName}</p>
           <Badge className={`${badgeClasses} mt-1`}>{statusText}</Badge>
         </div>
-
         <p className="text-sm text-gray-500 truncate">
           {profile.userName ||
             profile.fullName?.toLowerCase().replace(/\s/g, "")}
         </p>
-
         <div className="flex flex-wrap gap-3 text-sm mt-1 text-gray-600">
-          <span className="flex items-center gap-1 min-w-0 truncate">
+          <span className="flex items-center gap-1 truncate">
             <Phone className="w-4 h-4 flex-shrink-0" />
             <span className="truncate">{profile.phoneNumber || "N/A"}</span>
           </span>
-          <span className="flex items-center gap-1 min-w-0 truncate">
+          <span className="flex items-center gap-1 truncate">
             <Mail className="w-4 h-4 flex-shrink-0" />
             <span className="truncate">{profile.email || "N/A"}</span>
           </span>
         </div>
       </div>
 
-      {/* Action */}
       <a
         href={`#/profile?id=${profile.viewId}`}
         target="_blank"
@@ -361,9 +369,8 @@ const ProfileItem = memo(({ profile }) => {
   );
 });
 
-
 const EmptyState = memo(({ icon, title, desc }) => (
-  <div className="flex flex-col items-center justify-center w-full h-60  text-center border border-dashed rounded-xl bg-gray-50 p-4">
+  <div className="flex flex-col items-center justify-center w-full h-60 text-center border border-dashed rounded-xl bg-gray-50 p-4">
     {icon}
     <p className="text-gray-700 font-medium mt-2">{title}</p>
     <p className="text-sm text-gray-500">{desc}</p>

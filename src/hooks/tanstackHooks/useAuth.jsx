@@ -53,3 +53,33 @@ export const useLogout = () => {
     },
   });
 };
+
+
+
+
+
+
+export const useSendOTP = () => {
+  return useMutation({
+    mutationFn: (data) => {
+      return authService.forgotPassword(data);
+    },
+  });
+};
+
+export const useVerifyOTP = () => {
+  return useMutation({
+    mutationFn: (data) => {
+      return authService.verifyOTP(data);
+    },
+  });
+};
+
+export const useResetPassword = () => {
+  return useMutation({
+    mutationFn: (data) => {
+      console.log("Reset password data:", data);
+      return authService.resetPassword(data);
+    },
+  });
+};

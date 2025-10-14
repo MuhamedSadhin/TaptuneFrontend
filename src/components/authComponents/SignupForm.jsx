@@ -22,6 +22,7 @@ import { Loader2 } from "lucide-react";
 import PhoneInput from "react-phone-input-2";
 import { Link } from "react-router-dom";
 import { HiChevronLeft } from "react-icons/hi2";
+import { GoolgeLogin } from "./GoogleLoginButtonNew";
 
 export function SignupForm({ onSwitch }) {
   const [formData, setFormData] = useState({
@@ -184,7 +185,7 @@ export function SignupForm({ onSwitch }) {
                     htmlFor="personal"
                     className="ml-3 mb-0 font-semibold text-gray-700 cursor-pointer"
                   >
-                      Personal  Use
+                    Personal Use
                   </Label>
                 </div>
 
@@ -215,7 +216,7 @@ export function SignupForm({ onSwitch }) {
                     htmlFor="business"
                     className="ml-3 mb-0 font-semibold text-gray-700 cursor-pointer"
                   >
-                     For  Business 
+                    For Business
                   </Label>
                 </div>
               </div>
@@ -294,7 +295,7 @@ export function SignupForm({ onSwitch }) {
 
           {/* Google Login */}
           <div className="flex justify-center mt-5">
-            <GoogleLoginButton />
+            <GoolgeLogin />
           </div>
 
           {/* Switch to Login */}

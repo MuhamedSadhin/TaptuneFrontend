@@ -58,8 +58,10 @@ export const ProfileCard = ({ profile }) => {
          dotStyles = "bg-indigo-500";
          break;
        default:
-         // If status is null or unrecognized, don't render anything.
-         return null;
+          statusText = cardOrderId?.status || "Unknown";
+          styles = "bg-gray-100 text-gray-800";
+          dotStyles = "bg-gray-500";
+         break;
      }
    }
 

@@ -16,7 +16,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuthUser } from "@/hooks/tanstackHooks/useUserContext";
 import GoogleLoginButton from "./GoogleLoginButton";
 import { HiChevronLeft } from "react-icons/hi2";
-
+import { GoolgeLogin } from "./GoogleLoginButtonNew";
 export function LoginForm({ onSwitch }) {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
@@ -105,6 +105,9 @@ export function LoginForm({ onSwitch }) {
                 <button
                   type="button"
                   className="font-medium text-sm text-purple-500 hover:text-purple-700 underline-offset-4 hover:underline"
+                  onClick={() => {
+                    navigate("/resetOtp");
+                  }}
                 >
                   Forgot password?
                 </button>
@@ -134,7 +137,7 @@ export function LoginForm({ onSwitch }) {
           </form>
 
           <div className="flex justify-center mt-3 mb-5">
-            <GoogleLoginButton />
+            <GoolgeLogin />
           </div>
           <div className="text-center text-sm">
             Don&apos;t have an account?{" "}
@@ -149,22 +152,22 @@ export function LoginForm({ onSwitch }) {
         </CardContent>
       </Card>
       <div className="">
-      <div className=" text-gray-400 text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
-        By clicking continue , you agree to our{" "}
-        <a href="/terms">Terms of Service</a> and{" "}
-        <a href="/privacy">Privacy Policy</a>.
-      </div>
-      <div className="flex justify-center mt-3">
-        <Link
-          to="/"
-          className="inline-flex items-center text-gray-400 hover:text-gray-200 
+        <div className=" text-gray-400 text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
+          By clicking continue , you agree to our{" "}
+          <a href="/terms">Terms of Service</a> and{" "}
+          <a href="/privacy">Privacy Policy</a>.
+        </div>
+        <div className="flex justify-center mt-3">
+          <Link
+            to="/"
+            className="inline-flex items-center text-gray-400 hover:text-gray-200 
                  transition-colors duration-200 text-sm font-medium"
-        >
-          <HiChevronLeft className="w-4 h-4  mr-1" />
-          <span>Back to home</span>
-        </Link>
+          >
+            <HiChevronLeft className="w-4 h-4  mr-1" />
+            <span>Back to home</span>
+          </Link>
         </div>
-        </div>
+      </div>
     </div>
   );
 }

@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Send } from "lucide-react";
+import { Loader2Icon, Send } from "lucide-react";
 import { toast } from "sonner";
 import {
   useGetUserForTransfer,
@@ -28,7 +28,7 @@ export default function TransferProfileDialog({ open, onOpenChange, profile }) {
   const debounceRef = useRef(null);
 
   const { data: users, isLoading, isError } = useGetUserForTransfer(email);
-  const { mutate: transferProfile, isLoading: isTransferLoading } = useTransferProfile();
+  const { mutate: transferProfile, isPending: isTransferLoading } = useTransferProfile();
 
   // Handle email input with debounce
   const handleEmailChange = (e) => {
@@ -61,7 +61,7 @@ export default function TransferProfileDialog({ open, onOpenChange, profile }) {
           onSuccess: (res) => {
               if (res.success) {
                   toast.success(res.message || "Profile transferred successfully!");
-                  resetDialog();
+                  // resetDialog();
               } else {
                   toast.error(res.message || "Failed to transfer profile.");
               }
@@ -190,17 +190,24 @@ export default function TransferProfileDialog({ open, onOpenChange, profile }) {
           >
             Cancel
           </Button>
+
           <Button
             onClick={handleTransfer}
             disabled={!selectedUser || !agreed || isTransferLoading}
-            className={`w-full sm:w-auto px-6 flex items-center justify-center text-white ${
+            className={`w-full sm:w-auto px-6 flex items-center justify-center gap-2 text-white transition-colors min-w-[120px] ${
               selectedUser && agreed
                 ? "bg-gradient-to-r from-purple-600 to-blue-600 hover:opacity-90"
                 : "bg-gray-300 cursor-not-allowed"
             }`}
           >
-            <Send className="w-4 h-4 mr-2" />
-            {isTransferLoading ? "Transferring..." : "Transfer"}
+            {isTransferLoading ? (
+              <Loader2Icon className="h-5 w-5 animate-spin text-white" />
+            ) : (
+              <>
+                <Send className="w-4 h-4 mr-2" />
+                Transfer
+              </>
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>

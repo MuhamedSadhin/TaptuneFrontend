@@ -36,4 +36,11 @@ export const userService = {
     );
     return data;
   },
+  updatePhoneNumber: async (phoneNumber) => {
+    const { data } = await axiosInstance.post(
+      API_ENDPOINTS.USER.UPDATEPHONENUMBER,
+      { phoneNumber }
+    );
+    return data;
+  }
 };

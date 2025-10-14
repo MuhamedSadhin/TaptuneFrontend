@@ -49,3 +49,13 @@ export const useHomepageData = () => {
   });
 };
 
+
+export const useUpdatePhoneNumber = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: userService.updatePhoneNumber,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["homepageData"]);
+    },
+  });
+}
