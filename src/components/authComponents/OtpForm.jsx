@@ -52,7 +52,6 @@ export function OTPForm({ onSubmit, email }) {
     setIsSubmitting(true);
     try {
       await onSubmit(otp.join(""));
-      toast.success("OTP verified successfully!");
       setOtp(["", "", "", "", "", ""]);
       inputsRef.current[0].focus();
     } catch (err) {
