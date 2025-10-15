@@ -38,7 +38,6 @@ export function EmailForm({ onSubmit }) {
     try {
       // Call parent submit handler or API
       await onSubmit(email);
-      toast.success("Email submitted successfully!");
       setEmail("");
     } catch (err) {
       toast.error(err?.message || "Something went wrong!");

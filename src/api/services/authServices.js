@@ -34,25 +34,27 @@ export const authService = {
     return data;
   },
 
-  forgotPassword: async (email) => {
+  forgotPassword: async ({ email }) => {
     const response = await axiosInstance.post(
       API_ENDPOINTS.AUTH.FORGOT_PASSWORD,
-      email
+      { email }
     );
-    return response.data;
+    return response?.data;
   },
+
   verifyOTP: async ({ email, otp }) => {
     const response = await axiosInstance.post(API_ENDPOINTS.AUTH.VERIFY_OTP, {
       email,
       otp,
     });
-    return response.data;
+    return response?.data;
   },
+
   resetPassword: async ({ email, password }) => {
     const response = await axiosInstance.post(
       API_ENDPOINTS.AUTH.RESET_PASSWORD,
       { email, password }
     );
-    return response.data;
+    return response?.data;
   },
 };

@@ -1,11 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { EmailForm } from "@/components/authComponents/EmailEnterForm";
 import { OTPForm } from "@/components/authComponents/OtpForm";
 import { ResetPasswordForm } from "@/components/authComponents/ResetPassword";
 import taptuneLogo from "../../assets/logo/smalltaptuneicon.jpg";
-import { useResetPassword, useSendOTP, useVerifyOTP } from "@/hooks/tanstackHooks/useAuth";
+import {
+  useResetPassword,
+  useSendOTP,
+  useVerifyOTP,
+} from "@/hooks/tanstackHooks/useAuth";
 
 export default function ForgotPassword() {
   const [step, setStep] = useState(1);
@@ -17,33 +21,28 @@ export default function ForgotPassword() {
   const { mutateAsync: resetPassword, isPending: isResettingPassword } =
     useResetPassword();
 
-const handleEmailSubmit = async (enteredEmail) => {
-  console.log("Submitting email for OTP:", enteredEmail);
-  try {
-    const response = await sendOtp({ email: enteredEmail });
-    if (response.success) {
-      toast.success(response.message || "An OTP has been sent to your email.");
-      setEmail(enteredEmail);
-      setStep(2);
-    } else {
-      toast.error(response.message || "Failed to send OTP. Please try again.");
+  const handleEmailSubmit = async (enteredEmail) => {
+    try {
+      const response = await sendOtp({ email: enteredEmail });
+      if (response.success) {
+        toast.success(response.message || "OTP sent to your email.");
+        setEmail(enteredEmail);
+        setStep(2);
+      } else {
+        toast.error(response.message || "Failed to send OTP.");
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Something went wrong!");
     }
-  } catch (error) {
-    toast.error(error.message || "An unexpected error occurred.");
-  }
-};
-
+  };
 
   const handleResendOtp = async () => {
     try {
       const response = await sendOtp({ email });
-      if (response.success) {
-        toast.success("A new OTP has been sent.");
-      } else {
-        toast.error(response.message || "Failed to resend OTP.");
-      }
+      if (response.success) toast.success("New OTP sent.");
+      else toast.error(response.message || "Failed to resend OTP.");
     } catch (error) {
-      toast.error(error.message || "An error occurred while resending.");
+      toast.error(error?.response?.data?.message || "An error occurred.");
     }
   };
 
@@ -51,32 +50,34 @@ const handleEmailSubmit = async (enteredEmail) => {
     try {
       const response = await verifyOtp({ email, otp });
       if (response.success) {
-        toast.success(response.message || "OTP verified successfully!");
+        toast.success(response.message || "OTP verified!");
         setStep(3);
       } else {
-        return Promise.reject(new Error(response.message || "Invalid OTP."));
+        toast.error(response.message || "Invalid OTP.");
       }
     } catch (error) {
-      return Promise.reject(error);
+      toast.error(error?.response?.data?.message || "OTP verification failed.");
     }
   };
 
-    const handleResetPassword = async ({ password }) => {
-        console.log("Resetting password for email:", email);
-        console.log("New password:", password);
+  const handleResetPassword = async ({ password }) => {
     try {
-      if (!email || !password) {
-        toast.error("Email and password are required");
-        return;
-      }
+      if (!email || !password)
+        return toast.error("Email and password required.");
+
       const response = await resetPassword({ email, password });
-      if (response.success) setStep(4);
-      else toast.error(response.message || "Failed to reset password.");
+      if (response.success) {
+        toast.success("Password reset successful!");
+        setStep(4);
+      } else {
+        toast.error(response.message || "Failed to reset password.");
+      }
     } catch (error) {
-      toast.error(error.message || "An unexpected error occurred.");
+      toast.error(
+        error?.response?.data?.message || "Error resetting password."
+      );
     }
   };
-
 
   const renderStep = () => {
     switch (step) {
@@ -114,10 +115,9 @@ const handleEmailSubmit = async (enteredEmail) => {
               You can now login using your new password.
             </p>
             <button
-              
               className="mt-2 inline-block w-full sm:w-auto bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-6 rounded transition-colors text-center"
-            onClick={()=>{navigate('/auth')}}
-                >
+              onClick={() => navigate("/auth")}
+            >
               Go to Login
             </button>
           </div>

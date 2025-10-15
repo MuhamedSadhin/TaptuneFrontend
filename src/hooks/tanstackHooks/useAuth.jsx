@@ -61,25 +61,21 @@ export const useLogout = () => {
 
 export const useSendOTP = () => {
   return useMutation({
-    mutationFn: (data) => {
-      return authService.forgotPassword(data);
-    },
+    mutationFn: ({ email }) => authService.forgotPassword({ email }),
   });
 };
 
 export const useVerifyOTP = () => {
   return useMutation({
-    mutationFn: (data) => {
-      return authService.verifyOTP(data);
-    },
+    mutationFn: ({ email, otp }) => authService.verifyOTP({ email, otp }),
   });
 };
 
 export const useResetPassword = () => {
   return useMutation({
-    mutationFn: (data) => {
-      console.log("Reset password data:", data);
-      return authService.resetPassword(data);
+    mutationFn: ({ email, password }) => {
+      console.log("Reset password data:", { email, password });
+      return authService.resetPassword({ email, password });
     },
   });
 };

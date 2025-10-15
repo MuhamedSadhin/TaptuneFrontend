@@ -61,7 +61,7 @@ export default function TransferProfileDialog({ open, onOpenChange, profile }) {
           onSuccess: (res) => {
               if (res.success) {
                   toast.success(res.message || "Profile transferred successfully!");
-                  // resetDialog();
+                  resetDialog();
               } else {
                   toast.error(res.message || "Failed to transfer profile.");
               }
