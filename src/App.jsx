@@ -101,7 +101,7 @@ function App() {
         <Route
           path="/admin"
           element={
-            <Protect requiredRole={["admin", "Admin"]}>
+            <Protect requiredRole={["admin", "Admin","sales"]}>
               <PageForAdmin />
             </Protect>
           }
@@ -110,7 +110,7 @@ function App() {
           <Route path="card-order" element={<CardOrder />} />
           <Route path="user-list" element={<UserTable />} />
           <Route path="card-list" element={<CardDesignTable />} />
-          <Route path="admin-list" element={<AdminListPage />} />
+          <Route path="admin-list" element={<Protect requiredRole={["admin","Admin"]} ><AdminListPage /></Protect>} />
           <Route path="enquiry" element={<EnquiriesPage />} />
           <Route path="createprofile" element={<CreateProfileForm />} />
           <Route path="profiles" element={<AdminProfilesPage />} />

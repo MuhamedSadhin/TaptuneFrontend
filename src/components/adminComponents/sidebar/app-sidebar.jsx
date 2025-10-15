@@ -19,7 +19,9 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
-import {  Notification03Icon } from "hugeicons-react";
+import { Notification03Icon } from "hugeicons-react";
+import { useAuthUser } from "@/hooks/tanstackHooks/useUserContext";
+
 
 // This is sample data.
 const data = {
@@ -60,6 +62,7 @@ const data = {
       title: "Manage Admin",
       url: "/admin/admin-list",
       icon: Settings2,
+      roles: ["admin", "Admin"]
     },
     {
       title: "Enquiries",
@@ -98,19 +101,27 @@ const data = {
 export function AppSidebar({
   ...props
 }) {
+  const { user } = useAuthUser();
+  console.log("Sidebar User:", user);
+  const role = user?.role || "user"; 
+
+    const filteredNav = data.navMain.filter((item) => {
+      if (!item.roles) return true; 
+      return item.roles.includes(role); 
+    });
   return (
-    (<Sidebar collapsible="icon" {...props}>
+    <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={filteredNav} />
         {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
       </SidebarFooter>
       <SidebarRail />
-    </Sidebar>)
+    </Sidebar>
   );
 }

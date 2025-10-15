@@ -1,6 +1,5 @@
 import { userService } from "@/api/services/userServices";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
 
 export const useGetAllUsers = ({ page=10, limit=10, search="" }) => {
   return useQuery({

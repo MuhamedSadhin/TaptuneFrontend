@@ -87,7 +87,7 @@ export default function LoginPage() {
     if (!loading && user) {
       console.log("Authenticated user:", user);
 
-      if (user.role.toLowerCase() === "admin") {
+      if (user.role.toLowerCase() === "admin" || user.role.toLowerCase() === "sales") {
         navigate("/admin", { replace: true });
         return;
       }

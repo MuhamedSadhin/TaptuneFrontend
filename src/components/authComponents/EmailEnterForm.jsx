@@ -84,13 +84,13 @@ export function EmailForm({ onSubmit }) {
           </form>
           <div className="text-center text-sm mt-4">
             By continuing, you agree to our{" "}
-            <a className="underline text-purple-500" href="/terms">
+            <Link className="underline text-purple-500" to="/privacy-policy">
               Terms of Service
-            </a>{" "}
+            </Link>{" "}
             and{" "}
-            <a className="underline text-purple-500" href="/privacy">
+            <Link className="underline text-purple-500" to="/privacy-policy">
               Privacy Policy
-            </a>
+            </Link>
             .
           </div>
         </CardContent>
