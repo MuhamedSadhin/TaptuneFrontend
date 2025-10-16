@@ -3,7 +3,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import "react-phone-input-2/lib/style.css";
 import {
@@ -46,6 +46,27 @@ export function SignupForm({ onSwitch }) {
     }));
   };
 
+    const [referralCode, setReferralCode] = useState(null);
+
+useEffect(() => {
+  // Example URL: http://localhost:5173/#/auth?ref=12345
+  const hash = window.location.hash; // "#/auth?ref=12345"
+
+  // Extract query string after '?'
+  const queryString = hash.split("?")[1];
+  if (queryString) {
+    const params = new URLSearchParams(queryString);
+    const ref = params.get("ref");
+    if (ref) {
+      console.log("Referral Code Found:", ref);
+      setReferralCode(ref);
+      return;
+    }
+  }
+
+  console.log("No referral code in URL");
+}, []);
+
   // ✅ Handle phone input, remove `+` symbol
   const handlePhoneChange = (value, country) => {
     const cleanValue = value.replace(/^\+/, ""); // remove leading +
@@ -82,6 +103,7 @@ export function SignupForm({ onSwitch }) {
         phoneNumber: formData.phoneNumber,
         password: formData.password,
         accountType: formData.accountType,
+        referralCode: referralCode || null,
       },
       {
         onSuccess: (res) => {

@@ -23,8 +23,9 @@ import { useGetOrderAndUserForAdminHomePage } from "@/hooks/tanstackHooks/useOrd
 import { useNavigate } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import Loader from "@/components/ui/Loader";
+import { Separator } from "@/components/ui/separator";
 
-export default function DashboardSection() {
+export default function SalesCardOrders() {
   const { data, isLoading, isError } = useGetOrderAndUserForAdminHomePage();
   const navigate = useNavigate();
   if (isLoading) {
@@ -47,25 +48,27 @@ export default function DashboardSection() {
   const latestUsers = data?.data?.lastUsers || [];
 
   return (
-    <div className="flex flex-col lg:flex-row mt-5 gap-6">
-      <div className="flex flex-col gap-6 w-full">
+    <div className="mt-4">
+      <div className="mt-4 flex flex-col gap-4 h-full">
         {/* Latest Orders */}
-        <Card className="w-full">
+        <Card className="flex flex-col flex-1">
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
-              <CardTitle>Latest Orders</CardTitle>
+              <CardTitle className={"font-medium text-xl"}>
+                Latest Orders
+              </CardTitle>
               <CardDescription>New orders list</CardDescription>
             </div>
             <Button
               variant="ghost"
-              className="bg-purple-500 text-white hover:bg-purple-600 "
+              className="bg-purple-500 text-white hover:bg-purple-600"
               onClick={() => navigate(`/admin/card-order`)}
             >
               View All
             </Button>
           </CardHeader>
 
-          <CardContent className="overflow-x-auto">
+          <CardContent className="overflow-x-auto flex-1">
             {latestOrders.length > 0 ? (
               <Table>
                 <TableBody>
@@ -130,22 +133,24 @@ export default function DashboardSection() {
         </Card>
 
         {/* Latest Users */}
-        <Card className="w-full">
-          <CardHeader className="flex flex-row items-center justify-between ">
+        <Card className="flex flex-col flex-1">
+          <CardHeader className="flex flex-row items-center justify-between">
             <div>
-              <CardTitle>Latest Users</CardTitle>
+              <CardTitle className="font-medium text-xl">
+                Latest Users
+              </CardTitle>
               <CardDescription>New users list</CardDescription>
             </div>
             <Button
               variant="ghost"
-              className="bg-purple-500 text-white hover:bg-purple-600 "
+              className="bg-purple-500 text-white hover:bg-purple-600"
               onClick={() => navigate(`/admin/user-list`)}
             >
               View All
             </Button>
           </CardHeader>
 
-          <CardContent className="overflow-x-auto">
+          <CardContent className="overflow-x-auto flex-1">
             {latestUsers.length > 0 ? (
               <Table>
                 <TableBody>
@@ -185,14 +190,6 @@ export default function DashboardSection() {
           </CardContent>
         </Card>
       </div>
-
-      {/* Chart Section */}
-      <div className="w-full lg:max-w-2xl">
-        <ChartAreaGradient />
-      </div>
     </div>
   );
 }
-
-
-
