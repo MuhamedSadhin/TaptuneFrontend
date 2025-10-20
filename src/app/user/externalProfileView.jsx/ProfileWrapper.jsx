@@ -61,8 +61,8 @@ function ProfileWrapper() {
   }, []);
 
   const handleConnectSubmit = () => {
-    if (!formData.fullName || !formData.email || !formData.phone) {
-      toast.error("Please fill in your Full Name, Email, and Phone Number.");
+    if (!formData.fullName  || !formData.phone) {
+      toast.error("Please fill in your Full Name and Phone Number.");
       return;
     }
 

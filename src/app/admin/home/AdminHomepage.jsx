@@ -21,7 +21,7 @@ const AdminHomepage = () => {
   return (
     <div className="">
       {user.role === "sales" ? (
-        <SalesDashboard />
+        <SalesDashboard user={user} />
       ) : (
         <>
           <StatsCards />
