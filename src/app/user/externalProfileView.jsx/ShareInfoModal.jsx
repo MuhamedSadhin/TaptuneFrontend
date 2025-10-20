@@ -25,14 +25,12 @@ export default function ShareInfoModal({
 }) {
   const [showAdditionalFields, setShowAdditionalFields] = useState(false);
 
-  // BUG FIX 1: This hook locks the background (parent) scroll when the modal is open.
   useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
     }
-    // This cleanup function ensures scrolling is restored if the component unmounts.
     return () => {
       document.body.style.overflow = "auto";
     };
@@ -50,7 +48,6 @@ export default function ShareInfoModal({
         if (!v) onClose();
       }}
     >
-      {/* BUG FIX 2: This grid layout fixes internal scrolling and ensures the header and footer are always visible. */}
       <DialogContent className="grid grid-rows-[auto_1fr_auto] max-h-[90vh] p-0 sm:max-w-lg w-[calc(100vw-2rem)] sm:w-auto">
         <DialogHeader className="p-6 pb-4 border-b">
           <DialogTitle className="text-2xl font-bold text-gray-900">
@@ -61,7 +58,6 @@ export default function ShareInfoModal({
           </DialogDescription>
         </DialogHeader>
 
-        {/* This div is now the ONLY scrollable container. */}
         <div className="min-h-0 overflow-y-auto overscroll-y-contain">
           <form
             id="share-info-form"
@@ -109,6 +105,8 @@ export default function ShareInfoModal({
                     />
                   </div>
                   <div className="space-y-2">
+                    
+                    {/* <h1>Hai</h1> */}
                     <Label htmlFor="designation">Designation</Label>
                     <Input
                       id="designation"
