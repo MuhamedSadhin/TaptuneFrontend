@@ -32,7 +32,7 @@ const SelectSalesmanModal = ({
   const { data, isLoading, isError } = useGetAllSalesman();
   const salesmen = Array.isArray(data?.data) ? data.data : [];
 
-  const { mutateAsync: assignMutation } = useAssignUserToSalesman();
+  const { mutateAsync: assignMutation, isPending } = useAssignUserToSalesman();
 
   const userCount = Array.isArray(selectedUsers) ? selectedUsers.length : 0;
 
@@ -214,7 +214,7 @@ const SelectSalesmanModal = ({
             <Button
               variant="outline"
               onClick={onClose}
-              disabled={isLoading}
+              disabled={isPending}
               className="rounded-lg bg-transparent"
             >
               Close
@@ -222,12 +222,11 @@ const SelectSalesmanModal = ({
             <Button
               onClick={handleSubmit}
               disabled={isSubmitDisabled}
-              className="rounded-lg bg-purple-600 hover:bg-purple-700 text-primary-foreground font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="rounded-lg w-27 bg-purple-600 hover:bg-purple-700 text-primary-foreground font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isLoading ? (
+              {isPending ? (
                 <span className="flex items-center gap-2">
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  Assigning...
                 </span>
               ) : (
                 "Assign Leads"
