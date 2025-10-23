@@ -30,6 +30,10 @@ import AdminProfilesPage from "./components/adminComponents/ProfileTransfer/Admi
 import BoardingParentComp from "./components/userComponents/OnBoarding/BoardingParentComp";
 import ForgotPassword from "./app/auth/ForgotPassWord";
 import PrivacyPage from "./app/staticHome/PrivacyPage2";
+import SalesHomePage from "./app/admin/Sales/SalesHomePage";
+import SalesCards from "./app/admin/Sales/SalesHomePage";
+import SalesReport from "./components/adminComponents/SalesComp/SalesViewTable";
+import SalesUsersTable from "./components/adminComponents/SalesComp/SalesViewTable";
 
 
 function App() {
@@ -101,7 +105,7 @@ function App() {
         <Route
           path="/admin"
           element={
-            <Protect requiredRole={["admin", "Admin","sales"]}>
+            <Protect requiredRole={["admin", "Admin", "sales"]}>
               <PageForAdmin />
             </Protect>
           }
@@ -110,11 +114,20 @@ function App() {
           <Route path="card-order" element={<CardOrder />} />
           <Route path="user-list" element={<UserTable />} />
           <Route path="card-list" element={<CardDesignTable />} />
-          <Route path="admin-list" element={<Protect requiredRole={["admin","Admin"]} ><AdminListPage /></Protect>} />
+          <Route
+            path="admin-list"
+            element={
+              <Protect requiredRole={["admin", "Admin"]}>
+                <AdminListPage />
+              </Protect>
+            }
+          />
           <Route path="enquiry" element={<EnquiriesPage />} />
           <Route path="createprofile" element={<CreateProfileForm />} />
           <Route path="profiles" element={<AdminProfilesPage />} />
           <Route path="notification" element={<NotificationsPage />} />
+          <Route path="sales" element={<SalesCards />} />
+          <Route path="SalesReport/:id" element={<SalesUsersTable />} />
         </Route>
       </Routes>
     </>

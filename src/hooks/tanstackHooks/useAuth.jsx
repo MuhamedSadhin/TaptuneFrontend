@@ -11,7 +11,6 @@ export const useGetUser = () =>
 
 // Export a function called useLogin
 export const useLogin = () => {
-  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: authService.login,
     // onSuccess: () => {

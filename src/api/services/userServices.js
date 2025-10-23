@@ -2,12 +2,13 @@ import { API_ENDPOINTS } from "../apiEndpoints";
 import axiosInstance from "../axiosConfig";
 
 export const userService = {
-  getAllUsers: async ({ page = 1, limit = 10, search = "" }) => {
+  getAllUsers: async ({ page = 1, limit = 10, search = "", salesmanId }) => {
     const { data } = await axiosInstance.get(API_ENDPOINTS.USER.GETALLUSERS, {
       params: {
         page,
         limit,
         search,
+        salesmanId,
       },
     });
     return data;
@@ -42,5 +43,5 @@ export const userService = {
       { phoneNumber }
     );
     return data;
-  }
+  },
 };

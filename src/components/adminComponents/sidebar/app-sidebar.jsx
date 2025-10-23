@@ -7,6 +7,7 @@ import {
   Bot,
   Settings2,
   Map,
+  PersonStandingIcon,
 } from "lucide-react";
 
 import { NavMain } from "@/components/adminComponents/sidebar/nav-main"
@@ -62,8 +63,15 @@ const data = {
       title: "Manage Admin",
       url: "/admin/admin-list",
       icon: Settings2,
-      roles: ["admin", "Admin"]
+      roles: ["admin", "Admin"],
     },
+    {
+      title: "Sales",
+      url: "/admin/sales",
+      icon: PersonStandingIcon,
+      roles: ["admin", "Admin"],
+    },
+
     {
       title: "Enquiries",
       url: "/admin/enquiry",

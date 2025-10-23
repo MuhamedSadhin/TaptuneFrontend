@@ -63,4 +63,11 @@ export const API_ENDPOINTS = {
   ONBOARDING: {
     ONBOARDINGANSWERS: "/api/onboarding/onboardingAnswers",
   },
+  SALES: {
+    GETALLSALESSTATS: "/api/sales/getSalesStats",
+    GETUSERSWITHPROFILES: "/api/sales/getUsersWithProfiles",
+    GETALLSALESMAN: "/api/sales/getAllSalesman",
+    ASSIGNUSERTOSALESMAN: "/api/sales/assignLeadsToSalesman",
+    GETEACHSALESMANSTATS: "/api/sales/getEachSalesmanStats",
+  },
 };
