@@ -12,7 +12,7 @@ const SalesCardsMain = () => {
 
   return (
     <section className="">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl">
         {/* Header */}
         <div className="flex justify-between items-center">
           <div>

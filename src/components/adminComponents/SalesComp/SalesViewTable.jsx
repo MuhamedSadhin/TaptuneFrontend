@@ -77,7 +77,7 @@ export default function SalesUsersTable() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-7xl">
       {/* Pass destructured stats to SalesStatsCard */}
       <SalesStatsCard
         salesmanId={salesmanId}

@@ -10,7 +10,7 @@ import {
   FiArrowDown,
 } from "react-icons/fi";
 import { useGetEachSalesmanStats } from "@/hooks/tanstackHooks/useSales";
-import Loader from "@/components/ui/Loader";
+import { Skeleton } from "@/components/ui/skeleton"; // ✅ shadcn skeleton component
 
 const CardBackgroundPattern = () => (
   <div className="absolute inset-0 z-0 overflow-hidden rounded-2xl">
@@ -104,32 +104,54 @@ const StatCard = ({
   );
 };
 
+// ✅ Skeleton card for loading state
+const SkeletonCard = ({ isPrimary = false }) => {
+  const baseClasses =
+    "relative overflow-hidden rounded-2xl p-5 shadow-sm transition-all duration-300 ease-in-out";
+  const themeClasses = isPrimary
+    ? "bg-purple-600 text-white"
+    : "bg-white border border-gray-100";
+
+  return (
+    <div className={`${baseClasses} ${themeClasses}`}>
+      {isPrimary && <CardBackgroundPattern />}
+      <div className="relative flex flex-col justify-between h-full space-y-4">
+        <Skeleton
+          className={`h-3 w-20 ${
+            isPrimary ? "bg-white/30" : "bg-gray-200"
+          } rounded`}
+        />
+        <Skeleton
+          className={`h-6 w-20 ${
+            isPrimary ? "bg-white/40" : "bg-gray-200"
+          } rounded`}
+        />
+        <div className="flex justify-between items-center mt-5">
+          <Skeleton
+            className={`h-3 w-16 ${
+              isPrimary ? "bg-white/30" : "bg-gray-200"
+            } rounded`}
+          />
+          <Skeleton
+            className={`h-4 w-6 rounded-xl ${
+              isPrimary ? "bg-white/30" : "bg-gray-200"
+            }`}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default function SalesStatsCard({ salesmanId }) {
   const { data, isLoading, isError } = useGetEachSalesmanStats(salesmanId);
 
-  // ✅ Fallback safe destructuring
   const stats = data?.data || {
     totalUsers: 0,
     totalProfiles: 0,
     usersThisMonth: 0,
     pendingOrders: 0,
   };
-
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center w-full h-48">
-        <Loader className="animate-spin h-6 w-6 text-muted-foreground" />
-      </div>
-    );
-  }
-
-  if (isError) {
-    return (
-      <div className="text-center py-10 text-red-500 font-medium">
-        Failed to load stats.
-      </div>
-    );
-  }
 
   const statsData = [
     {
@@ -167,13 +189,27 @@ export default function SalesStatsCard({ salesmanId }) {
     },
   ];
 
+  if (isError) {
+    return (
+      <div className="text-center py-10 text-red-500 font-medium">
+        Failed to load stats.
+      </div>
+    );
+  }
+
   return (
     <div className="w-full font-sans flex items-center justify-center">
       <div className="w-full max-w-7xl">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {statsData.map((stat, index) => (
-            <StatCard key={index} {...stat} />
-          ))}
+          {isLoading
+            ? // ✅ Show skeletons while loading
+              statsData.map((stat, index) => (
+                <SkeletonCard key={index} isPrimary={stat.isPrimary} />
+              ))
+            : // ✅ Show real stats once loaded
+              statsData.map((stat, index) => (
+                <StatCard key={index} {...stat} />
+              ))}
         </div>
       </div>
     </div>
