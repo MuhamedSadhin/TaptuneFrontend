@@ -8,7 +8,6 @@ import React from "react";
 
 const AdminHomepage = () => {
   const { user } = useAuthUser();
-  console.log(user);
 
   if (!user) {
     return (

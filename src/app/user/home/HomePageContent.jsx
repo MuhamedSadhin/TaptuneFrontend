@@ -37,7 +37,6 @@ const HomePage = () => {
   const navigate = useNavigate();
   const [showPhoneModal, setShowPhoneModal] = useState(false);
   const { user } = useAuthUser()
-  console.log("Authenticated User:", user);
 
   useEffect(() => {
     if (user) {

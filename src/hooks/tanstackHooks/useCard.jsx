@@ -9,7 +9,6 @@ export const useGetAllCards = () =>
   });
   
   export const useGetOneCard = ({ id }) => {
-    console.log("Card ID:", id);
     return useQuery({
       queryKey: ["card", id],
       queryFn: () => cardService.viewOneCard(id),

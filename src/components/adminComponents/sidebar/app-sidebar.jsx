@@ -110,7 +110,6 @@ export function AppSidebar({
   ...props
 }) {
   const { user } = useAuthUser();
-  console.log("Sidebar User:", user);
   const role = user?.role || "user"; 
 
     const filteredNav = data.navMain.filter((item) => {

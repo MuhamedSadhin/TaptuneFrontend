@@ -20,7 +20,6 @@ import {
 } from "@/hooks/tanstackHooks/useProfile";
 
 export default function TransferProfileDialog({ open, onOpenChange, profile }) {
-  console.log("TransferProfileDialog opened for profile:", profile);
   const [inputValue, setInputValue] = useState(""); // immediate typing
   const [email, setEmail] = useState(""); // debounced email
   const [selectedUser, setSelectedUser] = useState(null);
@@ -53,7 +52,6 @@ export default function TransferProfileDialog({ open, onOpenChange, profile }) {
       toast.error("Please agree to the Terms & Conditions.");
       return;
       }
-      console.log("Transferring profile to user:", selectedUser);
 
     transferProfile(
       { profileId: profile._id, userId: selectedUser._id },

@@ -86,7 +86,6 @@ function ProfileWrapper() {
       notes: formData.notes,
     };
 
-    console.log("Submitting complete payload to API:", payload);
 
     connectMutate(payload, {
       onSuccess: (res) => {

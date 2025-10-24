@@ -73,7 +73,6 @@ export const useVerifyOTP = () => {
 export const useResetPassword = () => {
   return useMutation({
     mutationFn: ({ email, password }) => {
-      console.log("Reset password data:", { email, password });
       return authService.resetPassword({ email, password });
     },
   });

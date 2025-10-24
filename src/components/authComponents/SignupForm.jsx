@@ -58,13 +58,11 @@ useEffect(() => {
     const params = new URLSearchParams(queryString);
     const ref = params.get("ref");
     if (ref) {
-      console.log("Referral Code Found:", ref);
       setReferralCode(ref);
       return;
     }
   }
 
-  console.log("No referral code in URL");
 }, []);
 
   // ✅ Handle phone input, remove `+` symbol
@@ -95,7 +93,6 @@ useEffect(() => {
       toast.error("You must agree to Terms & Privacy Policy");
       return;
     }
-    console.log("Submitting signup with data:", formData);
     signupMutation(
       {
         name: formData.name,

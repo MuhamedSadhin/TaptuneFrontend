@@ -135,7 +135,6 @@ const handlePlaceOrder = async () => {
         {
           onSuccess: (res) => {
             if (res.success) {
-              console.log("Order placed successfully:", res.data);
               toast.success("Order placed successfully!");
               navigate(-1);
             } else {

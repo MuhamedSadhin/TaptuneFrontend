@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState, useRef, useMemo } from "react";
@@ -24,6 +23,15 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import SelectSalesmanModal from "./SelectSalesmanModal";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+import { Users, Target, UserCircle } from "lucide-react";
+import { useAuthUser } from "@/hooks/tanstackHooks/useUserContext";
 
 const UserTable = () => {
   const [search, setSearch] = useState("");
@@ -34,7 +42,10 @@ const UserTable = () => {
   const [selectedSalesmanFilter, setSelectedSalesmanFilter] = useState("all");
   const limit = 10;
   const tableRef = useRef(null);
-
+  const { user } = useAuthUser();
+  console.log("Logged in user in UserTable:", user);
+const isAdmin = user?.role?.toLowerCase() === "admin";
+  console.log("Is Admin:", isAdmin);
   // Fetch all salesmen
   const { data: salesmenResponse } = useGetAllSalesman();
   const salesmen = Array.isArray(salesmenResponse?.data)
@@ -117,13 +128,6 @@ const UserTable = () => {
   const handleSalesmanSelected = ({ salesman, selectedUsers }) => {
     if (!salesman || !selectedUsers || selectedUsers.length === 0) return;
 
-    console.log(
-      "Assigning to salesman:",
-      salesman._id,
-      "users:",
-      selectedUsers.map((u) => u._id)
-    );
-
     // Remove assigned users from parent selection
     setSelectedUsersState((prev) =>
       prev.filter((u) => !selectedUsers.some((su) => su._id === u._id))
@@ -134,6 +138,7 @@ const UserTable = () => {
 
   return (
     <div ref={tableRef} className="w-full">
+      {/* Header */}
       <div className="mb-6 md:mb-8">
         <div className="mb-6">
           <h1 className="text-2xl md:text-2xl font-bold text-foreground tracking-tight">
@@ -144,6 +149,7 @@ const UserTable = () => {
           </p>
         </div>
 
+        {/* Search & Filter */}
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="flex flex-col gap-3 sm:flex-row sm:gap-3 flex-1">
             <Input
@@ -153,27 +159,55 @@ const UserTable = () => {
               onChange={(e) => setLocalSearch(e.target.value)}
               aria-label="Search users"
             />
+            {isAdmin && (
+              <Select
+                value={selectedSalesmanFilter}
+                onValueChange={(value) => {
+                  setSelectedSalesmanFilter(value);
+                  setCurrentPage(1);
+                }}
+              >
+                <SelectTrigger className="h-12 w-full sm:w-60 border border-border rounded-lg px-3 py-2 text-sm bg-background text-foreground focus:ring-2 focus:ring-primary/50 focus:outline-none transition-all">
+                  <SelectValue placeholder="Filter by salesman" />
+                </SelectTrigger>
 
-            <select
-              className="h-10 border border-border rounded-lg px-3 py-2 text-sm bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all cursor-pointer"
-              value={selectedSalesmanFilter}
-              onChange={(e) => {
-                setSelectedSalesmanFilter(e.target.value);
-                setCurrentPage(1);
-              }}
-              aria-label="Filter by salesman"
-            >
-              <option value="all">All Salesmen</option>
-              <option value="directLead">Direct Lead</option>
-              {salesmen.map((s) => (
-                <option key={s._id} value={s._id}>
-                  {s.name}
-                </option>
-              ))}
-            </select>
+                <SelectContent className="max-h-60 overflow-y-auto">
+                  <SelectItem
+                    value="all"
+                    className="flex items-center gap-2 py-1.5"
+                  >
+                    <Users className="h-5 w-5 text-primary" />
+                    <span className="text-sm font-medium text-foreground">
+                      All Sales Team
+                    </span>
+                  </SelectItem>
+                  <SelectItem
+                    value="directLead"
+                    className="flex items-center gap-2 py-1.5"
+                  >
+                    <Target className="h-5 w-5 text-blue-500" />
+                    <span className="text-sm font-medium text-foreground">
+                      Direct Lead
+                    </span>
+                  </SelectItem>
+                  {salesmen.map((s) => (
+                    <SelectItem
+                      key={s._id}
+                      value={s._id}
+                      className="flex items-center gap-2 py-1.5"
+                    >
+                      <UserCircle className="h-5 w-5 text-muted-foreground" />
+                      <span className="text-sm font-medium text-foreground truncate">
+                        {s.name}
+                      </span>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
           </div>
-
-          <div className="flex flex-col gap-2 justify-start">
+            
+          {isAdmin && (
             <Button
               className="h-10 px-6 bg-purple-600 hover:bg-purple-700 text-primary-foreground font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={handleAssignLeads}
@@ -181,20 +215,34 @@ const UserTable = () => {
             >
               Assign Leads
             </Button>
-          </div>
+          )}
         </div>
-        <div className="flex justify-end px-2 py-1">
-          {selectedUsersState.length > 0 && (
+
+        {/* Selected Count */}
+      
+        {(selectedUsersState.length > 0 && isAdmin)&& (
+          <div className="flex justify-end px-2 py-1">
             <span className="text-xs sm:text-sm md:text-base text-blue-600 font-medium ml-2">
               ({selectedUsersState.length} user
               {selectedUsersState.length !== 1 ? "s" : ""} selected)
             </span>
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
-      <div className="border border-border rounded-lg overflow-hidden bg-card ">
-        <div className="overflow-x-auto">
+      {/* Loader / No Data */}
+      {isLoading ? (
+        <div className="flex justify-center items-center h-96 rounded-lg bg-card">
+          <Loader className="animate-spin h-6 w-6 text-muted-foreground" />
+        </div>
+      ) : users.length === 0 ? (
+        <div className="flex justify-center items-center h-96  rounded-lg bg-card">
+          <p className="text-muted-foreground text-sm md:text-base">
+            No users found
+          </p>
+        </div>
+      ) : (
+        <div className="border border-border rounded-lg overflow-hidden bg-card overflow-x-auto">
           <Table className="w-full text-sm">
             <TableHeader>
               <TableRow className="bg-muted/50 border-b border-border hover:bg-muted/50">
@@ -204,7 +252,6 @@ const UserTable = () => {
                     checked={isAllSelectedOnPage}
                     onChange={handleSelectAll}
                     className="w-4 h-4 rounded border-border cursor-pointer focus:ring-2 focus:ring-primary"
-                    aria-label="Select all users on this page"
                   />
                 </TableHead>
                 <TableHead className="px-4 py-3 font-semibold text-foreground">
@@ -219,7 +266,7 @@ const UserTable = () => {
                 <TableHead className="px-4 py-3 font-semibold text-foreground hidden md:table-cell">
                   Email
                 </TableHead>
-                <TableHead className="px-4 py-3 font-semibold text-foreground hidden lg:table-cell">
+                <TableHead className="px-4 py-3 font-semibold text-foreground lg:table-cell">
                   Lead By
                 </TableHead>
                 <TableHead className="px-4 py-3 font-semibold text-foreground text-center">
@@ -232,94 +279,73 @@ const UserTable = () => {
             </TableHeader>
 
             <TableBody>
-              {isLoading ? (
-                <TableRow>
-                  <TableCell colSpan={8} className="text-center py-12">
-                <div className="flex justify-center items-center w-full h-64">
-                  <Loader className="animate-spin h-6 w-6 text-muted-foreground" />
-                    </div>
+              {users.map((user, idx) => (
+                <TableRow
+                  key={user._id}
+                  className="border-b border-border hover:bg-muted/30 transition-colors"
+                >
+                  <TableCell className="text-center px-4 py-3">
+                    <input
+                      type="checkbox"
+                      checked={selectedIds.includes(user._id)}
+                      onChange={() => handleCheckboxChange(user)}
+                      className="w-4 h-4 rounded border-border cursor-pointer focus:ring-2 focus:ring-primary"
+                    />
                   </TableCell>
-                </TableRow>
-              ) : users.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={8} className="text-center py-12">
-                    <div className="text-muted-foreground">
-                      <p className="text-sm md:text-base">No users found</p>
-                    </div>
+                  <TableCell className="px-4 py-3 text-foreground font-medium">
+                    {idx + 1 + (currentPage - 1) * limit}
                   </TableCell>
-                </TableRow>
-              ) : (
-                users.map((user, idx) => (
-                  <TableRow
-                    key={user._id}
-                    className="border-b border-border hover:bg-muted/30 transition-colors"
-                  >
-                    <TableCell className="text-center px-4 py-3">
-                      <input
-                        type="checkbox"
-                        checked={selectedIds.includes(user._id)}
-                        onChange={() => handleCheckboxChange(user)}
-                        className="w-4 h-4 rounded border-border cursor-pointer focus:ring-2 focus:ring-primary"
-                        aria-label={`Select ${user.name}`}
-                      />
-                    </TableCell>
-                    <TableCell className="px-4 py-3 text-foreground font-medium">
-                      {idx + 1 + (currentPage - 1) * limit}
-                    </TableCell>
-                    <TableCell className="px-4 py-3">
-                      <div className="font-medium text-foreground">
-                        {user.name}
-                      </div>
-                      <div className="text-xs text-muted-foreground md:hidden">
-                        {user.email}
-                      </div>
-                    </TableCell>
-                    <TableCell className="px-4 py-3 text-foreground hidden sm:table-cell">
-                      {user.phoneNumber || "-"}
-                    </TableCell>
-                    <TableCell className="px-4 py-3 text-foreground hidden md:table-cell truncate">
+                  <TableCell className="px-4 py-3">
+                    <div className="font-medium text-foreground">
+                      {user.name}
+                    </div>
+                    <div className="text-xs text-muted-foreground md:hidden">
                       {user.email}
-                    </TableCell>
-                    <TableCell className="px-4 py-3  lg:table-cell text-center">
-                      {user.referalId?.name ? (
-                        <span className="inline-block px-2 py-1 text-xs font-medium text-white bg-blue-600 rounded-full">
-                          {user.referalId.name}
-                        </span>
-                      ) : (
-                        <span className="inline-block px-2 py-1 text-xs font-medium text-gray-700 bg-gray-200 rounded-full">
-                          Direct Lead
-                        </span>
-                      )}
-                    </TableCell>
-
-                    <TableCell className="px-4 py-3 text-center">
-                      {user.isOrdered ? (
-                        <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-green-100 dark:bg-green-900/30">
-                          <Check className="text-green-600 dark:text-green-400 w-4 h-4" />
-                        </div>
-                      ) : (
-                        <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-red-100 dark:bg-red-900/30">
-                          <X className="text-red-600 dark:text-red-400 w-4 h-4" />
-                        </div>
-                      )}
-                    </TableCell>
-                    <TableCell className="px-4 py-3 text-foreground hidden sm:table-cell text-xs md:text-sm">
-                      {new Date(user.createdAt).toLocaleDateString()}
-                    </TableCell>
-                  </TableRow>
-                ))
-              )}
+                    </div>
+                  </TableCell>
+                  <TableCell className="px-4 py-3 text-foreground hidden sm:table-cell">
+                    {user.phoneNumber || "-"}
+                  </TableCell>
+                  <TableCell className="px-4 py-3 text-foreground hidden md:table-cell truncate">
+                    {user.email}
+                  </TableCell>
+                  <TableCell className="px-4 py-3 lg:table-cell text-center">
+                    {user.referalId?.name ? (
+                      <span className="inline-block px-2 py-1 text-xs font-medium text-white bg-blue-600 rounded-full">
+                        {user.referalId.name}
+                      </span>
+                    ) : (
+                      <span className="inline-block px-2 py-1 text-xs font-medium text-gray-700 bg-gray-200 rounded-full">
+                        Direct Lead
+                      </span>
+                    )}
+                  </TableCell>
+                  <TableCell className="px-4 py-3 text-center">
+                    {user.isOrdered ? (
+                      <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-green-100 dark:bg-green-900/30">
+                        <Check className="text-green-600 dark:text-green-400 w-4 h-4" />
+                      </div>
+                    ) : (
+                      <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-red-100 dark:bg-red-900/30">
+                        <X className="text-red-600 dark:text-red-400 w-4 h-4" />
+                      </div>
+                    )}
+                  </TableCell>
+                  <TableCell className="px-4 py-3 text-foreground hidden sm:table-cell text-xs md:text-sm">
+                    {new Date(user.createdAt).toLocaleDateString()}
+                  </TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </div>
-      </div>
+      )}
 
+      {/* Pagination */}
       <div className="mt-6 flex flex-row gap-4 sm:flex-row items-center justify-between">
         <div className="text-sm text-muted-foreground">
-          <span>
-            Page cd{" "}
-            <span className="font-medium text-foreground">{currentPage}</span>{" "}
-          </span>
+          Page{" "}
+          <span className="font-medium text-foreground">{currentPage}</span>
         </div>
 
         <div className="flex items-center gap-2 flex-wrap">
@@ -330,7 +356,6 @@ const UserTable = () => {
             disabled={currentPage === 1}
             className="h-9 px-3 rounded-lg border border-border hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             aria-label="Go to first page"
-            title="First page"
           >
             <ChevronsLeft className="w-4 h-4" />
           </Button>
@@ -341,7 +366,6 @@ const UserTable = () => {
             disabled={currentPage === 1}
             className="h-9 px-3 rounded-lg border border-border hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             aria-label="Go to previous page"
-            title="Previous page"
           >
             <ChevronLeft className="w-4 h-4" />
           </Button>
@@ -356,7 +380,6 @@ const UserTable = () => {
             disabled={currentPage === totalPages}
             className="h-9 px-3 rounded-lg border border-border hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             aria-label="Go to next page"
-            title="Next page"
           >
             <ChevronRight className="w-4 h-4" />
           </Button>
@@ -367,13 +390,13 @@ const UserTable = () => {
             disabled={currentPage === totalPages}
             className="h-9 px-3 rounded-lg border border-border hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             aria-label="Go to last page"
-            title="Last page"
           >
             <ChevronsRight className="w-4 h-4" />
           </Button>
         </div>
       </div>
 
+      {/* Modal */}
       <SelectSalesmanModal
         selectedUsers={selectedUsersState}
         open={isModalOpen}

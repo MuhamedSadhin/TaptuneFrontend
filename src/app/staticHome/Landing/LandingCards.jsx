@@ -13,7 +13,6 @@ function LandingCards() {
   const [cards, setCards] = useState([]);
   const navigate = useNavigate();
   const { data } = useGetAllCards();
-  console.log("data:", data);
 
   const [hoveredCardId, setHoveredCardId] = useState(null);
 
