@@ -501,10 +501,9 @@ const OrderTable = () => {
 
         {/* Loading */}
         {isLoading && (
-          <div className="flex h-64 items-center justify-center rounded-lg border border-border bg-muted/30">
+          <div className="flex h-80 items-center justify-center rounded-lg">
             <div className="flex flex-col items-center gap-3">
               <Loader className="h-8 w-8 animate-spin text-muted-foreground" />
-              <p className="text-sm text-muted-foreground">Loading orders...</p>
             </div>
           </div>
         )}
