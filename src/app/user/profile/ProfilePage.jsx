@@ -76,15 +76,16 @@ export default function ProfilesPage() {
                 Add Profile
               </Button>
             )}
-            {role === "sales" && (
-              <Button
-                onClick={() => navigate("/admin/cards")}
-                className="bg-purple-600 hover:bg-purple-700"
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                Add Profile
-              </Button>
-            )}
+            {role === "sales" &&
+              profiles.length == 0 && (
+                <Button
+                  onClick={() => navigate("/admin/cards")}
+                  className="bg-purple-600 hover:bg-purple-700"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Profile
+                </Button>
+              )}
           </div>
         </header>
 
