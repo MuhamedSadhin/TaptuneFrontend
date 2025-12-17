@@ -12,6 +12,7 @@ import ProfilePremium from "./ProfileCardView";
 import ProfilePremiumBlack from "./profileBlackPremium";
 import ProfileElite from "./ProfileElite";
 import { AlertTriangle } from "lucide-react";
+import SalesProfilePremium from "./SalesProfile";
 
 const initialFormData = {
   fullName: "",
@@ -128,6 +129,7 @@ function ProfileWrapper() {
     premium: ProfilePremium,
     elite: ProfileElite,
     black: ProfilePremiumBlack,
+    SalesTemplate:SalesProfilePremium
   };
   const SelectedProfile = profileComponents[designType] || ProfilePremium;
 
@@ -135,7 +137,6 @@ function ProfileWrapper() {
     <>
       {!isProfileActive && (
         <div className="">
-          {/* Activation Banner */}
           <div className="w-full bg-gradient-to-r from-amber-500 to-orange-500 shadow-lg">
             <div className="max-w-4xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-3">

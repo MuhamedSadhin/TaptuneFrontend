@@ -8,11 +8,16 @@ import { Wifi, TrendingUp, Heart, Star } from "lucide-react";
 import { useGetAllCards } from "@/hooks/tanstackHooks/useCard";
 import { useNavigate } from "react-router-dom";
 import Loader from "@/components/ui/Loader";
+import { useAuthUser } from "@/hooks/tanstackHooks/useUserContext";
 
 export default function ShowCards() {
   const [favorites, setFavorites] = useState(new Set());
-  const { data , isLoading } = useGetAllCards();
+  const { data, isLoading } = useGetAllCards();
+  const { user } = useAuthUser(); // 👈 get logged-in user
   const navigate = useNavigate();
+
+  const role = user?.role; // "sales" | "user" | etc.
+  console.log("User Role in ShowCards:", role);
 
   const toggleFavorite = (cardId) => {
     const newFavorites = new Set(favorites);
@@ -34,6 +39,14 @@ export default function ShowCards() {
         return "text-green-600 bg-green-50";
       default:
         return "text-gray-600 bg-gray-50";
+    }
+  };
+
+  const handleOrder = (cardId) => {
+    if (role === "sales") {
+      navigate(`/admin/booking/${cardId}`);
+    } else {
+      navigate(`/user/booking/${cardId}`);
     }
   };
 
@@ -96,8 +109,8 @@ export default function ShowCards() {
                   </div>
 
                   {/* Content */}
-                  <CardContent className="">
-                    <h3 className="text-lg sm:text-xl font-semibold text-gray-900 tracking-tight mb-1 line-clamp-1">
+                  <CardContent>
+                    <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-1 line-clamp-1">
                       {card.cardName}
                     </h3>
 
@@ -119,7 +132,7 @@ export default function ShowCards() {
                         {[...Array(5)].map((_, i) => (
                           <Star
                             key={i}
-                            className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${
+                            className={`w-4 h-4 ${
                               i < 4
                                 ? "text-yellow-400 fill-current"
                                 : "text-gray-300"
@@ -135,8 +148,8 @@ export default function ShowCards() {
                       </span>
                       <Button
                         size="sm"
-                        className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white shadow-sm"
-                        onClick={() => navigate(`/user/booking/${card._id}`)}
+                        className="bg-gradient-to-r from-purple-500 to-purple-600 text-white"
+                        onClick={() => handleOrder(card._id)}
                       >
                         Order Now
                       </Button>

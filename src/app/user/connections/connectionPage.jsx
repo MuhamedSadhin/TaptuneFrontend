@@ -151,7 +151,7 @@ export default function ConnectionsPage() {
             </div>
 
             {/* Row 2: View Mode Switch */}
-            <div className="flex justify-between w-full">
+            <div className="flex justify-between w-full gap-2">
               <div className="relative w-full sm:w-64">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                 <Input

@@ -19,9 +19,12 @@ import { deleteFileFromFirebase } from "@/firebase/functions/deleteFileFromFireb
 import PhoneInput from "react-phone-input-2";
 import { LinkInputDialog } from "@/components/userComponents/profileComp/InputLinkDialog";
 import { FaUser } from "react-icons/fa6";
+import { useAuthUser } from "@/hooks/tanstackHooks/useUserContext";
 
 const EditProfilePage = () => {
   const navigate = useNavigate();
+  const { user } = useAuthUser();
+  const role = user?.role
   const location = useLocation();
   const { id } = useParams(); // Get _id from URL
   const profile = location.state?.profile; // Get profile from navigation state
@@ -284,7 +287,6 @@ const EditProfilePage = () => {
             <div className="relative">
               <label htmlFor="profilePic">
                 <Avatar className="h-24 w-24 md:h-32 md:w-32 border-4 border-white shadow-xl rounded-full">
-
                   <AvatarImage
                     className="bg-white"
                     src={
@@ -372,12 +374,24 @@ const EditProfilePage = () => {
                   theme: "bg-purple-100 text-gray-800",
                   bgColor: "bg-purple-200",
                 },
-                {
-                  type: "elite",
-                  label: "Elite",
-                  theme: "bg-blue-100 text-gray-800",
-                  bgColor: "bg-blue-200",
-                },
+                ...(role === "sales"
+                  ? [
+                      {
+                        type: "SalesTemplate",
+                        label: "Sales Template",
+                        theme: "bg-amber-950 text-amber-100",
+                        bgColor:
+                          "bg-gradient-to-br from-amber-400 to-orange-400",
+                      },
+                    ]
+                  : [
+                      {
+                        type: "elite",
+                        label: "Elite",
+                        theme: "bg-blue-100 text-gray-800",
+                        bgColor: "bg-blue-200",
+                      },
+                    ]),
               ].map(({ type, label, theme, bgColor }) => (
                 <Card
                   key={type}

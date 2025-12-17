@@ -5,8 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { iconObj } from "@/assets/Icons/icons.jsx";
 import { HiMiniPhone, HiMiniEye } from "react-icons/hi2"; 
 import { HiMiniUser, HiMiniPencilSquare } from "react-icons/hi2"; // Heroicons 2
+import { useAuthUser } from "@/hooks/tanstackHooks/useUserContext";
 
 export const ProfileCard = ({ profile }) => {
+  const { user } = useAuthUser();
+  const role = user?.role; // "admin" | "user" | "sales"
   const navigate = useNavigate();
   const {
     _id,
@@ -21,8 +24,12 @@ export const ProfileCard = ({ profile }) => {
     isActive,
   } = profile;
   const handleEditProfile = () => {
-    navigate(`/user/profile/edit/${_id}`, { state: { profile } });
-  };
+    if( role === "sales" ){
+    navigate(`/admin/profile/edit/${_id}`, { state: { profile } });
+    } else {
+      navigate(`/user/profile/edit/${_id}`, { state: { profile } });
+    }
+  }
 
    let statusText = "";
    let styles = "";

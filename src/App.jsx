@@ -125,6 +125,11 @@ function App() {
           <Route path="enquiry" element={<EnquiriesPage />} />
           <Route path="createprofile" element={<CreateProfileForm />} />
           <Route path="profiles" element={<AdminProfilesPage />} />
+          <Route path="profile" element={<ProfilesPage />} />
+          <Route path="cards" element={<ShowCards />} />
+          <Route path="booking/:id" element={<CardBooking />} />
+          <Route path="profile/edit/:id" element={<EditProfilePage />} />
+          <Route path="connections" element={<ConnectionsPage />} />
           <Route path="notification" element={<NotificationsPage />} />
           <Route path="sales" element={<SalesCards />} />
           <Route path="SalesReport/:id" element={<SalesUsersTable />} />

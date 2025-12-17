@@ -2,31 +2,41 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Users, Menu, Plus } from "lucide-react";
+import { Users, Plus } from "lucide-react";
 import { useGetAllProfile } from "@/hooks/tanstackHooks/useProfile";
 import { ProfileCard } from "@/components/userComponents/profileComp/ProfileCard";
 import { useNavigate } from "react-router-dom";
-
-import Loader from  "@/components/ui/Loader";
+import Loader from "@/components/ui/Loader";
+import { useAuthUser } from "@/hooks/tanstackHooks/useUserContext";
 
 export default function ProfilesPage() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [favorites, setFavorites] = useState(new Set());
-    const navigate = useNavigate();
+  const [favorites, setFavorites] = useState(new Set());
+  const navigate = useNavigate();
+
+  const { user, loading: authLoading } = useAuthUser();
+  const role = user?.role; // "admin" | "user" | "sales"
 
   const { data, isLoading, isError } = useGetAllProfile();
   const profiles = data?.profile || [];
 
   const toggleFavorite = (profileId) => {
     const newFavorites = new Set(favorites);
-    if (newFavorites.has(profileId)) {
-      newFavorites.delete(profileId);
-    } else {
-      newFavorites.add(profileId);
-    }
+    newFavorites.has(profileId)
+      ? newFavorites.delete(profileId)
+      : newFavorites.add(profileId);
     setFavorites(newFavorites);
   };
 
+  // -------------------------
+  // Loading / Error Handling
+  // -------------------------
+  if (authLoading || isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader />
+      </div>
+    );
+  }
 
   if (isError) {
     return (
@@ -45,39 +55,43 @@ export default function ProfilesPage() {
 
   return (
     <div className="min-h-screen flex">
-      {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0">
+        {/* Header */}
         <header className="mb-6">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div>
-                <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
-                  Profiles
-                </h1>
-                <p className="text-gray-600">Discover talented professionals</p>
-              </div>
+            <div>
+              <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
+                Profiles
+              </h1>
+              <p className="text-gray-600">Discover talented professionals</p>
             </div>
 
-            <div className="flex items-center space-x-4">
+            {/* ✅ Admin Only Action */}
+            {role === "admin" && (
               <Button
-                onClick={() => navigate(`/user/cards`)}
+                onClick={() => navigate("/admin/cards")}
                 className="bg-purple-600 hover:bg-purple-700"
               >
                 <Plus className="w-4 h-4 mr-2" />
                 Add Profile
               </Button>
-            </div>
+            )}
+            {role === "sales" && (
+              <Button
+                onClick={() => navigate("/admin/cards")}
+                className="bg-purple-600 hover:bg-purple-700"
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                Add Profile
+              </Button>
+            )}
           </div>
         </header>
 
         {/* Content */}
         <main className="flex-1">
           <div className="max-w-7xl mx-auto flex justify-center items-center min-h-[60vh]">
-            {isLoading ? (
-              <div className="flex items-center justify-center h-screen">
-                <Loader />
-              </div>
-            ) : profiles.length > 0 ? (
+            {profiles.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 w-full">
                 {profiles.map((profile) => (
                   <ProfileCard
@@ -96,7 +110,7 @@ export default function ProfilesPage() {
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">
                   No profiles available
                 </h3>
-                <p className="text-gray-600 mb-6 max-w-md mx-auto">
+                <p className="text-gray-600 max-w-md mx-auto">
                   There are currently no profiles to display
                 </p>
               </div>

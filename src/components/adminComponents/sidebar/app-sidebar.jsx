@@ -23,7 +23,6 @@ import {
 import { Notification03Icon } from "hugeicons-react";
 import { useAuthUser } from "@/hooks/tanstackHooks/useUserContext";
 
-
 // This is sample data.
 const data = {
   user: {
@@ -43,6 +42,12 @@ const data = {
       title: "Home",
       url: "/admin",
       icon: SquareTerminal,
+    },
+    {
+      title: "Profile",
+      url: "/admin/profile",
+      icon: SquareTerminal,
+      roles: ["Sales", "sales"],
     },
     {
       title: "Card Orders",
@@ -83,6 +88,12 @@ const data = {
       icon: GalleryVerticalEnd,
     },
     {
+      title: "Lead Connections",
+      url: "/admin/connections",
+      icon: GalleryVerticalEnd,
+      roles: ["sales"],
+    },
+    {
       title: "Notification",
       url: "/admin/notification",
       icon: Notification03Icon,
@@ -109,8 +120,10 @@ const data = {
 export function AppSidebar({
   ...props
 }) {
+
   const { user } = useAuthUser();
   const role = user?.role || "user"; 
+  console.log("User Role in Sidebar:", role);
 
     const filteredNav = data.navMain.filter((item) => {
       if (!item.roles) return true; 

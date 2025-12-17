@@ -5,6 +5,7 @@ import { useState } from "react";
 import ProfilePremiumBlack from "@/app/user/externalProfileView.jsx/profileBlackPremium";
 import ProfilePremium from "@/app/user/externalProfileView.jsx/ProfileCardView";
 import ProfileElite from "@/app/user/externalProfileView.jsx/ProfileElite";
+import SalesProfilePremium from "@/app/user/externalProfileView.jsx/SalesProfile";
 import { useParams } from "react-router-dom";
 
 function ProfilePreviewWrapper() {
@@ -15,6 +16,7 @@ function ProfilePreviewWrapper() {
     premium: ProfilePremium,
     elite: ProfileElite,
     black: ProfilePremiumBlack,
+    salestemplate: SalesProfilePremium,
   };
 
 const demoProfile = {

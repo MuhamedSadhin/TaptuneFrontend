@@ -162,8 +162,8 @@ export function ConnectionsTable({
                     </AvatarFallback>
                   </Avatar>
                 </TableCell>
-                <TableCell className="font-medium">{c.name}</TableCell>
-                <TableCell className="text-gray-700">{c.email}</TableCell>
+                <TableCell className="font-medium">{c.name || "-"}</TableCell>
+                <TableCell className="text-gray-700">{c.email || "-"}</TableCell>
                 <TableCell className="hidden sm:table-cell">
                   {c.phoneNumber || "-"}
                 </TableCell>
