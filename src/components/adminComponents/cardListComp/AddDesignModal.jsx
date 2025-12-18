@@ -146,6 +146,7 @@ const handleSubmit = () => {
                 <SelectItem value="Classic">Classic</SelectItem>
                 <SelectItem value="Standard">Standard</SelectItem>
                 <SelectItem value="Premium">Premium</SelectItem>
+                <SelectItem value="Review Card">Review Card</SelectItem>
               </SelectContent>
             </Select>
             {errors.category && (

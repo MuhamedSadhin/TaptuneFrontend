@@ -70,4 +70,9 @@ export const API_ENDPOINTS = {
     ASSIGNUSERTOSALESMAN: "/api/sales/assignLeadsToSalesman",
     GETEACHSALESMANSTATS: "/api/sales/getEachSalesmanStats",
   },
+  REVIEW_CARD_ORDERS: {
+    CREATE_ORDER: "/api/reviewCard",
+    UPDATE_ORDER_STATUS: "/api/reviewCard/status",
+    GET_ALL_ORDERS: "/api/reviewCard",
+  },
 };

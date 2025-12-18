@@ -34,7 +34,8 @@ import SalesHomePage from "./app/admin/Sales/SalesHomePage";
 import SalesCards from "./app/admin/Sales/SalesHomePage";
 import SalesReport from "./components/adminComponents/SalesComp/SalesViewTable";
 import SalesUsersTable from "./components/adminComponents/SalesComp/SalesViewTable";
-
+import AdminReviewCardOrders from "./components/adminComponents/reviewCardComp/CardOrderView";
+import ReviewCardPage from "./app/admin/reviewCards/reviewCardPage.jsx";
 
 function App() {
   const location = useLocation();
@@ -132,6 +133,7 @@ function App() {
           <Route path="connections" element={<ConnectionsPage />} />
           <Route path="notification" element={<NotificationsPage />} />
           <Route path="sales" element={<SalesCards />} />
+          <Route path="reviewcard" element={<ReviewCardPage />} />
           <Route path="SalesReport/:id" element={<SalesUsersTable />} />
         </Route>
       </Routes>

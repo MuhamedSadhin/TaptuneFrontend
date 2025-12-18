@@ -9,6 +9,21 @@ import {
   Map,
   PersonStandingIcon,
 } from "lucide-react";
+import {
+  Home,
+  User,
+  CreditCard,
+  Star,
+  Users,
+  LayoutGrid,
+  Shield,
+  Briefcase,
+  MessageSquare,
+  IdCard,
+  Link2,
+  Bell,
+  LogOut,
+} from "lucide-react";
 
 import { NavMain } from "@/components/adminComponents/sidebar/nav-main"
 import { NavUser } from "@/components/adminComponents/sidebar/nav-user";
@@ -37,84 +52,78 @@ const data = {
       plan: "Enterprise",
     },
   ],
-  navMain: [
-    {
-      title: "Home",
-      url: "/admin",
-      icon: SquareTerminal,
-    },
-    {
-      title: "Profile",
-      url: "/admin/profile",
-      icon: SquareTerminal,
-      roles: ["Sales", "sales"],
-    },
-    {
-      title: "Card Orders",
-      url: "/admin/card-order",
-      icon: Frame,
-    },
-    {
-      title: "Users List",
-      url: "/admin/user-list",
-      icon: Bot,
-    },
-    {
-      title: "Designs",
-      url: "/admin/card-list",
-      icon: GalleryVerticalEnd,
-    },
-    {
-      title: "Manage Admin",
-      url: "/admin/admin-list",
-      icon: Settings2,
-      roles: ["admin", "Admin"],
-    },
-    {
-      title: "Sales",
-      url: "/admin/sales",
-      icon: PersonStandingIcon,
-      roles: ["admin", "Admin"],
-    },
-
-    {
-      title: "Enquiries",
-      url: "/admin/enquiry",
-      icon: Map,
-    },
-    {
-      title: "Profiles Created",
-      url: "/admin/profiles",
-      icon: GalleryVerticalEnd,
-    },
-    {
-      title: "Lead Connections",
-      url: "/admin/connections",
-      icon: GalleryVerticalEnd,
-      roles: ["sales"],
-    },
-    {
-      title: "Notification",
-      url: "/admin/notification",
-      icon: Notification03Icon,
-    },
-    // {
-    //   title: "Settings",
-    //   url: "/admin/manage-account",
-    //   icon: Map,
-    // },
-    // {
-    //   title: "Notification",
-    //   url: "/admin/report",
-    //   icon: PieChart,
-    // },
-    {
-      title: "Sign Out",
-      icon: Command,
-      action: "logout",
-      url: "/c",
-    },
-  ],
+ navMain : [
+  {
+    title: "Home",
+    url: "/admin",
+    icon: Home,
+  },
+  {
+    title: "Profile",
+    url: "/admin/profile",
+    icon: User,
+    roles: ["sales", "Sales"],
+  },
+  {
+    title: "Card Orders",
+    url: "/admin/card-order",
+    icon: CreditCard,
+  },
+  {
+    title: "Review Card Orders",
+    url: "/admin/reviewcard",
+    icon: Star,
+  },
+  {
+    title: "Users List",
+    url: "/admin/user-list",
+    icon: Users,
+  },
+  {
+    title: "Designs",
+    url: "/admin/card-list",
+    icon: LayoutGrid,
+  },
+  {
+    title: "Manage Admin",
+    url: "/admin/admin-list",
+    icon: Shield,
+    roles: ["admin", "Admin"],
+  },
+  {
+    title: "Sales",
+    url: "/admin/sales",
+    icon: Briefcase,
+    roles: ["admin", "Admin"],
+  },
+  {
+    title: "Enquiries",
+    url: "/admin/enquiry",
+    icon: MessageSquare,
+  },
+  {
+    title: "Profiles Created",
+    url: "/admin/profiles",
+    icon: IdCard,
+  },
+  {
+    title: "Lead Connections",
+    url: "/admin/connections",
+    icon: Link2,
+    roles: ["sales"],
+  },
+  {
+    title: "Notifications",
+    url: "/admin/notification",
+    icon: Bell,
+  },
+  {
+    title: "Sign Out",
+    icon: LogOut,
+    action: "logout",
+    url: "/c",
+  },
+]
 };
 
 export function AppSidebar({
