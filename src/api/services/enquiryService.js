@@ -22,5 +22,13 @@ export const enquiryService = {
     );
 
     return data;
-  }
+  },
+  updateEnquiryStatus: async (statusData) => {
+    const { data } = await axiosInstance.post(
+      API_ENDPOINTS.ENQUIRY.UPDATESTATUS,
+      statusData
+    );
+
+    return data;
+  },
 };

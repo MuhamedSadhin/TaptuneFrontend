@@ -13,6 +13,7 @@ export const API_ENDPOINTS = {
   ENQUIRY: {
     GETALLENQUIRY: "/api/enquiry/getAllEnquiry",
     CREATEENQUIRY: "/api/enquiry/createEnquiry",
+    UPDATESTATUS: "/api/enquiry/updateStatus",
   },
   CARD: {
     VIEWALLCARDS: "/api/card/viewAllCard",

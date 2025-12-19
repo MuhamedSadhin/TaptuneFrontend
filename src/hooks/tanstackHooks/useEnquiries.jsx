@@ -22,3 +22,14 @@ export const useCreateEnquiry = () => {
   });
 
 }
+
+
+export const useUpdateEnquiryStatus = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (status) => enquiryService.updateEnquiryStatus(status),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["enquiries"]);
+    },        
+  });
+}
