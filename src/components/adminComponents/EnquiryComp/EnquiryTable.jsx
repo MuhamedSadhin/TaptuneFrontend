@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
+// Added Loader2 for the specific update spinner
+import { Loader2 } from "lucide-react";
 import Loader from "@/components/ui/Loader";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -61,8 +61,6 @@ const STATUS_OPTIONS = [
   },
 ];
 
-
-
 export default function EnquiriesTable({
   data = [],
   total = 0,
@@ -77,9 +75,10 @@ export default function EnquiriesTable({
   };
 
   const getStatusStyles = (statusValue) => {
+    // If status is null/undefined, default to "pending"
+    const status = statusValue || "pending";
     return (
-      STATUS_OPTIONS.find((opt) => opt.value === statusValue) ||
-      STATUS_OPTIONS[0]
+      STATUS_OPTIONS.find((opt) => opt.value === status) || STATUS_OPTIONS[0]
     );
   };
 
@@ -131,7 +130,10 @@ export default function EnquiriesTable({
                 </TableRow>
               ) : data.length > 0 ? (
                 data.map((enquiry, index) => {
+                  // Fallback to "pending" if enquiry.status is missing
                   const currentStatus = getStatusStyles(enquiry.status);
+                  const isUpdating = updatingId === enquiry._id;
+
                   return (
                     <TableRow
                       key={enquiry._id}
@@ -164,11 +166,10 @@ export default function EnquiriesTable({
                                 {truncateText(enquiry.message, 33)}
                               </p>
                             </TooltipTrigger>
-
                             <TooltipContent
                               side="top"
                               align="start"
-                              className="max-w-sm text-sm leading-relaxed"
+                              className="max-w-sm text-sm"
                             >
                               {enquiry.message}
                             </TooltipContent>
@@ -196,16 +197,20 @@ export default function EnquiriesTable({
                       </TableCell>
 
                       <TableCell className="text-right pr-6">
-                        <div className="flex flex-col items-end gap-1">
+                        <div className="relative flex flex-col items-end gap-1">
                           <Select
-                            value={enquiry.status}
-                            disabled={updatingId === enquiry._id}
+                            value={enquiry?.status || "pending"}
+                            disabled={isUpdating}
                             onValueChange={(val) =>
                               handleStatusChange(enquiry._id, val)
                             }
                           >
-                            <SelectTrigger className="w-[130px] h-8 text-xs bg-white">
-                              <SelectValue />
+                            <SelectTrigger className="w-[130px] h-8 text-xs bg-white flex items-center justify-center">
+                              {isUpdating ? (
+                                <Loader2 className="h-4 w-4 animate-spin text-blue-500" />
+                              ) : (
+                                <SelectValue />
+                              )}
                             </SelectTrigger>
                             <SelectContent
                               align="end"
@@ -229,11 +234,6 @@ export default function EnquiriesTable({
                               ))}
                             </SelectContent>
                           </Select>
-                          {updatingId === enquiry._id && (
-                            <span className="text-[10px] text-blue-500 font-bold animate-pulse uppercase pr-1">
-                              Updating...
-                            </span>
-                          )}
                         </div>
                       </TableCell>
                     </TableRow>
