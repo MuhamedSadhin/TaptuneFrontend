@@ -1,6 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
+
 import {
   Dialog,
   DialogContent,
@@ -15,6 +18,27 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Loader2, PlusCircle, MinusCircle } from "lucide-react";
 
+// --- Custom Phone Input Component ---
+const CustomPhoneInput = ({ value, onChange, id, required }) => {
+  return (
+    <div className="relative">
+      <PhoneInput
+        international
+        defaultCountry="IN"
+        value={value}
+        onChange={onChange}
+        id={id}
+        required={required}
+        className="flex h-10 w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-purple-600 focus-within:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+        numberInputProps={{
+          className:
+            "bg-transparent border-none outline-none text-gray-900 placeholder:text-gray-500 w-full h-full focus:ring-0 ml-2",
+        }}
+      />
+    </div>
+  );
+};
+
 export default function ShareInfoModal({
   open,
   onClose,
@@ -25,6 +49,7 @@ export default function ShareInfoModal({
 }) {
   const [showAdditionalFields, setShowAdditionalFields] = useState(false);
 
+  // Prevent background scrolling when modal is open
   useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
@@ -38,7 +63,23 @@ export default function ShareInfoModal({
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    onSubmit();
+
+    // --- CLEANING LOGIC ---
+    // Remove '+' from phone numbers before submitting
+    const cleanPhone = formData.phone ? formData.phone.replace("+", "") : "";
+    const cleanBusinessPhone = formData.businessPhone
+      ? formData.businessPhone.replace("+", "")
+      : "";
+
+    // Create a payload with cleaned numbers
+    const cleanedFormData = {
+      ...formData,
+      phone: cleanPhone,
+      businessPhone: cleanBusinessPhone,
+    };
+    console.log("Cleaned Form Data to Submit:", cleanPhone);
+
+    onSubmit(cleanedFormData);
   };
 
   return (
@@ -64,6 +105,7 @@ export default function ShareInfoModal({
             onSubmit={handleFormSubmit}
             className="space-y-6 px-6 py-4"
           >
+            {/* --- PRIMARY DETAILS --- */}
             <fieldset className="space-y-4 rounded-lg bg-gray-50 p-4">
               <legend className="text-sm font-semibold text-gray-600 px-1">
                 Primary Details
@@ -80,8 +122,10 @@ export default function ShareInfoModal({
                     required
                   />
                 </div>
+
+                {/* UPDATED: Email is now optional (Removed * and required prop) */}
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email *</Label>
+                  <Label htmlFor="email">Email</Label>
                   <Input
                     id="email"
                     type="email"
@@ -89,24 +133,22 @@ export default function ShareInfoModal({
                     onChange={(e) =>
                       setFormData({ ...formData, email: e.target.value })
                     }
-                    required
                   />
                 </div>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="phone">Phone Number *</Label>
-                    <Input
+                    <CustomPhoneInput
                       id="phone"
-                      value={formData.phone || ""}
-                      onChange={(e) =>
-                        setFormData({ ...formData, phone: e.target.value })
+                      value={formData.phone}
+                      onChange={(val) =>
+                        setFormData({ ...formData, phone: val })
                       }
-                      required
+                      required={true}
                     />
                   </div>
                   <div className="space-y-2">
-                    
-                    {/* <h1>Hai</h1> */}
                     <Label htmlFor="designation">Designation</Label>
                     <Input
                       id="designation"
@@ -139,7 +181,7 @@ export default function ShareInfoModal({
                 : "Add More Details"}
             </Button>
 
-            {/* --- Additional Details Section (Now Fully Implemented) --- */}
+            {/* --- ADDITIONAL DETAILS --- */}
             {showAdditionalFields && (
               <fieldset className="space-y-4 rounded-lg bg-gray-50 p-4 border-t animate-in fade-in-0 slide-in-from-top-5 duration-300">
                 <legend className="text-sm font-semibold text-gray-600 px-1">
@@ -162,15 +204,13 @@ export default function ShareInfoModal({
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="businessPhone">Business Phone</Label>
-                      <Input
+                      <CustomPhoneInput
                         id="businessPhone"
-                        value={formData.businessPhone || ""}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            businessPhone: e.target.value,
-                          })
+                        value={formData.businessPhone}
+                        onChange={(val) =>
+                          setFormData({ ...formData, businessPhone: val })
                         }
+                        required={false}
                       />
                     </div>
                   </div>
@@ -228,7 +268,6 @@ export default function ShareInfoModal({
           </form>
         </div>
 
-        {/* This footer is now non-scrolling and always visible. */}
         <DialogFooter className="p-6 bg-white border-t rounded-2xl">
           <Button
             type="submit"

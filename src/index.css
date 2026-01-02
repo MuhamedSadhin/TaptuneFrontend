@@ -194,3 +194,12 @@ body{
   background-color: var(--color-purple-700); /* darker purple on hover */
 }
 
+
+.PhoneInputCountrySelect {
+  background-color: #262626; /* neutral-800 */
+  color: white;
+  border-radius: 4px;
+}
+.PhoneInputCountrySelect:focus {
+  outline: none;
+}

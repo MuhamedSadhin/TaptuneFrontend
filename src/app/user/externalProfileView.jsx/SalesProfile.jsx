@@ -1,6 +1,10 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
+
 import {
   Globe,
   Instagram,
@@ -11,6 +15,8 @@ import {
   MessageCircle,
   Star,
   Loader2,
+  User,
+  Briefcase,
 } from "lucide-react";
 import {
   Dialog,
@@ -24,6 +30,26 @@ import { iconObj } from "@/assets/Icons/icons";
 import { toast } from "sonner";
 import { useConnectProfile } from "@/hooks/tanstackHooks/useConnections";
 import { useNavigate } from "react-router-dom";
+
+// --- CUSTOM COMPONENT: Styled Phone Input ---
+const CustomPhoneInput = ({ value, onChange, placeholder }) => {
+  return (
+    <div className="relative">
+      <PhoneInput
+        international
+        defaultCountry="IN"
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        className="flex h-10 w-full rounded-md border border-neutral-700 bg-neutral-800 px-3 py-2 text-sm text-white placeholder:text-neutral-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-neutral-600 focus-within:ring-offset-2 focus-within:ring-offset-neutral-900"
+        numberInputProps={{
+          className:
+            "bg-transparent border-none outline-none text-white placeholder:text-neutral-500 w-full h-full focus:ring-0 ml-2",
+        }}
+      />
+    </div>
+  );
+};
 
 export default function SalesProfilePremium({ profile }) {
   /* ---------------- STATES ---------------- */
@@ -70,27 +96,35 @@ export default function SalesProfilePremium({ profile }) {
       return;
     }
 
-    connectProfile(
-      {
-        viewId: profile.viewId,
-        ...payload,
+    // --- CLEANING LOGIC START ---
+    // Remove the '+' symbol from the phone number if it exists
+    const cleanPhoneNumber = payload.phoneNumber
+      ? payload.phoneNumber.replace("+", "")
+      : "";
+    console.log("cleaned phone number:", cleanPhoneNumber);
+
+    const finalPayload = {
+      viewId: profile.viewId,
+      ...payload,
+      phoneNumber: cleanPhoneNumber, // Send cleaned number
+    };
+    // --- CLEANING LOGIC END ---
+
+    connectProfile(finalPayload, {
+      onSuccess: (res) => {
+        if (res?.success) {
+          toast.success("Connection sent successfully");
+          onClose();
+        } else {
+          toast.error("Failed to send connection");
+        }
       },
-      {
-        onSuccess: (res) => {
-          if (res?.success) {
-            toast.success("Connection sent successfully");
-            onClose();
-          } else {
-            toast.error("Failed to send connection");
-          }
-        },
-        onError: (err) => {
-          toast.error(
-            err?.response?.data?.message || "Something went wrong. Try again."
-          );
-        },
-      }
-    );
+      onError: (err) => {
+        toast.error(
+          err?.response?.data?.message || "Something went wrong. Try again."
+        );
+      },
+    });
   };
 
   /* ---------------- AUTO MODAL SUBMIT ---------------- */
@@ -124,7 +158,7 @@ export default function SalesProfilePremium({ profile }) {
         setIsExchangeOpen(false);
         setExchangeForm({
           fullName: "",
-          company: "",
+          designation: "",
           email: "",
           phone: "",
         });
@@ -188,7 +222,7 @@ export default function SalesProfilePremium({ profile }) {
             </div>
           </div>
 
-          {/* Profile Content - added proper margin-top to account for overlapping profile pic */}
+          {/* Profile Content */}
           <div className="relative bg-neutral-900 rounded-2xl px-6 pt-20 pb-8 mt-20">
             <h1 className="text-center text-2xl font-bold">
               {profile.fullName}
@@ -243,7 +277,7 @@ export default function SalesProfilePremium({ profile }) {
                       href={social.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-14 h-14 rounded-xl bg-neutral-800  border-neutral-700 flex items-center justify-center"
+                      className="w-14 h-14 rounded-xl bg-neutral-800 border-neutral-700 flex items-center justify-center"
                     >
                       <img
                         src={iconData.icon || "/placeholder.svg"}
@@ -300,15 +334,12 @@ export default function SalesProfilePremium({ profile }) {
 
                 {/* CTA BUTTONS */}
                 <div className="mt-6 xl:mt-8 flex flex-col gap-3 justify-center xl:justify-start">
-                  {/* Primary CTA */}
-
-                  {/* Secondary CTA */}
                   <button
                     onClick={() => setIsExchangeOpen(true)}
                     className="px-8 xl:px-10 py-3 xl:py-4 rounded-full
-                 bg-gradient-to-r from-amber-500 to-orange-500
-                 font-medium hover:from-amber-600 hover:to-orange-600
-                 transition"
+                  bg-gradient-to-r from-amber-500 to-orange-500
+                  font-medium hover:from-amber-600 hover:to-orange-600
+                  transition"
                   >
                     Exchange Contact
                   </button>
@@ -317,8 +348,8 @@ export default function SalesProfilePremium({ profile }) {
                       navigate(`/auth?ref=${profile?.referalCode || ""}`)
                     }
                     className="px-8 xl:px-10 py-3 xl:py-4 rounded-full
-                 border border-amber-500/40 text-amber-400
-                 hover:bg-amber-500/10 transition"
+                  border border-amber-500/40 text-amber-400
+                  hover:bg-amber-500/10 transition"
                   >
                     Let’s get started
                   </button>
@@ -360,7 +391,7 @@ export default function SalesProfilePremium({ profile }) {
                             href={social.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="w-14 h-14  rounded-xl flex items-center justify-center hover:scale-105 hover:border-amber-400/60 transition bg-neutral-800/50"
+                            className="w-14 h-14 rounded-xl flex items-center justify-center hover:scale-105 hover:border-amber-400/60 transition bg-neutral-800/50"
                           >
                             <img
                               src={iconData.icon || "/placeholder.svg"}
@@ -379,6 +410,7 @@ export default function SalesProfilePremium({ profile }) {
         </div>
       </div>
 
+      {/* ----------- EXCHANGE CONTACT MODAL ----------- */}
       <Dialog open={isExchangeOpen} onOpenChange={setIsExchangeOpen}>
         <DialogContent className="bg-neutral-900 text-white border-neutral-800 max-w-sm md:max-w-[420px]">
           <DialogHeader className="space-y-1">
@@ -391,45 +423,53 @@ export default function SalesProfilePremium({ profile }) {
           </DialogHeader>
 
           <form onSubmit={handleExchangeSubmit} className="space-y-4 mt-4">
-            <Input
-              placeholder="Full Name"
-              value={exchangeForm.fullName}
-              onChange={(e) =>
-                setExchangeForm({ ...exchangeForm, fullName: e.target.value })
-              }
-              className="bg-neutral-800 border-neutral-700"
-            />
+            <div className="relative">
+              <User className="absolute left-3 top-2.5 h-4 w-4 text-neutral-500" />
+              <Input
+                placeholder="Full Name"
+                value={exchangeForm.fullName}
+                onChange={(e) =>
+                  setExchangeForm({ ...exchangeForm, fullName: e.target.value })
+                }
+                className="bg-neutral-800 border-neutral-700 pl-9"
+              />
+            </div>
 
-            <Input
-              placeholder="Designation / Role"
-              value={exchangeForm.designation}
-              onChange={(e) =>
-                setExchangeForm({
-                  ...exchangeForm,
-                  designation: e.target.value,
-                })
-              }
-              className="bg-neutral-800 border-neutral-700"
-            />
+            <div className="relative">
+              <Briefcase className="absolute left-3 top-2.5 h-4 w-4 text-neutral-500" />
+              <Input
+                placeholder="Designation / Role"
+                value={exchangeForm.designation}
+                onChange={(e) =>
+                  setExchangeForm({
+                    ...exchangeForm,
+                    designation: e.target.value,
+                  })
+                }
+                className="bg-neutral-800 border-neutral-700 pl-9"
+              />
+            </div>
 
-            <Input
-              type="email"
-              placeholder="Email Address (optional)"
-              value={exchangeForm.email}
-              onChange={(e) =>
-                setExchangeForm({ ...exchangeForm, email: e.target.value })
-              }
-              className="bg-neutral-800 border-neutral-700"
-            />
+            <div className="relative">
+              <Mail className="absolute left-3 top-2.5 h-4 w-4 text-neutral-500" />
+              <Input
+                type="email"
+                placeholder="Email Address (optional)"
+                value={exchangeForm.email}
+                onChange={(e) =>
+                  setExchangeForm({ ...exchangeForm, email: e.target.value })
+                }
+                className="bg-neutral-800 border-neutral-700 pl-9"
+              />
+            </div>
 
-            <Input
-              type="tel"
-              placeholder="Phone Number"
+            {/* PHONE INPUT */}
+            <CustomPhoneInput
               value={exchangeForm.phone}
-              onChange={(e) =>
-                setExchangeForm({ ...exchangeForm, phone: e.target.value })
+              onChange={(val) =>
+                setExchangeForm({ ...exchangeForm, phone: val })
               }
-              className="bg-neutral-800 border-neutral-700"
+              placeholder="Phone Number"
             />
 
             <Button
@@ -453,7 +493,7 @@ export default function SalesProfilePremium({ profile }) {
         </DialogContent>
       </Dialog>
 
-      {/* ----------- AUTO MODAL ----------- */}
+      {/* ----------- AUTO MODAL (WELCOME) ----------- */}
       <Dialog open={isAutoModalOpen} onOpenChange={setIsAutoModalOpen}>
         <DialogContent className="bg-neutral-900 text-white border-neutral-800 max-w-sm md:max-w-[400px]">
           <DialogHeader className="space-y-1">
@@ -466,22 +506,23 @@ export default function SalesProfilePremium({ profile }) {
           </DialogHeader>
 
           <form onSubmit={handleAutoSubmit} className="space-y-4 mt-4">
-            <Input
-              placeholder="Your name "
-              value={autoForm.fullName}
-              onChange={(e) =>
-                setAutoForm({ ...autoForm, fullName: e.target.value })
-              }
-              className="bg-neutral-800 border-neutral-700"
-            />
+            <div className="relative">
+              <User className="absolute left-3 top-2.5 h-4 w-4 text-neutral-500" />
+              <Input
+                placeholder="Your name "
+                value={autoForm.fullName}
+                onChange={(e) =>
+                  setAutoForm({ ...autoForm, fullName: e.target.value })
+                }
+                className="bg-neutral-800 border-neutral-700 pl-9"
+              />
+            </div>
 
-            <Input
-              placeholder="Phone number "
+            {/* PHONE INPUT */}
+            <CustomPhoneInput
               value={autoForm.phone}
-              onChange={(e) =>
-                setAutoForm({ ...autoForm, phone: e.target.value })
-              }
-              className="bg-neutral-800 border-neutral-700"
+              onChange={(val) => setAutoForm({ ...autoForm, phone: val })}
+              placeholder="Phone number"
             />
 
             <div className="flex gap-3 pt-2">
@@ -549,3 +590,4 @@ function ActionItemDesktop({ icon: Icon, label, href, onClick }) {
     </Wrapper>
   );
 }
+
